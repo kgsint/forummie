@@ -18,6 +18,15 @@ class ProfileUpdateRequest extends FormRequest
         return [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', Rule::unique(User::class)->ignore($this->user()->id)],
+            'username' => ['required', 'string', 'lowercase', 'max:255', Rule::unique(User::class)->ignore($this->user()->id)]
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            '*.required' => 'The :attribute cannot be empty',
+            '*.lowercase' => 'The :attribute must be lowercase',
         ];
     }
 }

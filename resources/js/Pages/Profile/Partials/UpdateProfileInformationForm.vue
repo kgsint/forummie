@@ -19,6 +19,7 @@ const user = usePage().props.auth.user;
 const form = useForm({
     name: user.name,
     email: user.email,
+    username: user.username,
 });
 </script>
 
@@ -48,6 +49,22 @@ const form = useForm({
 
                 <InputError class="mt-2" :message="form.errors.name" />
             </div>
+
+            <div>
+                <InputLabel for="username" value="Username" />
+
+                <TextInput
+                    id="username"
+                    type="text"
+                    class="mt-1 block w-full"
+                    v-model="form.username"
+                    required
+                    autocomplete="username"
+                />
+
+                <InputError class="mt-2" :message="form.errors.username" />
+            </div>
+
 
             <div>
                 <InputLabel for="email" value="Email" />
@@ -94,7 +111,7 @@ const form = useForm({
                     leave-active-class="transition ease-in-out"
                     leave-to-class="opacity-0"
                 >
-                    <p v-if="form.recentlySuccessful" class="text-sm text-gray-600">Saved.</p>
+                    <p v-if="form.recentlySuccessful" class="text-sm text-blue-400">Saved.</p>
                 </Transition>
             </div>
         </form>

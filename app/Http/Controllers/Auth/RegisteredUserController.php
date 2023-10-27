@@ -33,12 +33,17 @@ class RegisteredUserController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
+            'username' => 'required|lowercase|string|unique:users,username',
             'email' => 'required|string|lowercase|email|max:255|unique:'.User::class,
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
+        ], [
+            '*.required' => 'The :attribute cannot be empty',
+            '*.lowercase' => 'The :attribute must be lowercase',
         ]);
 
         $user = User::create([
             'name' => $request->name,
+            'username' => $request->username,
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
