@@ -2,11 +2,11 @@
 
 use App\Http\Controllers\ForumController;
 use App\Http\Controllers\ProfileController;
-use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 Route::get('/', [ForumController::class, 'index'])->name('forum.index');
+Route::get('/forum/thread', fn() => Inertia::render('Forum/Show'))->name('forum.show');
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
