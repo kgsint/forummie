@@ -19,12 +19,10 @@ import SideNavigation from '@/Components/Forum/SideNavigation.vue'
                         <option value="">Resolved</option>
                         <option value="">Unresolved</option>
                     </Select>
+                    <!-- {{ $page.props.topics }} -->
                     <Select class="w-32">
                         <option value="">All</option>
-                        <option value="">Topic One</option>
-                        <option value="">Topic Two</option>
-                        <option value="">Topic Three</option>
-                        <option value="">Topic Three</option>
+                        <option v-for="topic in $page.props.topics" :value="topic.slug">{{ topic.name }}</option>
                     </Select>
                 </div>
                 <form action="#" method="get" class="bg-gray-200 px-2 rounded-full">
@@ -35,7 +33,7 @@ import SideNavigation from '@/Components/Forum/SideNavigation.vue'
                 </form>
             </nav>
             <!-- forum wrapper -->
-            <div class="space-y-6 mt-12">
+            <div class="space-y-6 mt-8">
                 <ForumPreview />
                 <ForumPreview />
             </div>

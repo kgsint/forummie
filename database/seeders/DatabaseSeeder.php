@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+
+use App\Models\Topic;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -12,11 +14,19 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // \App\Models\User::factory(10)->create();
+        Topic::factory()->create([
+            'name' => 'Laravel',
+            'slug' => 'laravel'
+        ]);
 
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+        Topic::factory()->create([
+            'name' => 'PHP',
+            'slug' => 'php',
+        ]);
+
+        Topic::factory()->create([
+            'name' => 'DevOps',
+            'slug' => 'devops',
+        ]);
     }
 }
