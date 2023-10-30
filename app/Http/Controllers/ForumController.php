@@ -12,7 +12,11 @@ class ForumController extends Controller
     public function index()
     {
         return Inertia::render('Forum/Index', [
-            'threads' => ThreadResource::collection(Thread::with(['topic', 'user'])->orderBy('created_at', 'desc')->get()),
+            'threads' => ThreadResource::collection(
+                Thread::with(['topic', 'user'])
+                                            ->orderBy('created_at', 'desc')
+                                            ->paginate(10)
+            ),
         ]);
     }
 

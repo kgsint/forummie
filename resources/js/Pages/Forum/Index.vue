@@ -5,9 +5,10 @@ import TextInput from '@/Components/TextInput.vue';
 import ForumPreview from '@/Components/Forum/PreviewCard.vue'
 import SearchIcon from '@/Components/Icons/SearchIcon.vue'
 import SideNavigation from '@/Components/Forum/SideNavigation.vue'
+import Pagination from '@/Components/Forum/Pagination.vue'
 
 defineProps({
-    threads: Array,
+    threads: Object,
 })
 
 </script>
@@ -24,7 +25,7 @@ defineProps({
                         <option value="">Resolved</option>
                         <option value="">Unresolved</option>
                     </Select>
-                    <!-- {{ $page.props.topics }} -->
+
                     <Select class="w-32">
                         <option value="">All</option>
                         <option
@@ -43,20 +44,28 @@ defineProps({
                     </label>
                 </form>
             </nav>
+            <!-- <pre>
+                {{ $page.props.threads }}
+            </pre> -->
             <!-- forum wrapper -->
             <div class="space-y-6 mt-8">
                 <!-- loop threads (forum preview card) -->
                 <ForumPreview
-                    v-for="thread in threads"
+                    v-for="thread in threads.data"
                     :key="thread.id"
                     :thread="thread"
+                />
+            </div>
+            <!-- pagination -->
+            <div class="mt-3" v-if="threads.data.length">
+                <Pagination
+                    :links="threads.meta.links"
                 />
             </div>
         </main>
         <!-- sidebar -->
         <template #sidebar>
             <SideNavigation />
-
         </template>
     </AppLayout>
 </template>
