@@ -13,10 +13,10 @@ defineProps({
         <!-- profile image -->
         <div class="flex-none flex items-center gap-2 lg:block mb-3">
             <a href="#">
-                <img src="https://source.unsplash.com/200x200/?face&crop=face&v=1" class="w-14 h-14 rounded-xl" alt="profile image">
+                <img :src="thread.user.avatar" class="w-14 h-14 rounded-xl" alt="profile image">
             </a>
             <strong class="lg:hidden">
-                {{ thread.user.name }}
+                {{ thread.user.username }}
             </strong>
         </div>
         <!-- title and description -->

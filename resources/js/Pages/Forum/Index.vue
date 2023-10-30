@@ -45,6 +45,7 @@ defineProps({
             </nav>
             <!-- forum wrapper -->
             <div class="space-y-6 mt-8">
+                <!-- loop threads (forum preview card) -->
                 <ForumPreview
                     v-for="thread in threads"
                     :key="thread.id"

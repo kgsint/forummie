@@ -14,7 +14,7 @@ defineProps({
         <!-- profile image -->
         <div class="flex-none flex lg:items-center gap-2 lg:block mb-3">
             <a href="#">
-                <img src="https://source.unsplash.com/200x200/?face&crop=face&v=1" class="w-[28px] h-[28px] lg:w-14 lg:h-14 rounded-xl" alt="profile image">
+                <img :src="thread.user.avatar" class="w-[28px] h-[28px] lg:w-14 lg:h-14 rounded-xl" alt="profile image">
             </a>
         </div>
         <div class="flex flex-col">

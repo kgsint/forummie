@@ -8,10 +8,6 @@ use Inertia\Inertia;
 Route::get('/', [ForumController::class, 'index'])->name('forum.index');
 Route::get('/thread/{thread:slug}', [ForumController::class, 'show'])->name('forum.show');
 
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
 Route::middleware('auth')->group(function () {
     Route::get('/account-info', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/account-info', [ProfileController::class, 'update'])->name('profile.update');

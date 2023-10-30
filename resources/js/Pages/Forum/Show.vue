@@ -4,7 +4,6 @@ import AppLayout from '@/Layouts/AppLayout.vue';
 import ForumShowCard from '@/Components/Forum/ShowCard.vue'
 import { Link } from '@inertiajs/vue3'
 import BackIcon from '@/Components/Icons/BackIcon.vue'
-import ForumReplyCard from '@/Components/Forum/ReplyCard.vue'
 
 defineProps({
     thread: {

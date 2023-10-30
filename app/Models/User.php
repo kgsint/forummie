@@ -43,4 +43,12 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function getAvatar()
+    {
+        return "https://gravatar.com/avatar/"
+                . md5($this->email)
+                ."?s=200"
+                ."&d=https://s3.amazonaws.com/laracasts/images/forum/avatars/default-avatar-13.png";
+    }
 }
