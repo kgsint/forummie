@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 Route::get('/', [ForumController::class, 'index'])->name('forum.index');
-Route::get('/forum/thread', fn() => Inertia::render('Forum/Show'))->name('forum.show');
+Route::get('/thread/{thread:slug}', [ForumController::class, 'show'])->name('forum.show');
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');

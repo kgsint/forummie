@@ -5,6 +5,13 @@ import ForumShowCard from '@/Components/Forum/ShowCard.vue'
 import { Link } from '@inertiajs/vue3'
 import BackIcon from '@/Components/Icons/BackIcon.vue'
 import ForumReplyCard from '@/Components/Forum/ReplyCard.vue'
+
+defineProps({
+    thread: {
+        type: Object,
+        required: true,
+    }
+})
 </script>
 
 
@@ -20,10 +27,10 @@ import ForumReplyCard from '@/Components/Forum/ReplyCard.vue'
             <BackIcon class="inline-block text-sm" /> <span class="text-sm font-semibold">Back</span>
         </Link>
         <!-- main thread -->
-        <ForumShowCard />
+        <ForumShowCard :thread="thread" />
 
         <!-- replies -->
-        <ForumReplyCard />
+        <!-- <ForumReplyCard /> -->
 
         <!-- sidebar -->
         <template #sidebar>

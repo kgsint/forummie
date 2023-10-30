@@ -5,6 +5,11 @@ import TextInput from '@/Components/TextInput.vue';
 import ForumPreview from '@/Components/Forum/PreviewCard.vue'
 import SearchIcon from '@/Components/Icons/SearchIcon.vue'
 import SideNavigation from '@/Components/Forum/SideNavigation.vue'
+
+defineProps({
+    threads: Array,
+})
+
 </script>
 
 
@@ -22,7 +27,13 @@ import SideNavigation from '@/Components/Forum/SideNavigation.vue'
                     <!-- {{ $page.props.topics }} -->
                     <Select class="w-32">
                         <option value="">All</option>
-                        <option v-for="topic in $page.props.topics" :value="topic.slug">{{ topic.name }}</option>
+                        <option
+                            v-for="topic in $page.props.topics"
+                            :key="topic.slug"
+                            :value="topic.slug"
+                        >
+                            {{ topic.name }}
+                        </option>
                     </Select>
                 </div>
                 <form action="#" method="get" class="bg-gray-200 px-2 rounded-full">
@@ -34,8 +45,11 @@ import SideNavigation from '@/Components/Forum/SideNavigation.vue'
             </nav>
             <!-- forum wrapper -->
             <div class="space-y-6 mt-8">
-                <ForumPreview />
-                <ForumPreview />
+                <ForumPreview
+                    v-for="thread in threads"
+                    :key="thread.id"
+                    :thread="thread"
+                />
             </div>
         </main>
         <!-- sidebar -->

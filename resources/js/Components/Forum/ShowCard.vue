@@ -1,5 +1,11 @@
 <script setup>
 import { Link } from '@inertiajs/vue3';
+defineProps({
+    thread: {
+        type: Object,
+        required: true,
+    }
+})
 </script>
 
 
@@ -15,21 +21,21 @@ import { Link } from '@inertiajs/vue3';
             <div class="flex justify-between items-center">
                 <Link href="#">
                     <!-- username -->
-                    <h4 class="text-md font-semibold">Username</h4>
+                    <h4 class="text-md font-semibold">{{ thread.user.username }}</h4>
                 </Link>
             </div>
 
             <!-- created date -->
             <div class="text-xs text-gray-600 leading-normal font-semibold mb-3">
-                posted 10 minutes ago
+                posted {{ thread.created_at }}
             </div>
 
             <!-- title -->
-            <h3 class="bg-blue-50 mb-3 text-2xl p-3 rounded-xl font-semibold">Thread Title</h3>
+            <h3 class="bg-blue-50 mb-3 text-2xl p-3 rounded-xl font-semibold">{{ thread.title }}</h3>
 
             <!-- description -->
             <p class="text-sm text-gray-600 leading-7">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugiat aliquid expedita quaerat omnis iste minus consequuntur ullam molestias possimus, quod eum consectetur commodi dolore voluptatibus accusamus, ipsa nisi eius provident non quo hic magnam recusandae! Saepe, facere commodi. Recusandae rem magnam, ab nihil provident aspernatur quaerat, distinctio enim nulla voluptate velit id fuga vel quis suscipit porro facere consequatur? Ea accusantium est dolorum, ipsam, temporibus error provident similique iure labore asperiores repudiandae alias laboriosam quaerat ex exercitationem? Animi sequi voluptates at, cupiditate nemo odit iure consequuntur libero quo ipsum modi quas quisquam praesentium molestias itaque tempora voluptatem error dolorem rem.
+                {{ thread.description }}
             </p>
         </div>
     </article>

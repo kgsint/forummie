@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('threads', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->nullable()->constrained()->nullOnDelete(); // make nullable - when the user's account deleted, thread remains
-            $table->foreignId('topic_id')->constrained()->nullOnDelete();
+            $table->foreignId('topic_id')->nullable()->constrained()->nullOnDelete(); // make nullable - when topic/tag is deleted, thread remains
             $table->string('title');
             $table->string('slug')->unique();
             $table->longText('description');
