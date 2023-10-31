@@ -6,6 +6,7 @@ import ForumPreview from '@/Components/Forum/PreviewCard.vue'
 import SearchIcon from '@/Components/Icons/SearchIcon.vue'
 import SideNavigation from '@/Components/Forum/SideNavigation.vue'
 import Pagination from '@/Components/Forum/Pagination.vue'
+import { Head } from '@inertiajs/vue3'
 
 defineProps({
     threads: Object,
@@ -16,6 +17,7 @@ defineProps({
 
 <template>
     <AppLayout>
+        <Head title="Home" />
         <main class="py-6 px-2">
             <!-- top nav filter -->
             <nav class="flex flex-col md:flex-row md:items-center md:justify-between space-y-3 md:space-x-6">

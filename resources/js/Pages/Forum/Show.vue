@@ -4,6 +4,7 @@ import AppLayout from '@/Layouts/AppLayout.vue';
 import ForumShowCard from '@/Components/Forum/ShowCard.vue'
 import { Link } from '@inertiajs/vue3'
 import BackIcon from '@/Components/Icons/BackIcon.vue'
+import { Head } from '@inertiajs/vue3'
 
 defineProps({
     thread: {
@@ -15,6 +16,7 @@ defineProps({
 
 
 <template>
+    <Head :title="thread.title" />
     <!-- main -->
     <AppLayout>
         <!-- back button -->
