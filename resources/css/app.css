@@ -1,3 +1,22 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.posts-container::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 20px;
+    width: 3px;
+    height: 100%;
+    background: #ccd1d3;
+}
+.reply-post::before {
+    content: "";
+    position: relative;
+    top: 50%;
+    width: 20px;
+    height: 3px;
+    left: -25px;
+    background: #ccd1d3;
+}

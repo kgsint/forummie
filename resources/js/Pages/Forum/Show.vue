@@ -5,11 +5,15 @@ import ForumShowCard from '@/Components/Forum/ShowCard.vue'
 import { Link } from '@inertiajs/vue3'
 import BackIcon from '@/Components/Icons/BackIcon.vue'
 import { Head } from '@inertiajs/vue3'
+import ForumPostCard from '@/Components/Forum/PostCard.vue'
 
 defineProps({
     thread: {
         type: Object,
         required: true,
+    },
+    posts: {
+        type: Object
     }
 })
 </script>
@@ -28,10 +32,13 @@ defineProps({
             <BackIcon class="inline-block text-sm" /> <span class="text-sm font-semibold">Back</span>
         </Link>
         <!-- main thread -->
-        <ForumShowCard :thread="thread" />
+        <ForumShowCard :thread="thread" :posts="posts" />
 
-        <!-- replies -->
-        <!-- <ForumReplyCard /> -->
+
+        <!-- posts for thread (replies / responses) -->
+        <div class="posts-container relative space-y-3">
+            <ForumPostCard v-for="post in posts.data" :key="post.id" :post="post" />
+        </div>
 
         <!-- sidebar -->
         <template #sidebar>

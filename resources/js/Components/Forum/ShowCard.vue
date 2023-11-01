@@ -4,13 +4,13 @@ defineProps({
     thread: {
         type: Object,
         required: true,
-    }
+    },
 })
 </script>
 
 
 <template>
-    <article class="flex bg-white space-x-2 px-2 py-4 rounded-lg shadow">
+    <article class="flex bg-white space-x-2 px-2 py-4 rounded-lg shadow mb-6">
         <!-- profile image -->
         <div class="flex-none flex lg:items-center gap-2 lg:block mb-3">
             <a href="#">
