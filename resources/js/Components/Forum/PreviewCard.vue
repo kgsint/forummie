@@ -1,6 +1,7 @@
 <script setup>
 import { Link } from '@inertiajs/vue3'
 import MessageIcon from '@/Components/Icons/MessageIcon.vue'
+import { router } from '@inertiajs/vue3';
 
 defineProps({
     thread: Object
@@ -9,7 +10,11 @@ defineProps({
 
 
 <template>
-    <article class="flex flex-col lg:flex-row bg-white lg:space-x-2 px-2 py-4 rounded-lg shadow">
+    <article
+        @click="router.get(route('forum.show', thread.slug))"
+        class="flex flex-col lg:flex-row bg-white lg:space-x-2 px-2 py-4 rounded-lg
+            shadow cursor-pointer hover:shadow-lg duration-150 transition-all"
+    >
         <!-- profile image -->
         <div class="flex-none flex items-center gap-2 lg:block mb-3">
             <a href="#">
