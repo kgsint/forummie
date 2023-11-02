@@ -27,7 +27,11 @@ defineProps({
 
             <!-- created date -->
             <div class="text-xs text-gray-600 leading-normal font-semibold mb-3">
-                posted {{ thread.created_at }}
+                posted <time
+                            :datetime="thread.created_at.datetime"
+                            :title="thread.created_at.datetime">
+                            {{ thread.created_at.human }}
+                        </time>
             </div>
 
             <!-- title -->

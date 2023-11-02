@@ -21,7 +21,7 @@ class ThreadResource extends JsonResource
             'description' => $this->description,
             'topic' => TopicResource::make($this->whenLoaded('topic')),
             'user' => UserResource::make($this->whenLoaded('user')),
-            'created_at' => $this->created_at->diffForHumans(),
+            'created_at' => DateTimeResource::make($this->created_at),
         ];
     }
 }

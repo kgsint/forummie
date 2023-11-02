@@ -36,10 +36,14 @@ defineProps({
 
             <!-- description -->
             <p class="text-sm text-gray-600 leading-normal line-clamp-2 mb-3">{{ thread.description }}</p>
+            <!-- {{ thread }} -->
             <!-- replied status -->
-            <Link class="text-xs text-gray-600 leading-normal line-clamp-2">
-                <Link href="#" class="text-blue-400 hover:underline">{{ thread.user.name }}</Link> posted {{ thread.created_at }}
-            </Link>
+            <div class="text-xs text-gray-600 leading-normal line-clamp-2">
+                <Link href="#" class="text-blue-400 hover:underline">
+                    {{ thread.user.name }}
+                </Link> posted
+                <time :datetime="thread.created_at.datetime" :title="thread.created_at.datetime">{{ thread.created_at.human }}</time>
+            </div>
         </div>
     </article>
 </template>

@@ -31,7 +31,7 @@ defineProps({
 
             <!-- created date -->
             <div class="text-xs text-gray-600 leading-normal font-semibold mb-3">
-                {{ post.created_at }}
+                <time :datetime="post.created_at.datetime" :title="post.created_at.datetime">{{ post.created_at.human }}</time>
             </div>
 
             <!-- description -->

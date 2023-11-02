@@ -19,7 +19,7 @@ class PostResource extends JsonResource
             'thread' => ThreadResource::make($this->thread),
             'user' => UserResource::make($this->user),
             'body' => $this->body,
-            'created_at' => $this->created_at->diffForHumans(),
+            'created_at' => DateTimeResource::make($this->created_at),
             'replies' => PostResource::collection($this->replies),
         ];
     }
