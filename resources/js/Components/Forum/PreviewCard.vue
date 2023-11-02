@@ -48,7 +48,7 @@ defineProps({
 
             <div v-else class="text-xs text-gray-600 leading-normal line-clamp-2">
                 <Link href="#" class="text-blue-400 hover:underline">
-                    {{ thread.user.name }}
+                    {{ thread.user.username }}
                 </Link> posted
                 <time :datetime="thread.created_at.datetime" :title="thread.created_at.datetime">{{ thread.created_at.human }}</time>
             </div>

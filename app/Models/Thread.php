@@ -22,6 +22,17 @@ class Thread extends Model
         });
     }
 
+    // order by thread's latest post/reply
+    public function scopeOrderByLatestPost($query)
+    {
+        return $query->orderBy(
+                Post::select('created_at')
+                        ->whereColumn('posts.thread_id', 'threads.id')
+                        ->latest()
+                        ->take(1),
+                    'desc');
+    }
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
