@@ -15,7 +15,7 @@ class ForumController extends Controller
     {
         return Inertia::render('Forum/Index', [
             'threads' => ThreadResource::collection(
-                Thread::with(['topic', 'user', 'latestPost'])
+                Thread::with(['topic', 'user', 'latestPost.user'])
                                             ->orderBy('created_at', 'desc')
                                             ->paginate(10)
             ),
@@ -25,7 +25,7 @@ class ForumController extends Controller
     public function show(Thread $thread)
     {
         // eager load
-        $thread->load(['topic', 'user']);
+        $thread->load(['user', 'posts']);
 
         return Inertia::render('Forum/Show', [
             'thread' => new ThreadResource($thread),
