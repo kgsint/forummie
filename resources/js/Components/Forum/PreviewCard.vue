@@ -22,11 +22,11 @@ defineProps({
         <!-- title and description -->
         <div class="flex flex-col">
             <!-- title -->
-            <div class="flex justify-between items-center mb-3">
-                <Link :href="route('forum.show', thread.slug)" class="hover:underline">
-                    <h4 class="text-2xl font-semibold">{{ thread.title }}</h4>
+            <div class="flex flex-col lg:flex-row lg:justify-between lg:items-center mb-3">
+                <Link :href="route('forum.show', thread.slug)" class="hover:underline mb-3 lg:mb-0">
+                    <h4 class="text-lg lg:text-2xl font-semibold">{{ thread.title }}</h4>
                 </Link>
-                <div class="flex items-center space-x-4">
+                <div class="flex lg:items-center space-x-4">
                     <span class="flex items-center text-xs gap-1"><MessageIcon /> 0</span>
                     <Link href="#" class="text-xs font-semibold px-3 py-1 rounded-full border hover:bg-gray-900 hover:text-white transition-colors duration-150 border-gray-700">
                         {{ thread.topic.name }}
@@ -37,12 +37,9 @@ defineProps({
             <!-- description -->
             <p class="text-sm text-gray-600 leading-normal line-clamp-2 mb-3">{{ thread.description }}</p>
             <!-- replied status -->
-            <div class="text-xs text-gray-600 leading-normal line-clamp-2">
-                <Link href="#" class="text-blue-400 underline hover:no-underline">{{ thread.user.name }}</Link> posted {{ thread.created_at }}
-            </div>
+            <Link class="text-xs text-gray-600 leading-normal line-clamp-2">
+                <Link href="#" class="text-blue-400 hover:underline">{{ thread.user.name }}</Link> posted {{ thread.created_at }}
+            </Link>
         </div>
     </article>
 </template>
-
-
-<style scoped></style>

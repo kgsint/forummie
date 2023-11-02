@@ -170,7 +170,7 @@ const showingNavigationDropdown = ref(false);
                     <slot name="sidebar" />
                 </div>
                 <!-- main -->
-                <div class="col-span-6 p-3 lg:p-0">
+                <div class="col-span-6 p-3 mx-auto lg:p-0">
                     <slot/>
                 </div>
             </main>

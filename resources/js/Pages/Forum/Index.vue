@@ -18,7 +18,7 @@ defineProps({
 <template>
     <AppLayout>
         <Head title="Home" />
-        <main class="py-6 px-2">
+        <main class="">
             <!-- top nav filter -->
             <nav class="flex flex-col md:flex-row md:items-center md:justify-between space-y-3 md:space-x-6">
                 <div class="flex space-x-2 items-center">

@@ -13,8 +13,8 @@ defineProps({
             v-if="link.url"
             :href="link.url"
             class="flex items-center justify-center px-4 h-10 leading-tight
-                text-gray-800 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700"
-            :class="{ 'text-white hover:text-white bg-blue-600  border-blue-300 hover:bg-blue-500': link.active }"
+                text-gray-800 bg-white border border-gray-300 hover:bg-gray-100"
+            :class="{ ' font-bold border-black': link.active }"
             v-html="link.label"></Link>
 
             <span

@@ -6,6 +6,7 @@ import { Link } from '@inertiajs/vue3'
 import BackIcon from '@/Components/Icons/BackIcon.vue'
 import { Head } from '@inertiajs/vue3'
 import ForumPostCard from '@/Components/Forum/PostCard.vue'
+import Pagination from '@/Components/Forum/Pagination.vue'
 
 defineProps({
     thread: {
@@ -38,6 +39,10 @@ defineProps({
         <!-- posts for thread (replies / responses) -->
         <div class="posts-container relative space-y-3">
             <ForumPostCard v-for="post in posts.data" :key="post.id" :post="post" />
+        </div>
+        <!-- pagination -->
+        <div class="flex justify-center">
+            <Pagination :links="posts.meta.links" class="mt-3 mx-auto" />
         </div>
 
         <!-- sidebar -->
