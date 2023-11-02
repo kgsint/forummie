@@ -13,10 +13,11 @@ defineProps({
         <!-- profile image -->
         <div class="flex-none flex items-center gap-2 lg:block mb-3">
             <a href="#">
-                <img :src="thread.user.avatar" class="w-14 h-14 rounded-xl" alt="profile image">
+                <img :src="thread.user?.avatar" class="w-14 h-14 rounded-xl" alt="profile image" v-if="thread.user">
+                <img src="https://static.thenounproject.com/png/5034901-200.png" class="w-14 h-14 rounded-xl" alt="default profile image" v-else >
             </a>
             <strong class="lg:hidden">
-                {{ thread.user.username }}
+                {{ thread.user?.username || '[Deleted User]' }}
             </strong>
         </div>
 
@@ -41,14 +42,14 @@ defineProps({
             <!-- conditionally display reply or post by owner -->
             <Link :href="route('forum.show', thread.slug)" v-if="thread.latest_post" class="text-xs text-gray-600 leading-normal line-clamp-2 hover:underline">
                 <Link href="#" class="text-blue-400 hover:underline">
-                    {{ thread.latest_post.user.username }}
+                    {{ thread.latest_post.user?.username || '[deleted user]' }}
                 </Link> replied
                 <time :datetime="thread.latest_post.created_at.datetime" :title="thread.latest_post.created_at.datetime">{{ thread.latest_post.created_at.human }}</time>
             </Link>
 
             <div v-else class="text-xs text-gray-600 leading-normal line-clamp-2">
                 <Link href="#" class="text-blue-400 hover:underline">
-                    {{ thread.user.username }}
+                    {{ thread.user?.username || '[deleted user]' }}
                 </Link> posted
                 <time :datetime="thread.created_at.datetime" :title="thread.created_at.datetime">{{ thread.created_at.human }}</time>
             </div>
