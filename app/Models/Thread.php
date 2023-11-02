@@ -36,4 +36,10 @@ class Thread extends Model
     {
         return $this->hasMany(Post::class);
     }
+
+    public function latestPost()
+    {
+        return $this->hasOne(Post::class)
+                                        ->latestOfMany();
+    }
 }

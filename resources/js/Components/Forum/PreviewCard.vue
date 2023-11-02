@@ -36,9 +36,16 @@ defineProps({
 
             <!-- description -->
             <p class="text-sm text-gray-600 leading-normal line-clamp-2 mb-3">{{ thread.description }}</p>
-            <!-- {{ thread }} -->
-            <!-- replied status -->
-            <div class="text-xs text-gray-600 leading-normal line-clamp-2">
+
+            <!-- conditionally display reply or post by owner -->
+            <Link :href="route('forum.show', thread.slug)" v-if="thread.latest_post" class="text-xs text-gray-600 leading-normal line-clamp-2 hover:underline">
+                <Link href="#" class="text-blue-400 hover:underline">
+                    {{ thread.latest_post.user.username }}
+                </Link> replied
+                <time :datetime="thread.latest_post.created_at.datetime" :title="thread.latest_post.created_at.datetime">{{ thread.latest_post.created_at.human }}</time>
+            </Link>
+
+            <div v-else class="text-xs text-gray-600 leading-normal line-clamp-2">
                 <Link href="#" class="text-blue-400 hover:underline">
                     {{ thread.user.name }}
                 </Link> posted

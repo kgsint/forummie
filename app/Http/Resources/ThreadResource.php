@@ -19,6 +19,7 @@ class ThreadResource extends JsonResource
             'title' => $this->title,
             'slug' => $this->slug,
             'description' => $this->description,
+            'latest_post' => PostResource::make($this->whenLoaded('latestPost')),
             'topic' => TopicResource::make($this->whenLoaded('topic')),
             'user' => UserResource::make($this->whenLoaded('user')),
             'created_at' => DateTimeResource::make($this->created_at),
