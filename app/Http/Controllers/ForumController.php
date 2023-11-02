@@ -15,7 +15,7 @@ class ForumController extends Controller
     {
         return Inertia::render('Forum/Index', [
             'threads' => ThreadResource::collection(
-                Thread::with(['topic', 'user', 'latestPost.user'])
+                Thread::with(['topic', 'user', 'latestPost.user', 'posts'])
                                             ->orderBy('created_at', 'desc')
                                             ->paginate(10)
             ),

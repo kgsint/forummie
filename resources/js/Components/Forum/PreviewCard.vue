@@ -19,6 +19,7 @@ defineProps({
                 {{ thread.user.username }}
             </strong>
         </div>
+
         <!-- title and description -->
         <div class="flex flex-col">
             <!-- title -->
@@ -27,7 +28,7 @@ defineProps({
                     <h4 class="text-lg lg:text-2xl font-semibold">{{ thread.title }}</h4>
                 </Link>
                 <div class="flex lg:items-center space-x-4">
-                    <span class="flex items-center text-xs gap-1"><MessageIcon /> 0</span>
+                    <span class="flex items-center text-xs gap-1"><MessageIcon />{{ thread.no_of_posts }}</span>
                     <Link href="#" class="text-xs font-semibold px-3 py-1 rounded-full border hover:bg-gray-900 hover:text-white transition-colors duration-150 border-gray-700">
                         {{ thread.topic.name }}
                     </Link>
