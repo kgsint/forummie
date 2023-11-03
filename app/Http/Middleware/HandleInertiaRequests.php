@@ -38,6 +38,7 @@ class HandleInertiaRequests extends Middleware
                 'user' => $request->user(),
             ],
             'topics' => TopicResource::collection(Topic::orderBy('name')->get()),
+            'queryStrings' => (object) $request->query(), // query string(s) for request
             'ziggy' => fn () => [
                 ...(new Ziggy)->toArray(),
                 'location' => $request->url(),

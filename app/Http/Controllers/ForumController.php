@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\PostResource;
-use App\Http\Resources\ThreadResource;
+use App\Http\QueryFilters\NoRepliesQueryFilter;
 use App\Models\Post;
+use Inertia\Inertia;
 use App\Models\Thread;
 use Illuminate\Http\Request;
-use Inertia\Inertia;
+use App\Http\Resources\PostResource;
+use Spatie\QueryBuilder\QueryBuilder;
+use App\Http\Resources\ThreadResource;
+use Spatie\QueryBuilder\AllowedFilter;
 
 class ForumController extends Controller
 {
@@ -15,10 +18,12 @@ class ForumController extends Controller
     {
         return Inertia::render('Forum/Index', [
             'threads' => ThreadResource::collection(
-                Thread::with(['topic', 'user', 'latestPost.user', 'posts'])
-                                            ->orderByLatestPost()
-                                            ->orderBy('created_at', 'desc')
-                                            ->paginate(10)
+                QueryBuilder::for(Thread::class)
+                            ->with(['topic', 'user', 'latestPost.user', 'posts'])
+                            ->allowedFilters($this->customAllowedFilters())
+                            ->orderByLatestPost()
+                            ->orderBy('created_at', 'desc')
+                            ->paginate(10)
             ),
         ]);
     }
@@ -38,5 +43,13 @@ class ForumController extends Controller
                                                                 ->paginate(10)
                                 ),
         ]);
+    }
+
+    // custom filters for spaite/QueryBuilder
+    private function customAllowedFilters(): array
+    {
+        return [
+            AllowedFilter::custom('noreplies', new NoRepliesQueryFilter)
+        ];
     }
 }
