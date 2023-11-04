@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\QueryFilters\MineQueryFilter;
 use App\Http\QueryFilters\NoRepliesQueryFilter;
+use App\Http\QueryFilters\ParticipatingQueryFilter;
 use App\Models\Post;
 use Inertia\Inertia;
 use App\Models\Thread;
@@ -23,7 +25,8 @@ class ForumController extends Controller
                             ->allowedFilters($this->customAllowedFilters())
                             ->orderByLatestPost()
                             ->orderBy('created_at', 'desc')
-                            ->paginate(10)
+                            ->paginate(3)
+                            ->appends(request()->all())
             ),
         ]);
     }
@@ -49,7 +52,9 @@ class ForumController extends Controller
     private function customAllowedFilters(): array
     {
         return [
-            AllowedFilter::custom('noreplies', new NoRepliesQueryFilter)
+            AllowedFilter::custom('noreplies', new NoRepliesQueryFilter),
+            AllowedFilter::custom('mine', new MineQueryFilter),
+            AllowedFilter::custom('participating', new ParticipatingQueryFilter)
         ];
     }
 }
