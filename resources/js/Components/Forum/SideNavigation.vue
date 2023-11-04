@@ -58,8 +58,8 @@ import { Link, router, usePage } from '@inertiajs/vue3'
             <li class="list-none">
                 <Link
                     href="/?filter[participating]=1"
-                    class="inline-block p-3 w-full
-                    rounded-xl transition-colors duration-200 text-sm font-semibold"
+                    class="inline-block hover:bg-blue-100 hover:text-blue-400 p-3 w-full rounded-xl
+                    transition-colors duration-200 text-sm font-semibold"
                     :class="{ 'bg-blue-100 text-blue-400': $page.props.queryStrings?.filter?.participating }"
                 >
                     <span

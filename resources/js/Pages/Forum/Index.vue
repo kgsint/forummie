@@ -6,11 +6,23 @@ import ForumPreview from '@/Components/Forum/PreviewCard.vue'
 import SearchIcon from '@/Components/Icons/SearchIcon.vue'
 import SideNavigation from '@/Components/Forum/SideNavigation.vue'
 import Pagination from '@/Components/Forum/Pagination.vue'
-import { Head } from '@inertiajs/vue3'
+import { Head, router } from '@inertiajs/vue3'
+import _omitBy from 'lodash.omitby'
+import _isempty from 'lodash.isempty'
 
 defineProps({
     threads: Object,
 })
+
+// filter threads via topic
+const filterTopic = (e) => {
+    router.visit('/', {
+        data: _omitBy({
+            'filter[topic]': e.target.value
+        }, _isempty), // e.target.value is '' or null, data object won't be included in request params
+        preserveScroll: true,
+    })
+}
 
 </script>
 
@@ -28,16 +40,18 @@ defineProps({
                         <option value="">Unresolved</option>
                     </Select>
 
-                    <Select class="w-32">
+                    <Select class="w-32" @change="filterTopic">
                         <option value="">All</option>
                         <option
                             v-for="topic in $page.props.topics"
                             :key="topic.slug"
                             :value="topic.slug"
+                            :selected="topic.slug === $page.props.queryStrings?.filter?.topic"
                         >
                             {{ topic.name }}
                         </option>
                     </Select>
+                    <!-- {{ $page.props.queryStrings }} -->
                 </div>
                 <form action="#" method="get" class="bg-gray-200 px-2 rounded-full">
                     <label for="s" class="flex items-center">
