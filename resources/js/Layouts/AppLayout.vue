@@ -8,6 +8,7 @@ import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
 import { Link } from '@inertiajs/vue3';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import SecondaryButton from '@/Components/SecondaryButton.vue';
+import CreateThreadForm from '@/Components/Forum/CreateThreadForm.vue'
 
 
 const showingNavigationDropdown = ref(false);
@@ -176,4 +177,7 @@ const showingNavigationDropdown = ref(false);
             </main>
         </div>
     </div>
+
+    <!-- create form -->
+    <CreateThreadForm />
 </template>

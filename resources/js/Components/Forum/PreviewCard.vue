@@ -28,6 +28,7 @@ const redirectToShow = (e) => {
                 <img :src="thread.user?.avatar" class="w-14 h-14 rounded-xl" alt="profile image" v-if="thread.user">
                 <img src="https://static.thenounproject.com/png/5034901-200.png" class="w-14 h-14 rounded-xl" alt="default profile image" v-else >
             </a>
+            <!-- username -->
             <strong class="lg:hidden">
                 {{ thread.user?.username || '[Deleted User]' }}
             </strong>
@@ -41,7 +42,9 @@ const redirectToShow = (e) => {
                     <h4 class="text-lg lg:text-2xl font-semibold">{{ thread.title }}</h4>
                 </Link>
                 <div class="flex lg:items-center space-x-4">
+                    <!-- no of posts in the thread -->
                     <span class="flex items-center text-xs gap-1"><MessageIcon />{{ thread.no_of_posts }}</span>
+                    <!-- topic -->
                     <Link :href="`/?filter[topic]=${thread.topic.slug}`" class="topic text-xs font-semibold px-3 py-1 rounded-full border hover:bg-gray-900 hover:text-white transition-colors duration-150 border-gray-700">
                         {{ thread.topic.name }}
                     </Link>
@@ -51,7 +54,7 @@ const redirectToShow = (e) => {
             <!-- description -->
             <p class="text-sm text-gray-600 leading-normal line-clamp-2 mb-3">{{ thread.description }}</p>
 
-            <!-- conditionally display reply or post by owner -->
+            <!-- conditionally display reply or posted by owner -->
             <Link :href="route('forum.show', thread.slug)" v-if="thread.latest_post" class="text-xs text-gray-600 leading-normal line-clamp-2 hover:underline">
                 <Link href="#" class="text-blue-400 hover:underline">
                     {{ thread.latest_post.user?.username || '[deleted user]' }}

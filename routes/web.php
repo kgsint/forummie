@@ -3,7 +3,6 @@
 use App\Http\Controllers\ForumController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 
 Route::get('/', [ForumController::class, 'index'])->name('forum.index');
 Route::get('/thread/{thread:slug}', [ForumController::class, 'show'])->name('forum.show');
