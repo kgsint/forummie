@@ -3,15 +3,22 @@ import { Link } from '@inertiajs/vue3'
 import MessageIcon from '@/Components/Icons/MessageIcon.vue'
 import { router } from '@inertiajs/vue3';
 
-defineProps({
+const props = defineProps({
     thread: Object
 })
+
+const redirectToShow = (e) => {
+    // check the target element is thread's topic or  not
+    if(! e.target.classList.contains('topic')) {
+        router.visit(route('forum.show', props.thread.slug))
+    }
+}
 </script>
 
 
 <template>
     <article
-        @click="router.get(route('forum.show', thread.slug))"
+        @click="redirectToShow"
         class="flex flex-col lg:flex-row bg-white lg:space-x-2 px-2 py-4 rounded-lg
             shadow cursor-pointer hover:shadow-lg duration-150 transition-all"
     >
@@ -35,7 +42,7 @@ defineProps({
                 </Link>
                 <div class="flex lg:items-center space-x-4">
                     <span class="flex items-center text-xs gap-1"><MessageIcon />{{ thread.no_of_posts }}</span>
-                    <Link href="#" class="text-xs font-semibold px-3 py-1 rounded-full border hover:bg-gray-900 hover:text-white transition-colors duration-150 border-gray-700">
+                    <Link :href="`/?filter[topic]=${thread.topic.slug}`" class="topic text-xs font-semibold px-3 py-1 rounded-full border hover:bg-gray-900 hover:text-white transition-colors duration-150 border-gray-700">
                         {{ thread.topic.name }}
                     </Link>
                 </div>
