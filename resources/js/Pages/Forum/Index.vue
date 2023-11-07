@@ -44,7 +44,13 @@ const filterTopic = (e) => {
                         <option value="">Unresolved</option>
                     </Select>
 
-                    <Select class="w-32" @change="filterTopic">
+
+
+                    <select
+                        @change="filterTopic"
+                        class="w-32 bg-gray-50 border border-gray-300 text-gray-900 text-sm
+                        focus:ring-blue-500 focus:border-blue-500 block p-2.5 rounded-full cursor-pointer"
+                    >
                         <option value="">All</option>
                         <option
                             v-for="topic in $page.props.topics"
@@ -54,7 +60,7 @@ const filterTopic = (e) => {
                         >
                             {{ topic.name }}
                         </option>
-                    </Select>
+                    </select>
                     <!-- {{ $page.props.queryStrings }} -->
                 </div>
                 <form action="#" method="get" class="bg-gray-200 px-2 rounded-full">
