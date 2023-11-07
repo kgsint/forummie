@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [ForumController::class, 'index'])->name('forum.index');
 Route::get('/thread/{thread:slug}', [ForumController::class, 'show'])->name('forum.show');
+Route::post('/threads', [ForumController::class, 'store'])->name('forum.store');
 
 Route::middleware('auth')->group(function () {
     Route::get('/account-info', [ProfileController::class, 'edit'])->name('profile.edit');

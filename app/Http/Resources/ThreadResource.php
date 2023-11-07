@@ -18,7 +18,7 @@ class ThreadResource extends JsonResource
             'id' => $this->id,
             'title' => $this->title,
             'slug' => $this->slug,
-            'description' => $this->description,
+            'body' => $this->body,
             'latest_post' => PostResource::make($this->whenLoaded('latestPost')),
             'no_of_posts' => $this->posts?->count() ?? 0,
             'topic' => TopicResource::make($this->whenLoaded('topic')),

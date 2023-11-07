@@ -6,6 +6,7 @@ use App\Http\QueryFilters\MineQueryFilter;
 use App\Http\QueryFilters\NoRepliesQueryFilter;
 use App\Http\QueryFilters\ParticipatingQueryFilter;
 use App\Http\QueryFilters\TopicQueryFilter;
+use App\Http\Requests\StoreThreadRequest;
 use App\Models\Post;
 use Inertia\Inertia;
 use App\Models\Thread;
@@ -26,7 +27,7 @@ class ForumController extends Controller
                             ->allowedFilters($this->customAllowedFilters())
                             ->orderByLatestPost()
                             ->orderBy('created_at', 'desc')
-                            ->paginate(3)
+                            ->paginate(10)
                             ->appends(request()->all())
             ),
         ]);
@@ -47,6 +48,17 @@ class ForumController extends Controller
                                                                 ->paginate(10)
                                 ),
         ]);
+    }
+
+    public function store(StoreThreadRequest $request)
+    {
+        $thread = $request->user()
+                    ->threads()
+                    ->create(
+                        $request->only(['title', 'body', 'topic_id'])
+                    );
+
+        return redirect()->route('forum.show', $thread->slug);
     }
 
     // custom filters for spaite/QueryBuilder

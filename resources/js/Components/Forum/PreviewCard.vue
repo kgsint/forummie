@@ -35,7 +35,7 @@ const redirectToShow = (e) => {
         </div>
 
         <!-- title and description -->
-        <div class="flex flex-col">
+        <div class="flex flex-col flex-grow">
             <!-- title -->
             <div class="flex flex-col lg:flex-row lg:justify-between lg:items-center mb-3">
                 <Link :href="route('forum.show', thread.slug)" class="hover:underline mb-3 lg:mb-0">
@@ -52,7 +52,7 @@ const redirectToShow = (e) => {
             </div>
 
             <!-- description -->
-            <p class="text-sm text-gray-600 leading-normal line-clamp-2 mb-3">{{ thread.description }}</p>
+            <p class="text-sm text-gray-600 leading-normal line-clamp-2 mb-3">{{ thread.body }}</p>
 
             <!-- conditionally display reply or posted by owner -->
             <Link :href="route('forum.show', thread.slug)" v-if="thread.latest_post" class="text-xs text-gray-600 leading-normal line-clamp-2 hover:underline">

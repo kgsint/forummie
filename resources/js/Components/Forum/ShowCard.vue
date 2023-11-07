@@ -40,7 +40,7 @@ defineProps({
 
             <!-- description -->
             <p class="text-sm text-gray-600 leading-7">
-                {{ thread.description }}
+                {{ thread.body }}
             </p>
         </div>
     </article>

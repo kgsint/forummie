@@ -10,6 +10,18 @@ import useCreateThread from '@/Composables/useCreateThread'
 
 
 const { isVisible, hideCreateThreadForm, form } = useCreateThread()
+
+// create thread
+const handleStoreThread = () => {
+    form.post(route('forum.store'), {
+        onSuccess: () => {
+            // reset form state
+            form.reset()
+            // close create thread dialog
+            isVisible = false
+        }
+    })
+}
 </script>
 
 
@@ -26,28 +38,30 @@ const { isVisible, hideCreateThreadForm, form } = useCreateThread()
                     &times;
                 </span>
             </header>
-            {{ form }}
         </template>
         <!-- form -->
         <template #main>
-            <form>
+            <form id="storeThreadForm" @submit.prevent="handleStoreThread">
                 <div class="flex items-start space-x-4 mb-3">
                     <div class="flex-grow">
                         <TextInput placeholder="Title" class="flex-grow w-full" v-model="form.title" />
                         <InputError :message="form.errors.title" />
                     </div>
-                    <Select
-                        v-model="form.topic_id"
-                    >
-                        <option value="">Choose Topic</option>
-                        <option
-                            v-for="topic in $page.props.topics"
-                            :key="topic.id"
-                            :value="topic.id"
+                    <div>
+                        <Select
+                            v-model="form.topic_id"
                         >
-                            {{ topic.name }}
-                        </option>
-                    </Select>
+                            <option value="">Choose Topic</option>
+                            <option
+                                v-for="topic in $page.props.topics"
+                                :key="topic.id"
+                                :value="topic.id"
+                            >
+                                {{ topic.name }}
+                            </option>
+                        </Select>
+                        <InputError :message="form.errors.topic_id" />
+                    </div>
                 </div>
                 <!-- textarea -->
                 <div>
@@ -60,11 +74,8 @@ const { isVisible, hideCreateThreadForm, form } = useCreateThread()
         <template #footer>
             <div class="flex items-center space-x-3">
                 <SecondaryButton @click="hideCreateThreadForm">Cancel</SecondaryButton>
-                <PrimaryButton>Create</PrimaryButton>
+                <PrimaryButton type="submit" form="storeThreadForm">Create</PrimaryButton>
             </div>
         </template>
     </FormWrapper>
 </template>
-
-
-<style scoped></style>

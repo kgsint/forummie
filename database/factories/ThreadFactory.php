@@ -21,7 +21,7 @@ class ThreadFactory extends Factory
             'title' => $this->faker->words(6, true),
             'user_id' => rand(1, 2),  // instead of User::factory(), want to make it specific
             'topic_id' => rand(1, 3), // instead of Topic::factory(), want to make it specific
-            'description' => $this->faker->paragraph(rand(3, 6)),
+            'body' => $this->faker->paragraph(rand(3, 6)),
         ];
     }
 }

@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('topic_id')->nullable()->constrained()->nullOnDelete(); // make nullable - when topic/tag is deleted, thread remains
             $table->string('title');
             $table->string('slug')->unique();
-            $table->longText('description');
+            $table->longText('body');
             $table->timestamps();
         });
     }
