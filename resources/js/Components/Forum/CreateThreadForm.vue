@@ -4,10 +4,12 @@ import InputError from '../InputError.vue';
 import Textarea from '../Textarea.vue';
 import PrimaryButton from '../PrimaryButton.vue';
 import SecondaryButton from '../SecondaryButton.vue';
+import Select from '../Select.vue'
 import FormWrapper from '@/Components/Forum/FormWrapper.vue'
 import useCreateThread from '@/Composables/useCreateThread'
 
-const { isVisible, hideCreateThreadForm } = useCreateThread()
+
+const { isVisible, hideCreateThreadForm, form } = useCreateThread()
 </script>
 
 
@@ -24,31 +26,33 @@ const { isVisible, hideCreateThreadForm } = useCreateThread()
                     &times;
                 </span>
             </header>
+            {{ form }}
         </template>
         <!-- form -->
         <template #main>
             <form>
                 <div class="flex items-start space-x-4 mb-3">
                     <div class="flex-grow">
-                        <TextInput placeholder="Title" class="flex-grow w-full" />
-                        <InputError message="Some error" />
+                        <TextInput placeholder="Title" class="flex-grow w-full" v-model="form.title" />
+                        <InputError :message="form.errors.title" />
                     </div>
-                    <select
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm
-                        focus:ring-blue-500 focus:border-blue-500 block p-2.5 w-32 rounded-full cursor-pointer">
+                    <Select
+                        v-model="form.topic_id"
+                    >
+                        <option value="">Choose Topic</option>
                         <option
                             v-for="topic in $page.props.topics"
-                            :key="topic.slug"
-                            :value="topic.slug"
+                            :key="topic.id"
+                            :value="topic.id"
                         >
                             {{ topic.name }}
                         </option>
-                    </select>
+                    </Select>
                 </div>
                 <!-- textarea -->
                 <div>
-                    <Textarea placeholder="What's on your mind?" rows="4" />
-                    <InputError message="Some error" />
+                    <Textarea placeholder="What's on your mind?" rows="4" v-model="form.body" />
+                    <InputError :message="form.errors.body" />
                 </div>
             </form>
         </template>

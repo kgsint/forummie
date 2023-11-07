@@ -1,7 +1,13 @@
 import { ref } from 'vue'
+import { useForm } from '@inertiajs/vue3'
 
 // visible state
 const isVisible = ref(false)
+const form = useForm({
+    title: '',
+    body: '',
+    topic_id: '',
+})
 
 export default () => {
     // show create thread form
@@ -15,6 +21,7 @@ export default () => {
     }
 
     return {
+        form,
         isVisible,
         showCreateThreadForm,
         hideCreateThreadForm,
