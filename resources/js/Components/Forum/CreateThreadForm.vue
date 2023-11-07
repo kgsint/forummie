@@ -4,17 +4,26 @@ import InputError from '../InputError.vue';
 import Textarea from '../Textarea.vue';
 import PrimaryButton from '../PrimaryButton.vue';
 import SecondaryButton from '../SecondaryButton.vue';
-
-
 import FormWrapper from '@/Components/Forum/FormWrapper.vue'
+import useCreateThread from '@/Composables/useCreateThread'
+
+const { isVisible, hideCreateThreadForm } = useCreateThread()
 </script>
 
 
 <template>
-    <FormWrapper>
+    <FormWrapper v-if="isVisible">
         <!-- header -->
         <template #header>
-            <h1 class="text-xl font-semibold">Create Thread</h1>
+            <header class="flex justify-between items-center">
+                <h1 class="text-xl font-semibold">Create Thread</h1>
+                <span
+                    @click="hideCreateThreadForm"
+                    class="px-3 py-1 text-2xl bg-gray-300 hover:bg-gray-500 hover:text-white
+                    transition-all rounded-md duration-150 cursor-pointer">
+                    &times;
+                </span>
+            </header>
         </template>
         <!-- form -->
         <template #main>
@@ -26,8 +35,14 @@ import FormWrapper from '@/Components/Forum/FormWrapper.vue'
                     </div>
                     <select
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm
-                        focus:ring-blue-500 focus:border-blue-500 block p-2.5 w-32 rounded-full">
-                        <option value="">Laravel</option>
+                        focus:ring-blue-500 focus:border-blue-500 block p-2.5 w-32 rounded-full cursor-pointer">
+                        <option
+                            v-for="topic in $page.props.topics"
+                            :key="topic.slug"
+                            :value="topic.slug"
+                        >
+                            {{ topic.name }}
+                        </option>
                     </select>
                 </div>
                 <!-- textarea -->
@@ -39,16 +54,9 @@ import FormWrapper from '@/Components/Forum/FormWrapper.vue'
         </template>
         <!-- footer -->
         <template #footer>
-            <div class="flex justify-between items-center">
-                <div></div>
-                <!-- <p
-                class="hidden text-xs text-gray-600 md:block"> * You may use Markdown with <a
-                    href="https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax" target="_blank" rel="noreferrer noopener" class="text-blue-500 underline"> GitHub-flavored </a> code blocks. </p> -->
-                <div class="flex items-center space-x-3">
-                    <SecondaryButton>Cancel</SecondaryButton>
-                    <PrimaryButton>Create</PrimaryButton>
-                </div>
-
+            <div class="flex items-center space-x-3">
+                <SecondaryButton @click="hideCreateThreadForm">Cancel</SecondaryButton>
+                <PrimaryButton>Create</PrimaryButton>
             </div>
         </template>
     </FormWrapper>

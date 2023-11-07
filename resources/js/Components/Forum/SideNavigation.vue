@@ -1,13 +1,12 @@
 <script setup>
-import PrimaryButton from '@/Components/PrimaryButton.vue'
-import { Link, router, usePage } from '@inertiajs/vue3'
+import { Link } from '@inertiajs/vue3'
 
 </script>
 
 
 <template>
      <aside class="hidden md:block md:sticky p-3">
-        <PrimaryButton class="mb-6">Create thread</PrimaryButton>
+        <slot />
         <!-- sidebar filter options for all (auth & guest) -->
         <ul class="flex flex-col space-y-3">
             <li class="list-none">

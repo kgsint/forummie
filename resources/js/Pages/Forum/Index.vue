@@ -2,6 +2,7 @@
 import AppLayout from '@/Layouts/AppLayout.vue';
 import Select from '@/Components/Select.vue';
 import TextInput from '@/Components/TextInput.vue';
+import PrimaryButton from '@/Components/PrimaryButton.vue';
 import ForumPreview from '@/Components/Forum/PreviewCard.vue'
 import SearchIcon from '@/Components/Icons/SearchIcon.vue'
 import SideNavigation from '@/Components/Forum/SideNavigation.vue'
@@ -9,6 +10,9 @@ import Pagination from '@/Components/Forum/Pagination.vue'
 import { Head, router } from '@inertiajs/vue3'
 import _omitBy from 'lodash.omitby'
 import _isempty from 'lodash.isempty'
+import useCreateThread from '@/Composables/useCreateThread'
+
+const { showCreateThreadForm } = useCreateThread()
 
 defineProps({
     threads: Object,
@@ -81,7 +85,14 @@ const filterTopic = (e) => {
         </main>
         <!-- sidebar -->
         <template #sidebar>
-            <SideNavigation />
+            <SideNavigation>
+                <!-- create thread btn -->
+                <PrimaryButton
+                    @click="showCreateThreadForm"
+                    v-if="$page.props.auth.user" class="mb-6">
+                    Create thread
+                </PrimaryButton>
+            </SideNavigation>
         </template>
     </AppLayout>
 </template>
