@@ -127,3 +127,4 @@ class ForumTest extends TestCase
         $response->assertSessionHasErrors(['title', 'body', 'topic_id']);
     }
 }
+

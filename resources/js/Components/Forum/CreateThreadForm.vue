@@ -18,7 +18,7 @@ const handleStoreThread = () => {
             // reset form state
             form.reset()
             // close create thread dialog
-            isVisible = false
+            isVisible.value = false
         }
     })
 }
@@ -74,7 +74,14 @@ const handleStoreThread = () => {
         <template #footer>
             <div class="flex items-center space-x-3">
                 <SecondaryButton @click="hideCreateThreadForm">Cancel</SecondaryButton>
-                <PrimaryButton type="submit" form="storeThreadForm">Create</PrimaryButton>
+                <PrimaryButton
+                    type="submit"
+                    form="storeThreadForm"
+                    :disabled="form.processing"
+                    :class="{ 'opacity-75': form.processing }"
+                >
+                    Create
+                </PrimaryButton>
             </div>
         </template>
     </FormWrapper>

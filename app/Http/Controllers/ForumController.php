@@ -2,33 +2,25 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\QueryFilters\MineQueryFilter;
-use App\Http\QueryFilters\NoRepliesQueryFilter;
-use App\Http\QueryFilters\ParticipatingQueryFilter;
-use App\Http\QueryFilters\TopicQueryFilter;
+use App\Contracts\ThreadInterface;
 use App\Http\Requests\StoreThreadRequest;
-use App\Models\Post;
 use Inertia\Inertia;
 use App\Models\Thread;
 use Illuminate\Http\Request;
 use App\Http\Resources\PostResource;
-use Spatie\QueryBuilder\QueryBuilder;
 use App\Http\Resources\ThreadResource;
-use Spatie\QueryBuilder\AllowedFilter;
 
 class ForumController extends Controller
 {
+    public function __construct(
+        private ThreadInterface $thread,
+    ){}
+
     public function index()
     {
         return Inertia::render('Forum/Index', [
             'threads' => ThreadResource::collection(
-                QueryBuilder::for(Thread::class)
-                            ->with(['topic', 'user', 'latestPost.user', 'posts'])
-                            ->allowedFilters($this->customAllowedFilters())
-                            ->orderByLatestPost()
-                            ->orderBy('created_at', 'desc')
-                            ->paginate(10)
-                            ->appends(request()->all())
+                $this->thread->getFilterablePaginatedCollection()
             ),
         ]);
     }
@@ -41,34 +33,17 @@ class ForumController extends Controller
         return Inertia::render('Forum/Show', [
             'thread' => new ThreadResource($thread),
             'posts' => PostResource::collection(
-                                    Post::whereBelongsTo($thread)
-                                                                ->with(['user', 'thread', 'replies'])
-                                                                ->whereNull('parent_id')
-                                                                ->oldest()
-                                                                ->paginate(10)
-                                ),
+                $this->thread->relatedPosts($thread)
+            ),
         ]);
     }
 
     public function store(StoreThreadRequest $request)
     {
-        $thread = $request->user()
-                    ->threads()
-                    ->create(
-                        $request->only(['title', 'body', 'topic_id'])
-                    );
+        $thread = $this->thread->store($request->only('title', 'body', 'topic_id'));
 
         return redirect()->route('forum.show', $thread->slug);
     }
 
-    // custom filters for spaite/QueryBuilder
-    private function customAllowedFilters(): array
-    {
-        return [
-            AllowedFilter::custom('noreplies', new NoRepliesQueryFilter),
-            AllowedFilter::custom('mine', new MineQueryFilter),
-            AllowedFilter::custom('participating', new ParticipatingQueryFilter),
-            AllowedFilter::custom('topic', new TopicQueryFilter),
-        ];
-    }
+
 }

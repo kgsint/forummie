@@ -16,9 +16,8 @@ class ParticipatingQueryFilter implements Filter
 
         // post of a thread where the current user has posted or participated
         // where the owner of the thread is not the current user
-        $query->whereHas('posts', function($query) use($user) {
-            $query->whereBelongsTo($user)
-                    ->where('user_id', '!=', auth()->id());
-        });
+        $query
+            ->where('user_id', '!=', auth()->id())
+            ->whereHas('posts', fn($query) => $query->whereBelongsTo($user));
     }
 }

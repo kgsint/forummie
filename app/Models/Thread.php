@@ -14,6 +14,8 @@ class Thread extends Model
 
     protected $guarded = [];
 
+    const PAGINATION_COUNT = 10;
+
     public static function booted()
     {
         static::creating(function(Thread $thread) {
