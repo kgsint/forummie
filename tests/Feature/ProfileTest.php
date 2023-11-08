@@ -16,7 +16,7 @@ class ProfileTest extends TestCase
 
         $response = $this
             ->actingAs($user)
-            ->get('/profile');
+            ->get('/account-info');
 
         $response->assertOk();
     }
@@ -27,14 +27,15 @@ class ProfileTest extends TestCase
 
         $response = $this
             ->actingAs($user)
-            ->patch('/profile', [
+            ->patch('/account-info', [
                 'name' => 'Test User',
                 'email' => 'test@example.com',
+                'username' => 'test_username',
             ]);
 
         $response
             ->assertSessionHasNoErrors()
-            ->assertRedirect('/profile');
+            ->assertRedirect('/account-info');
 
         $user->refresh();
 
@@ -49,14 +50,15 @@ class ProfileTest extends TestCase
 
         $response = $this
             ->actingAs($user)
-            ->patch('/profile', [
+            ->patch('/account-info', [
                 'name' => 'Test User',
                 'email' => $user->email,
+                'username' => 'test_username'
             ]);
 
         $response
             ->assertSessionHasNoErrors()
-            ->assertRedirect('/profile');
+            ->assertRedirect('/account-info');
 
         $this->assertNotNull($user->refresh()->email_verified_at);
     }
@@ -67,7 +69,7 @@ class ProfileTest extends TestCase
 
         $response = $this
             ->actingAs($user)
-            ->delete('/profile', [
+            ->delete('/account-info', [
                 'password' => 'password',
             ]);
 
@@ -85,14 +87,14 @@ class ProfileTest extends TestCase
 
         $response = $this
             ->actingAs($user)
-            ->from('/profile')
-            ->delete('/profile', [
+            ->from('/account-info')
+            ->delete('/account-info', [
                 'password' => 'wrong-password',
             ]);
 
         $response
             ->assertSessionHasErrors('password')
-            ->assertRedirect('/profile');
+            ->assertRedirect('/account-info');
 
         $this->assertNotNull($user->fresh());
     }

@@ -16,21 +16,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        Topic::factory()->create([
-            'name' => 'Laravel',
-            'slug' => 'laravel'
-        ]);
-
-        Topic::factory()->create([
-            'name' => 'PHP',
-            'slug' => 'php',
-        ]);
-
-        Topic::factory()->create([
-            'name' => 'DevOps',
-            'slug' => 'devops',
-        ]);
-
         User::factory()->create([
             'name' => 'kgsint',
             'email' => 'kgsint@mail.co.uk',
@@ -49,6 +34,9 @@ class DatabaseSeeder extends Seeder
             'username' => 'sussy'
         ]);
 
-        Thread::factory(10)->create();
+        $this->call([
+            ThreadSeeder::class,
+            TopicSeeder::class,
+        ]);
     }
 }
