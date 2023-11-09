@@ -39,9 +39,7 @@ defineProps({
             <h3 class="bg-blue-50 mb-3 text-2xl p-3 rounded-xl font-semibold">{{ thread.title }}</h3>
 
             <!-- description -->
-            <p class="text-sm text-gray-600 leading-7">
-                {{ thread.body }}
-            </p>
+            <div v-html="thread.body" class="markdown"></div>
         </div>
     </article>
 </template>

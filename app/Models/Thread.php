@@ -2,11 +2,14 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Spatie\LaravelMarkdown\MarkdownRenderer;
 
 class Thread extends Model
 {
@@ -24,6 +27,14 @@ class Thread extends Model
         });
     }
 
+    // define accessor for thread'sbody to render markdowned to html
+    protected function body(): Attribute
+    {
+        return Attribute::make(
+            get: fn(string $body) => app(MarkdownRenderer::class)->highlightTheme('material-theme-palenight')->toHtml($body)
+        );
+    }
+
     // order by thread's latest post/reply
     public function scopeOrderByLatestPost($query)
     {
@@ -35,6 +46,8 @@ class Thread extends Model
                     'desc');
     }
 
+    // elquoent relationships
+    // ---
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
@@ -50,9 +63,10 @@ class Thread extends Model
         return $this->hasMany(Post::class);
     }
 
-    public function latestPost()
+    public function latestPost(): HasOne
     {
         return $this->hasOne(Post::class)
                                         ->latestOfMany();
     }
+    // --
 }

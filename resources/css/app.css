@@ -2,6 +2,39 @@
 @tailwind components;
 @tailwind utilities;
 
+/* markdown styling */
+.markdown.preview {
+    @apply line-clamp-2;
+}
+.markdown h1{
+    @apply text-xl font-semibold text-gray-600 mb-2;
+}
+.markdown h2{
+    @apply text-lg font-semibold text-gray-600 mb-2;
+}
+.markdown h3{
+    @apply mb-2;
+}
+
+.markdown p{
+    @apply text-sm text-gray-600 leading-normal mb-3;
+}
+
+/* shiki styling */
+
+/* hide code highlighting in preview card of index page */
+.markdown.preview .shiki {
+    @apply hidden;
+}
+.shiki {
+    @apply p-3 rounded-lg;
+}
+code {
+    @apply whitespace-pre-wrap text-sm;
+}
+
+
+/* reply posts styling */
 .posts-container::before {
     content: "";
     position: absolute;

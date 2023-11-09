@@ -52,7 +52,8 @@ const redirectToShow = (e) => {
             </div>
 
             <!-- description -->
-            <p class="text-sm text-gray-600 leading-normal line-clamp-2 mb-3">{{ thread.body }}</p>
+            <div class="markdown preview" v-html="thread.body"></div>
+            <!-- <p class="text-sm text-gray-600 leading-normal line-clamp-2 mb-3">{{ thread.body }}</p> -->
 
             <!-- conditionally display reply or posted by owner -->
             <Link :href="route('forum.show', thread.slug)" v-if="thread.latest_post" class="text-xs text-gray-600 leading-normal line-clamp-2 hover:underline">
