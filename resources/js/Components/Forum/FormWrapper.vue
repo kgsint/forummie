@@ -50,7 +50,7 @@ watch(markdownPreviewEnabled, (isEnabled) => {
                     class="h-64 w-full bg-gray-200 rounded-md markdown p-3 overflow-auto"
                 >
                 </div>
-                <!-- loading -->
+                <!-- loading indicator -->
                 <div
                     v-if="loading"
                     class="h-64 w-full bg-gray-200 grid items-center text-center rounded-md markdown p-3 overflow-auto"
@@ -58,11 +58,10 @@ watch(markdownPreviewEnabled, (isEnabled) => {
                     Loading...
                 </div>
 
-                <div class="flex justify-between">
-                    <div>
-                        toolbar
-                    </div>
-                    <!-- toggle markdown markdown preview -->
+                <div class="flex justify-between mt-2">
+                    <!-- notation for markdown -->
+                    <p class="text-xs text-grey-800 dark:text-grey-600/50 mobile:hidden"> * You may use Markdown with <a href="https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax" target="_blank" rel="noreferrer noopener" class="link"> GitHub-flavored </a> code blocks. </p>
+                    <!-- toggler markdown markdown preview -->
                     <button
                         @click="markdownPreviewEnabled = !markdownPreviewEnabled"
                         class="text-xs text-blue-500"
