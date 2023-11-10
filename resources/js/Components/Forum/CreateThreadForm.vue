@@ -26,7 +26,7 @@ const handleStoreThread = () => {
 
 
 <template>
-    <FormWrapper v-if="isVisible">
+    <FormWrapper v-if="isVisible" :form="form">
         <!-- header -->
         <template #header>
             <header class="flex justify-between items-center">
@@ -40,13 +40,15 @@ const handleStoreThread = () => {
             </header>
         </template>
         <!-- form -->
-        <template #main>
+        <template #main="{ markdownPreviewEnabled }">
             <form id="storeThreadForm" @submit.prevent="handleStoreThread">
                 <div class="flex items-start space-x-4 mb-3">
+                    <!-- title -->
                     <div class="flex-grow">
                         <TextInput placeholder="Title" class="flex-grow w-full" v-model="form.title" />
                         <InputError :message="form.errors.title" />
                     </div>
+                    <!-- select topic -->
                     <div>
                         <Select
                             v-model="form.topic_id"
@@ -63,9 +65,9 @@ const handleStoreThread = () => {
                         <InputError :message="form.errors.topic_id" />
                     </div>
                 </div>
-                <!-- textarea -->
-                <div>
-                    <Textarea placeholder="What's on your mind?" rows="4" v-model="form.body" />
+                <!-- body textarea -->
+                <div v-if="! markdownPreviewEnabled">
+                    <Textarea placeholder="What's on your mind?" rows="4" v-model="form.body" class="h-64 align-top" />
                     <InputError :message="form.errors.body" />
                 </div>
             </form>
@@ -86,3 +88,4 @@ const handleStoreThread = () => {
         </template>
     </FormWrapper>
 </template>
+

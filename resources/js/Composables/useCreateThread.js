@@ -3,6 +3,7 @@ import { useForm } from '@inertiajs/vue3'
 
 // visible state
 const isVisible = ref(false)
+// form
 const form = useForm({
     title: '',
     body: '',

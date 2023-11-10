@@ -3,8 +3,11 @@
 @tailwind utilities;
 
 /* markdown styling */
+.markdown {
+    @apply space-y-2;
+}
 .markdown.preview {
-    @apply line-clamp-2;
+    @apply line-clamp-2 mb-3;
 }
 .markdown h1{
     @apply text-xl font-semibold text-gray-600 mb-2;
@@ -15,9 +18,11 @@
 .markdown h3{
     @apply mb-2;
 }
-
 .markdown p{
-    @apply text-sm text-gray-600 leading-normal mb-3;
+    @apply text-sm text-gray-600 leading-normal mb-3 last:mb-0;
+}
+.markdown a {
+    @apply text-sm text-blue-500 underline hover:text-blue-600 duration-150 transition-all;
 }
 
 /* shiki styling */
