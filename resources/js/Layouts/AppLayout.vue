@@ -9,6 +9,7 @@ import { Link } from '@inertiajs/vue3';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import SecondaryButton from '@/Components/SecondaryButton.vue';
 import CreateThreadForm from '@/Components/Forum/CreateThreadForm.vue'
+import CreateReplyForm from '@/Components/Forum/CreateReplyForm.vue'
 
 
 const showingNavigationDropdown = ref(false);
@@ -178,6 +179,8 @@ const showingNavigationDropdown = ref(false);
         </div>
     </div>
 
-    <!-- create form -->
+    <!-- create thread form dialog -->
     <CreateThreadForm />
+    <!-- create reply form dialog -->
+    <CreateReplyForm />
 </template>

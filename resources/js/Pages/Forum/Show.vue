@@ -7,6 +7,10 @@ import BackIcon from '@/Components/Icons/BackIcon.vue'
 import { Head } from '@inertiajs/vue3'
 import ForumPostCard from '@/Components/Forum/PostCard.vue'
 import Pagination from '@/Components/Forum/Pagination.vue'
+import PrimaryButton from '@/Components/PrimaryButton.vue'
+import useCreateReply from '@/Composables/useCreateReply'
+
+const { showReplyForm } = useCreateReply()
 
 defineProps({
     thread: {
@@ -47,6 +51,7 @@ defineProps({
 
         <!-- sidebar -->
         <template #sidebar>
+            <PrimaryButton v-if="$page.props.auth.user" @click="showReplyForm(thread)">Reply</PrimaryButton>
             <SideNavigation />
         </template>
     </AppLayout>

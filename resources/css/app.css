@@ -21,9 +21,9 @@
 .markdown p{
     @apply text-sm text-gray-600 leading-normal mb-3 last:mb-0;
 }
-a {
-    @apply text-blue-500 underline hover:text-blue-600 duration-150 transition-all;
-}
+/* a {
+    @apply ;
+} */
 
 /* shiki styling */
 
