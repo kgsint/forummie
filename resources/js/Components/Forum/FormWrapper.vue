@@ -60,7 +60,7 @@ watch(markdownPreviewEnabled, (isEnabled) => {
 
                 <div class="flex justify-between mt-2">
                     <!-- notation for markdown -->
-                    <p class="text-xs text-grey-800 dark:text-grey-600/50 mobile:hidden"> * You may use Markdown with <a href="https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax" target="_blank" rel="noreferrer noopener" class="link"> GitHub-flavored </a> code blocks. </p>
+                    <p class="text-xs text-grey-800 dark:text-grey-600/50 mobile:hidden"> * You may use Markdown with <a href="https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax" target="_blank" rel="noreferrer noopener" class="text-blue-500 underline hover:text-blue-600 duration-150 transition-all"> GitHub-flavored </a> code blocks. </p>
                     <!-- toggler markdown markdown preview -->
                     <button
                         @click="markdownPreviewEnabled = !markdownPreviewEnabled"
