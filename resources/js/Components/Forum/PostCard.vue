@@ -1,6 +1,7 @@
 <script setup>
 import { Link } from '@inertiajs/vue3';
 import ForumPostCard from '@/Components/Forum/PostCard.vue'
+import useCreateReply from '@/Composables/useCreateReply'
 
 defineOptions({
     inheritAttrs: false
@@ -9,6 +10,8 @@ defineOptions({
 defineProps({
     post: Object
 })
+
+const { showReplyForm } = useCreateReply()
 
 </script>
 
@@ -23,7 +26,7 @@ defineProps({
 
             </a>
         </div>
-        <div class="flex flex-col">
+        <div class="flex flex-col space-y-3">
             <div class="flex justify-between items-center">
                 <Link href="#">
                     <!-- username -->
@@ -40,9 +43,22 @@ defineProps({
             <p class="text-sm text-gray-600 leading-7">
                 {{ post.body }}
             </p>
+            <!-- action btns (to do) -->
+            <div>
+                <button
+                    v-if="$page.props.auth.user"
+                    @click="showReplyForm(post, false)"
+                    class="bg-gray-200 px-4 py-2 text-sm rounded-xl font-bold hover:bg-gray-300 transition-all duration-150">
+                    Reply
+                </button>
+            </div>
         </div>
     </article>
 
+    <!-- <pre>
+        {{ post }}
+    </pre> -->
+
         <!-- {{ post.replies }} -->
-        <ForumPostCard class="reply-post ml-10" v-if="post.replies.length" v-for="reply in post.replies" :key="reply.id" :post="reply"  />
+        <ForumPostCard class="reply-post ml-10" v-if="post?.replies?.length" v-for="reply in post.replies" :key="reply.id" :post="reply"  />
 </template>

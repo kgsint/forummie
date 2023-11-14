@@ -28,7 +28,7 @@ class ForumController extends Controller
     public function show(Thread $thread)
     {
         // eager load
-        $thread->load(['user', 'posts']);
+        // $thread->load(['user']);
 
         return Inertia::render('Forum/Show', [
             'thread' => new ThreadResource($thread),

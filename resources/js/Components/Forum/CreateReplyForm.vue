@@ -6,11 +6,29 @@ import SecondaryButton from '../SecondaryButton.vue';
 import FormWrapper from '@/Components/Forum/FormWrapper.vue'
 import useCreateReply from '@/Composables/useCreateReply'
 
-const { isVisible, hideReplyForm, form, thread } = useCreateReply()
+const { isVisible, hideReplyForm, form, thread, post } = useCreateReply()
 
 // create reply
 const handleCreateReply = () => {
-    // to do
+    // i am resetting states everytime toggle the form, so need to check properly
+    // thread or post is'nt null or not
+    let threadId = thread.value ? thread.value.id : post.value.thread.id
+
+    // check it is replying to the post
+    if(post.value) {
+        // just one level of nested reply
+        // and assign it to form data object
+        form.parent_id = post.value.parent ? post.value.parent.id : post.value.id
+    }
+
+    form.post(route('posts.store', threadId), {
+        onSuccess: () => {
+            // reset form data
+            form.reset()
+            // hide form dialog/modal
+            hideReplyForm()
+        }
+    })
 }
 </script>
 
@@ -20,7 +38,8 @@ const handleCreateReply = () => {
         <!-- header -->
         <template #header>
             <header class="flex justify-between items-center">
-                <h1 class="text-xl font-semibold">Replying to "{{ thread.title }}"</h1>
+                <h1 v-if="thread" class="text-xl font-semibold">Reply to "{{ thread.title }}"</h1>
+                <h1 v-if="post" class="text-xl font-semibold">Reply to @{{ post.user?.username || '[Deleted User]' }}</h1>
                 <span
                     @click="hideReplyForm"
                     class="px-3 py-1 text-2xl bg-gray-300 hover:bg-gray-500 hover:text-white
