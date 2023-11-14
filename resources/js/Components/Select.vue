@@ -1,9 +1,6 @@
 <script setup>
-defineProps({
-    modelValue: {
-        type: String,
-    },
-})
+defineProps(['modelValue'])
+
 defineEmits(['update:modelValue'])
 </script>
 

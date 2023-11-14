@@ -10,6 +10,8 @@ import PrimaryButton from '@/Components/PrimaryButton.vue';
 import SecondaryButton from '@/Components/SecondaryButton.vue';
 import CreateThreadForm from '@/Components/Forum/CreateThreadForm.vue'
 import CreateReplyForm from '@/Components/Forum/CreateReplyForm.vue'
+import UpdateThreadForm from '@/Components/Forum/UpdateThreadForm.vue'
+
 
 
 const showingNavigationDropdown = ref(false);
@@ -179,8 +181,10 @@ const showingNavigationDropdown = ref(false);
         </div>
     </div>
 
-    <!-- create thread form dialog -->
+    <!-- create thread form -->
     <CreateThreadForm />
-    <!-- create reply form dialog -->
+    <!-- update thread form -->
+    <UpdateThreadForm />
+    <!-- create reply form -->
     <CreateReplyForm />
 </template>
