@@ -18,7 +18,7 @@ class ThreadRepository implements ThreadInterface
     public function getFilterablePaginatedCollection()
     {
         return QueryBuilder::for(Thread::class)
-                                ->with(['topic', 'user', 'latestPost.user', 'posts']) // eager load
+                                ->with(['topic', 'user', 'posts.thread.latestPost.user']) // eager load
                                 ->allowedFilters($this->customAllowedFilters()) // custom filters
                                 ->orderByLatestPost()
                                 ->orderBy('created_at', 'desc')
@@ -35,7 +35,7 @@ class ThreadRepository implements ThreadInterface
     public function relatedPosts(Thread $thread)
     {
         return Post::whereBelongsTo($thread)
-                        ->with(['user', 'thread', 'replies.user', 'replies.thread', 'parent'])
+                        ->with(['user', 'thread', 'parent', 'replies.user', 'replies.thread', 'replies.parent',])
                         ->whereNull('parent_id')
                         ->oldest()
                         ->paginate(Post::PAGINATION_COUNT);

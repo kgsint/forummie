@@ -37,7 +37,7 @@ defineProps({
             <BackIcon class="inline-block text-sm" /> <span class="text-sm font-semibold">Back</span>
         </Link>
         <!-- main thread -->
-        <ForumShowCard :thread="thread" :posts="posts" />
+        <ForumShowCard :thread="thread" />
 
 
         <!-- posts for thread (replies / responses) -->
