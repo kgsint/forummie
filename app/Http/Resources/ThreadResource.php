@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
+use App\Http\Resources\PostResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class ThreadResource extends JsonResource
