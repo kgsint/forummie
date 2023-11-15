@@ -253,6 +253,7 @@ class ForumTest extends TestCase
             'body' => 'Updated Body',
         ]);
 
+        // asssertions
         $response->assertRedirectToRoute('login');
         $this->assertDatabaseMissing('threads', [
             'title' => 'Updated Title',
@@ -277,10 +278,40 @@ class ForumTest extends TestCase
             'topic_id' => $topic->id,
         ]);
 
+        // assertions
         $response->assertRedirectToRoute('forum.show', $thread);
         $this->assertDatabaseHas('threads', [
             'title' => 'Updated Title',
             'body' => 'Updated Body',
+            'topic_id' => $topic->id,
+        ]);
+    }
+
+    // authorize update test
+    public function test_authenticated_user_cannot_update_others_thread()
+    {
+        $userOne = User::factory()->create();
+        $userTwo = User::factory()->create();
+        $topic = Topic::factory()->create();
+
+        $thread = Thread::factory()->create([
+            'user_id' => $userOne->id,
+            'topic_id' => $topic->id,
+        ]);
+
+        // making request as another user
+        $response = $this->actingAs($userTwo)
+                                        ->patch(route('forum.update', $thread), [
+                                            'title' => 'Update Title',
+                                            'body' => 'Update Body',
+                                            'topic_id' => $topic->id,
+                                        ]);
+        // assert status
+        $response->assertStatus(403);
+        // make sure to not update data in database level
+        $this->assertDatabaseMissing('threads', [
+            'title' => 'Update Title',
+            'body' => 'Update Body',
             'topic_id' => $topic->id,
         ]);
     }
