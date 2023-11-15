@@ -28,7 +28,7 @@ class ThreadResource extends JsonResource
             'user' => UserResource::make($this->whenLoaded('user')),
             'created_at' => DateTimeResource::make($this->created_at),
             'can' => [
-                'update' => auth()->user()->can('update', $this->resource),
+                'update' => auth()->user()?->can('update', $this->resource) ?? false,
             ]
         ];
     }
