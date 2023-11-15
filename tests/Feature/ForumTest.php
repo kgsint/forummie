@@ -242,5 +242,47 @@ class ForumTest extends TestCase
         );
 
     }
+
+    // guest update test
+    public function test_guest_cannot_update_thread()
+    {
+        $thread = Thread::factory()->create();
+
+        $response = $this->patch(route('forum.update', $thread), [
+            'title' => 'Updated Title',
+            'body' => 'Updated Body',
+        ]);
+
+        $response->assertRedirectToRoute('login');
+        $this->assertDatabaseMissing('threads', [
+            'title' => 'Updated Title',
+            'body' => 'Updated Body',
+        ]);
+    }
+
+    // update test for auth user
+    public function test_authenticated_user_can_update_thread()
+    {
+        $user = User::factory()->create();
+        $topic = Topic::factory()->create();
+
+        $thread = Thread::factory()->create([
+            'user_id' => $user->id,
+            'topic_id' => $topic->id,
+        ]);
+
+        $response = $this->actingAs($user)->patch(route('forum.update', $thread), [
+            'title' => 'Updated Title',
+            'body' => 'Updated Body',
+            'topic_id' => $topic->id,
+        ]);
+
+        $response->assertRedirectToRoute('forum.show', $thread);
+        $this->assertDatabaseHas('threads', [
+            'title' => 'Updated Title',
+            'body' => 'Updated Body',
+            'topic_id' => $topic->id,
+        ]);
+    }
 }
 
