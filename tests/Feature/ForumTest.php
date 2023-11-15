@@ -102,7 +102,7 @@ class ForumTest extends TestCase
             fn(Assert $page) =>
                         $page->url("/threads/{$thread->slug}")
                             ->component('Forum/Show')
-                            ->has('thread', 7) // passing prop
+                            ->has('thread', 8) // passing prop
                             ->has('thread.title') // title of the thread
                             ->has('thread.body') // body of the thread
                             ->has('posts') // passing prop
