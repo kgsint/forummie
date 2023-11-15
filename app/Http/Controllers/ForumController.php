@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Contracts\ThreadInterface;
 use App\Http\Requests\StoreThreadRequest;
+use App\Http\Requests\ThreadStoreRequest;
+use App\Http\Requests\ThreadUpdateRequest;
 use Inertia\Inertia;
 use App\Models\Thread;
 use Illuminate\Http\Request;
@@ -38,12 +40,15 @@ class ForumController extends Controller
         ]);
     }
 
-    public function store(StoreThreadRequest $request)
+    public function store(ThreadStoreRequest $request)
     {
         $thread = $this->thread->store($request->only('title', 'body', 'topic_id'));
 
         return redirect()->route('forum.show', $thread->slug);
     }
 
+    public function update(ThreadUpdateRequest $request, Thread $thread)
+    {
 
+    }
 }

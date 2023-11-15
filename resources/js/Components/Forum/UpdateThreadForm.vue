@@ -9,11 +9,11 @@ import FormWrapper from '@/Components/Forum/FormWrapper.vue'
 import useUpdateThreadForm from '@/Composables/useUpdateThread'
 
 
-const { isVisible, hideUpdateForm, form } = useUpdateThreadForm()
+const { isVisible, hideUpdateForm, form, threadData } = useUpdateThreadForm()
 
 // update thread
 const handleUpdateThread = () => {
- // to do
+    form.patch(route('forum.update', threadData.value))
 }
 </script>
 
@@ -34,7 +34,7 @@ const handleUpdateThread = () => {
         </template>
         <!-- form -->
         <template #main="{ markdownPreviewEnabled }">
-            <form id="storeThreadForm" @submit.prevent="handleUpdateThread">
+            <form id="updateThreadForm" @submit.prevent="handleUpdateThread">
                 <div class="flex items-start space-x-4 mb-3">
                     <!-- title -->
                     <div class="flex-grow">
@@ -71,7 +71,7 @@ const handleUpdateThread = () => {
                 <SecondaryButton @click="hideUpdateForm">Cancel</SecondaryButton>
                 <PrimaryButton
                     type="submit"
-                    form="storeThreadForm"
+                    form="updateThreadForm"
                     :disabled="form.processing"
                     :class="{ 'opacity-75': form.processing }"
                 >

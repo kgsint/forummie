@@ -14,9 +14,11 @@ import DeleteIcon from '@/Components/Icons/DeleteIcon.vue'
 import useUpdateThread from '@/Composables/useUpdateThread'
 import { onMounted } from 'vue';
 
+// composabled
 const { showReplyForm } = useCreateReply()
-const { showUpdateForm, form } = useUpdateThread()
+const { showUpdateForm, form, threadData } = useUpdateThread()
 
+// props
 const props = defineProps({
     thread: {
         type: Object,
@@ -27,11 +29,15 @@ const props = defineProps({
     }
 })
 
+// mounted hook
 onMounted(() => {
-    // populate data
+    // populate form data
     form.title = props.thread.title
     form.body = props.thread.body
     form.topic_id = props.thread.topic.id
+
+    // populate threadData for request
+    threadData.value = props.thread
 })
 </script>
 
@@ -52,12 +58,12 @@ onMounted(() => {
             <!-- update and delete button -->
             <div class="space-x-2">
                 <button
-                    @click="showUpdateForm"
-                    class="w-12 h-12 border border-gray-500 p-3 rounded-md hover:bg-gray-900 hover:text-white duration-150 transition-all">
-                    <EditIcon />
+                    @click="showUpdateForm(thread)"
+                    class="border border-gray-500 p-3 rounded-md hover:bg-gray-900 hover:text-white duration-150 transition-all">
+                    Edit
                 </button>
-                <button class="w-12 h-12 text-red-500 border border-red-500 p-3 rounded-md hover:bg-red-500 hover:text-white duration-150 transition-all">
-                    <DeleteIcon />
+                <button @click="console.log('click delete button')" class="text-red-500 border border-red-500 p-3 rounded-md hover:bg-red-500 hover:text-white duration-150 transition-all">
+                    Delete
                 </button>
             </div>
         </div>

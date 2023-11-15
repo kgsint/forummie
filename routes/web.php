@@ -13,6 +13,9 @@ Route::controller(ForumController::class)->group(function() {
     Route::post('/threads', 'store')
                                     ->middleware('auth')
                                     ->name('forum.store');
+    Route::patch('/threads/{thread}', 'update')
+                                                ->middleware('auth')
+                                                ->name('forum.update');
 });
 
 Route::middleware('auth')->group(function () {

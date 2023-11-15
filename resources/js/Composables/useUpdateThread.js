@@ -1,12 +1,16 @@
 import { ref } from 'vue'
 import { useForm } from '@inertiajs/vue3'
 
+const threadData = ref(null)
+const isVisible = ref(false)
+
 const form = useForm({
     title: '',
     body: '',
     topic_id: '',
 })
-const isVisible = ref(false)
+
+
 
 export default () => {
     const showUpdateForm = () => {
@@ -14,11 +18,15 @@ export default () => {
     }
 
     const hideUpdateForm = () => {
+        // reset
+        threadData.value = null
         isVisible.value = false
+
     }
 
     return {
         form,
+        threadData,
         isVisible,
         showUpdateForm,
         hideUpdateForm
