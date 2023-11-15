@@ -18,6 +18,7 @@ class ForumController extends Controller
         private ThreadInterface $thread,
     ){}
 
+    // all
     public function index()
     {
         return Inertia::render('Forum/Index', [
@@ -27,6 +28,7 @@ class ForumController extends Controller
         ]);
     }
 
+    // show
     public function show(Thread $thread)
     {
         // eager load
@@ -40,6 +42,7 @@ class ForumController extends Controller
         ]);
     }
 
+    // store
     public function store(ThreadStoreRequest $request)
     {
         $thread = $this->thread->store($request->only('title', 'body', 'topic_id'));
@@ -47,8 +50,15 @@ class ForumController extends Controller
         return redirect()->route('forum.show', $thread->slug);
     }
 
+    // update
     public function update(ThreadUpdateRequest $request, Thread $thread)
     {
+        $this->thread->update($thread, [
+            'title' => $request->title,
+            'body' => $request->body,
+            'topic_id' => $request->topic_id,
+        ]);
 
+        return redirect()->route('forum.show', $thread);
     }
 }

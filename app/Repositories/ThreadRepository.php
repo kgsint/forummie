@@ -52,6 +52,17 @@ class ThreadRepository implements ThreadInterface
                             ]);
     }
 
+    public function update(Thread $thread, array $updateData)
+    {
+        $thread->update([
+            'title' => $updateData['title'],
+            'body' => $updateData['body'],
+            'topic_id' => $updateData['topic_id'],
+        ]);
+
+        return $thread;
+    }
+
     // custom filters for spaite/QueryBuilder
     private function customAllowedFilters(): array
     {

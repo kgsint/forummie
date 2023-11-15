@@ -13,7 +13,11 @@ const { isVisible, hideUpdateForm, form, threadData } = useUpdateThreadForm()
 
 // update thread
 const handleUpdateThread = () => {
-    form.patch(route('forum.update', threadData.value))
+    form.patch(route('forum.update', threadData.value), {
+        onSuccess: () => {
+            isVisible.value = false
+        }
+    })
 }
 </script>
 

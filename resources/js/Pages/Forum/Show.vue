@@ -33,7 +33,7 @@ const props = defineProps({
 onMounted(() => {
     // populate form data
     form.title = props.thread.title
-    form.body = props.thread.body
+    form.body = props.thread.body_markdown
     form.topic_id = props.thread.topic.id
 
     // populate threadData for request
@@ -60,10 +60,10 @@ onMounted(() => {
                 <button
                     @click="showUpdateForm(thread)"
                     class="border border-gray-500 p-3 rounded-md hover:bg-gray-900 hover:text-white duration-150 transition-all">
-                    Edit
+                    <EditIcon />
                 </button>
                 <button @click="console.log('click delete button')" class="text-red-500 border border-red-500 p-3 rounded-md hover:bg-red-500 hover:text-white duration-150 transition-all">
-                    Delete
+                    <DeleteIcon />
                 </button>
             </div>
         </div>

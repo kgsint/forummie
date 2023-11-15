@@ -10,16 +10,12 @@ const form = useForm({
     topic_id: '',
 })
 
-
-
 export default () => {
     const showUpdateForm = () => {
         isVisible.value = true
     }
 
     const hideUpdateForm = () => {
-        // reset
-        threadData.value = null
         isVisible.value = false
 
     }

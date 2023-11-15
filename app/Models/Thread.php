@@ -27,14 +27,6 @@ class Thread extends Model
         });
     }
 
-    // define accessor for thread'sbody to render markdowned to html
-    protected function body(): Attribute
-    {
-        return Attribute::make(
-            get: fn(string $body) => app(MarkdownRenderer::class)->highlightTheme('material-theme-palenight')->toHtml($body)
-        );
-    }
-
     // order by thread's latest post/reply
     public function scopeOrderByLatestPost($query)
     {

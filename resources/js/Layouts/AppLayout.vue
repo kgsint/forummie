@@ -12,8 +12,6 @@ import CreateThreadForm from '@/Components/Forum/CreateThreadForm.vue'
 import CreateReplyForm from '@/Components/Forum/CreateReplyForm.vue'
 import UpdateThreadForm from '@/Components/Forum/UpdateThreadForm.vue'
 
-
-
 const showingNavigationDropdown = ref(false);
 </script>
 

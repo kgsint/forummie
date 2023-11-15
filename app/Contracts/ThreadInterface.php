@@ -13,4 +13,6 @@ interface ThreadInterface
     public function findById(string|int $id);
 
     public function store(array $data);
+
+    public function update(Thread $thread, array $updateData);
 }
