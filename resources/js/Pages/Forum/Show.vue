@@ -56,7 +56,7 @@ onMounted(() => {
                 <BackIcon class="inline-block text-sm" /> <span class="text-sm font-semibold">Back</span>
             </Link>
             <!-- update and delete button -->
-            <div class="space-x-2">
+            <div class="space-x-2" v-if="thread.can.update">
                 <button
                     @click="showUpdateForm(thread)"
                     class="border border-gray-500 p-3 rounded-md hover:bg-gray-900 hover:text-white duration-150 transition-all">

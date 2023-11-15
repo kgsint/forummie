@@ -45,20 +45,27 @@ class ForumController extends Controller
     // store
     public function store(ThreadStoreRequest $request)
     {
+        // store into db
         $thread = $this->thread->store($request->only('title', 'body', 'topic_id'));
 
+        // redirect
         return redirect()->route('forum.show', $thread->slug);
     }
 
     // update
     public function update(ThreadUpdateRequest $request, Thread $thread)
     {
+        // authorize
+        $this->authorize('update', $thread);
+
+        // update
         $this->thread->update($thread, [
             'title' => $request->title,
             'body' => $request->body,
             'topic_id' => $request->topic_id,
         ]);
 
+        // redirect
         return redirect()->route('forum.show', $thread);
     }
 }
