@@ -71,6 +71,9 @@ class ForumController extends Controller
 
     public function destroy(Thread $thread)
     {
+        // authorize
+        $this->authorize('delete', $thread);
+
         $this->threadRepo->delete($thread);
 
         return redirect()->route('forum.index');
