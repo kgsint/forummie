@@ -35,7 +35,7 @@ class ForumTest extends TestCase
                                     ->component('Forum/Index')
                                     ->has('threads') // passing prop
                                     ->has('threads.data', 10) // thread's collection count
-                                    ->has('threads.data.0', 10) // no of properties in single thread
+                                    ->has('threads.data.0', 11) // no of properties in single thread
                                     ->has('threads.data.0.title') // title of the first thread
                                     ->has('threads.data.0.body') // body of the first thread
 
@@ -102,7 +102,7 @@ class ForumTest extends TestCase
             fn(Assert $page) =>
                         $page->url("/threads/{$thread->slug}")
                             ->component('Forum/Show')
-                            ->has('thread', 9) // passing prop
+                            ->has('thread', 10) // passing prop
                             ->has('thread.title') // title of the thread
                             ->has('thread.body') // body of the thread
                             ->has('posts') // passing prop
