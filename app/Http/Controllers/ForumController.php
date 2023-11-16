@@ -15,7 +15,7 @@ use App\Http\Resources\ThreadResource;
 class ForumController extends Controller
 {
     public function __construct(
-        private ThreadInterface $thread,
+        private ThreadInterface $threadRepo,
     ){}
 
     // all
@@ -23,7 +23,7 @@ class ForumController extends Controller
     {
         return Inertia::render('Forum/Index', [
             'threads' => ThreadResource::collection(
-                $this->thread->getFilterablePaginatedCollection()
+                $this->threadRepo->getFilterablePaginatedCollection()
             ),
         ]);
     }
@@ -37,7 +37,7 @@ class ForumController extends Controller
         return Inertia::render('Forum/Show', [
             'thread' => new ThreadResource($thread),
             'posts' => PostResource::collection(
-                $this->thread->relatedPosts($thread)
+                $this->threadRepo->relatedPosts($thread)
             ),
         ]);
     }
@@ -46,7 +46,7 @@ class ForumController extends Controller
     public function store(ThreadStoreRequest $request)
     {
         // store into db
-        $thread = $this->thread->store($request->only('title', 'body', 'topic_id'));
+        $thread = $this->threadRepo->store($request->only('title', 'body', 'topic_id'));
 
         // redirect
         return redirect()->route('forum.show', $thread->slug);
@@ -59,7 +59,7 @@ class ForumController extends Controller
         $this->authorize('update', $thread);
 
         // update
-        $this->thread->update($thread, [
+        $this->threadRepo->update($thread, [
             'title' => $request->title,
             'body' => $request->body,
             'topic_id' => $request->topic_id,
@@ -67,5 +67,12 @@ class ForumController extends Controller
 
         // redirect
         return redirect()->route('forum.show', $thread);
+    }
+
+    public function destroy(Thread $thread)
+    {
+        $this->threadRepo->delete($thread);
+
+        return redirect()->route('forum.index');
     }
 }

@@ -15,4 +15,6 @@ interface ThreadInterface
     public function store(array $data);
 
     public function update(Thread $thread, array $updateData);
+
+    public function delete(Thread $thread);
 }

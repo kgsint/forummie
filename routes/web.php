@@ -16,6 +16,9 @@ Route::controller(ForumController::class)->group(function() {
     Route::patch('/threads/{thread}', 'update')
                                                 ->middleware('auth')
                                                 ->name('forum.update');
+    Route::delete('/threads/{thread}', 'destroy')
+                                                ->middleware('auth')
+                                                ->name('forum.destroy');
 });
 
 Route::middleware('auth')->group(function () {

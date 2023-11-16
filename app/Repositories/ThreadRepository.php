@@ -63,6 +63,11 @@ class ThreadRepository implements ThreadInterface
         return $thread;
     }
 
+    public function delete(Thread $thread)
+    {
+        $thread->delete();
+    }
+
     // custom filters for spaite/QueryBuilder
     private function customAllowedFilters(): array
     {

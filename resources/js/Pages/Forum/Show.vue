@@ -2,9 +2,8 @@
 import SideNavigation from '@/Components/Forum/SideNavigation.vue';
 import AppLayout from '@/Layouts/AppLayout.vue';
 import ForumShowCard from '@/Components/Forum/ShowCard.vue'
-import { Link } from '@inertiajs/vue3'
+import { Link, Head, router } from '@inertiajs/vue3'
 import BackIcon from '@/Components/Icons/BackIcon.vue'
-import { Head } from '@inertiajs/vue3'
 import ForumPostCard from '@/Components/Forum/PostCard.vue'
 import Pagination from '@/Components/Forum/Pagination.vue'
 import PrimaryButton from '@/Components/PrimaryButton.vue'
@@ -39,6 +38,11 @@ onMounted(() => {
     // populate threadData for request
     threadData.value = props.thread
 })
+
+// delete thread
+const handleDelete = () => {
+    router.delete(route('forum.destroy', props.thread))
+}
 </script>
 
 
@@ -62,7 +66,9 @@ onMounted(() => {
                     class="border border-gray-500 p-3 rounded-md hover:bg-gray-900 hover:text-white duration-150 transition-all">
                     <EditIcon />
                 </button>
-                <button @click="console.log('click delete button')" class="text-red-500 border border-red-500 p-3 rounded-md hover:bg-red-500 hover:text-white duration-150 transition-all">
+                <button
+                    @click="handleDelete"
+                    class="text-red-500 border border-red-500 p-3 rounded-md hover:bg-red-500 hover:text-white duration-150 transition-all">
                     <DeleteIcon />
                 </button>
             </div>
