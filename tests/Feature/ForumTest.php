@@ -315,5 +315,60 @@ class ForumTest extends TestCase
             'topic_id' => $topic->id,
         ]);
     }
+
+    // guest delete test
+    public function test_guest_cannot_delete_thread()
+    {
+        $thread = Thread::factory()->create();
+
+        $response = $this->delete(route('forum.destroy', $thread));
+
+        $response->assertRedirect('/login');
+    }
+
+    // delete test
+    public function test_authenticated_user_can_delete_their_thread()
+    {
+        $user = User::factory()->create();
+
+        $thread = Thread::factory()->create([
+            'user_id' => $user->id,
+        ]);
+
+        $response = $this->actingAs($user)->delete(route('forum.destroy', $thread));
+
+        $response->assertRedirectToRoute('forum.index');
+
+        // check in db
+        $this->assertDatabaseMissing('threads', [
+            'title' => $thread->title,
+            'body' => $thread->body,
+            'user_id' => $user->id,
+        ]);
+    }
+
+    // authorize delete thread
+    public function test_authenticated_user_cannot_delete_others_thread()
+    {
+        $userOne = User::factory()->create();
+        $userTwo = User::factory()->create();
+
+        $thread = Thread::factory()->create([
+            'user_id' => $userOne->id,
+        ]);
+
+        // making delete request as $userTwo
+        $response = $this->actingAs($userTwo)
+                                        ->delete(route('forum.destroy', $thread));
+
+
+        $response->assertStatus(403);
+        // check in db
+        $this->assertDatabaseHas('threads', [
+            'title' => $thread->title,
+            'body' => $thread->body,
+            'user_id' => $userOne->id,
+        ]);
+    }
 }
 
