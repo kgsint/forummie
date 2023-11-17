@@ -22,8 +22,11 @@ Route::controller(ForumController::class)->group(function() {
 });
 
 Route::middleware('auth')->group(function () {
+    // routes for posts or replies for the thread
     Route::post('/{thread}/posts', [PostController::class, 'store'])
                                                         ->name('posts.store');
+    Route::patch('/thread/posts/{post}', [PostController::class, 'update'])
+                                                                        ->name('posts.update');
     // markdown preview
     Route::post('/markdown-preview', GenerateMarkdownPreview::class)
                                                                     ->name('markdown.preview');

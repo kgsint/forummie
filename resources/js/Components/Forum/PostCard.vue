@@ -1,17 +1,33 @@
 <script setup>
-import { Link } from '@inertiajs/vue3';
+import { Link, useForm } from '@inertiajs/vue3';
 import ForumPostCard from '@/Components/Forum/PostCard.vue'
 import useCreateReply from '@/Composables/useCreateReply'
+import EditIcon from '../Icons/EditIcon.vue';
+import DeleteIcon from '../Icons/DeleteIcon.vue';
+import { ref } from 'vue';
+import Textarea from '../Textarea.vue';
 
 defineOptions({
     inheritAttrs: false
 })
 
-defineProps({
+const props = defineProps({
     post: Object
 })
 
 const { showReplyForm } = useCreateReply()
+
+const editForm = useForm({
+    body: props.post.body
+})
+const isEdit = ref(false)
+
+const handleEditPost = () => {
+    editForm.patch(route('posts.update', {
+        thread: props.post.thread,
+        post: props.post
+    }))
+}
 
 </script>
 
@@ -26,7 +42,7 @@ const { showReplyForm } = useCreateReply()
 
             </a>
         </div>
-        <div class="flex flex-col space-y-3">
+        <div class="flex flex-col flex-1 space-y-3">
             <div class="flex justify-between items-center">
                 <Link href="#">
                     <!-- username -->
@@ -40,17 +56,41 @@ const { showReplyForm } = useCreateReply()
             </div>
 
             <!-- description -->
-            <p class="text-sm text-gray-600 leading-7">
+            <p v-if="!isEdit" class="text-sm text-gray-600 leading-7">
                 {{ post.body }}
             </p>
-            <!-- action btns (to do) -->
-            <div>
+            <!-- edit form -->
+            <form @submit.prevent="handleEditPost"  v-else>
+                <Textarea v-model="editForm.body" rows="4" />
+                <div class="space-x-3 text-right">
+                    <button
+                        type="button"
+                        @click="isEdit = false"
+                        class="bg-gray-200 px-4 py-2 text-sm rounded-xl font-bold hover:bg-gray-300 transition-all duration-150">
+                        Cancel
+                    </button>
+                    <button
+                        type="submit"
+                        class="bg-blue-500 text-white px-4 py-2 text-sm rounded-xl font-bold hover:bg-blue-300 transition-all duration-150">
+                        Update
+                    </button>
+                </div>
+            </form>
+
+            <!-- reply, edit and delete button -->
+            <div class="flex items-center justify-between" v-if="!isEdit">
                 <button
                     v-if="$page.props.auth.user"
                     @click="showReplyForm(post, false)"
                     class="bg-gray-200 px-4 py-2 text-sm rounded-xl font-bold hover:bg-gray-300 transition-all duration-150">
                     Reply
                 </button>
+
+                <!-- action btns -->
+                <div class="space-x-3">
+                    <button @click="isEdit = true"><EditIcon /></button>
+                    <button> <DeleteIcon class="text-red-500" /> </button>
+                </div>
             </div>
         </div>
     </article>

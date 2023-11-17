@@ -20,4 +20,9 @@ class PostController extends Controller
 
         return redirect()->route('forum.show', $thread);
     }
+
+    public function update(Thread $thread, Post $post)
+    {
+        dd($thread, $post);
+    }
 }
