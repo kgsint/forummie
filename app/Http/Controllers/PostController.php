@@ -30,4 +30,11 @@ class PostController extends Controller
 
         return redirect()->route('forum.show', $thread->slug);
     }
+
+    public function destroy(Thread $thread, Post $post)
+    {
+        $post->delete();
+
+        return redirect()->route('forum.show', $thread);
+    }
 }

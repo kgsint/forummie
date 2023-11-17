@@ -27,6 +27,8 @@ Route::middleware('auth')->group(function () {
                                                         ->name('posts.store');
     Route::patch('/threads/{thread}/posts/{post}', [PostController::class, 'update'])
                                                                         ->name('posts.update');
+    Route::delete('/threads/{thread}/posts/{post}', [PostController::class, 'destroy'])
+                                                                                    ->name('posts.destroy');
     // markdown preview
     Route::post('/markdown-preview', GenerateMarkdownPreview::class)
                                                                     ->name('markdown.preview');

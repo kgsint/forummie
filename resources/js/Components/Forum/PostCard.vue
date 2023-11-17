@@ -1,5 +1,5 @@
 <script setup>
-import { Link, useForm } from '@inertiajs/vue3';
+import { Link, router, useForm } from '@inertiajs/vue3';
 import ForumPostCard from '@/Components/Forum/PostCard.vue'
 import useCreateReply from '@/Composables/useCreateReply'
 import EditIcon from '../Icons/EditIcon.vue';
@@ -37,6 +37,19 @@ const handleEditPost = () => {
     })
 }
 
+// submit delete form request
+const handleDeletePost = () => {
+    router.delete(route('posts.destroy', {
+        thread: props.post.thread,
+        post: props.post
+    }))
+}
+
+// hide edit form
+const hideEditForm = () => {
+    isEdit.value = false
+    editForm.errors.body = '' // when toggling off the form, reset validation error if any
+}
 </script>
 
 
@@ -74,7 +87,7 @@ const handleEditPost = () => {
                 <div class="space-x-3 text-right">
                     <button
                         type="button"
-                        @click="isEdit = false"
+                        @click="hideEditForm"
                         class="bg-gray-200 px-4 py-2 text-sm rounded-xl font-bold hover:bg-gray-300 transition-all duration-150">
                         Cancel
                     </button>
@@ -98,7 +111,7 @@ const handleEditPost = () => {
                 <!-- action btns -->
                 <div class="space-x-3">
                     <button @click="isEdit = true"><EditIcon /></button>
-                    <button> <DeleteIcon class="text-red-500" /> </button>
+                    <button @click="handleDeletePost"> <DeleteIcon class="text-red-500" /> </button>
                 </div>
             </div>
         </div>
