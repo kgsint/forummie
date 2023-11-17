@@ -13,6 +13,7 @@ class ThreadPostTest extends TestCase
 {
     use RefreshDatabase;
 
+    // store test for guest
     public function test_guest_cannot_create_reply_post()
     {
         $thread = Thread::factory()->create();
@@ -27,6 +28,7 @@ class ThreadPostTest extends TestCase
         ]);
     }
 
+    // store test for authenticated user
     public function test_authenticated_user_can_create_reply_post()
     {
         $user = User::factory()->create();
@@ -43,5 +45,20 @@ class ThreadPostTest extends TestCase
             'body' => 'This is reply post',
             'thread_id' => $thread->id,
         ]);
+    }
+
+    // validation for creating post
+    public function test_it_validates_when_creating_the_reply_post()
+    {
+        $user = User::factory()->create();
+
+        $thread = Thread::factory()->create();
+
+        $response = $this->actingAs($user)
+                                        ->post(
+                                            route('posts.store', ['thread' => $thread]), ['body' => '']
+                                        );
+
+        $response->assertSessionHasErrors(['body' => 'The text body cannot be empty']);
     }
 }

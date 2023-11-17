@@ -21,7 +21,7 @@ class PostStoreRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'body.required' => 'The :attribute cannot be empty',
+            'body.required' => 'The text body cannot be empty',
         ];
     }
 }
