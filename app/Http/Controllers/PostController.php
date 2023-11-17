@@ -2,15 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PostStoreRequest;
 use App\Http\Requests\PostUpdateRequest;
-use App\Http\Requests\StorePostRequest;
 use App\Models\Post;
 use App\Models\Thread;
-use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
-    public function store(StorePostRequest $request, Thread $thread)
+    public function store(PostStoreRequest $request, Thread $thread)
     {
         Post::create([
             'body' => $request->body,
@@ -33,6 +32,9 @@ class PostController extends Controller
 
     public function destroy(Thread $thread, Post $post)
     {
+        // authorize
+        $this->authorize('delete', $post);
+
         $post->delete();
 
         return redirect()->route('forum.show', $thread);

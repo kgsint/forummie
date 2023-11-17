@@ -24,6 +24,10 @@ class PostResource extends JsonResource
             'created_at' => DateTimeResource::make($this->created_at),
             'parent' => PostResource::make($this->parent),
             'replies' => PostResource::collection($this->whenLoaded('replies')),
+            'can' => [
+                'update' => auth()->user()->can('update', $this->resource),
+                'delete' => auth()->user()->can('delete', $this->resource),
+            ]
         ];
     }
 }

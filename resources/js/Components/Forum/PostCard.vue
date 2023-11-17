@@ -110,8 +110,16 @@ const hideEditForm = () => {
 
                 <!-- action btns -->
                 <div class="space-x-3">
-                    <button @click="isEdit = true"><EditIcon /></button>
-                    <button @click="handleDeletePost"> <DeleteIcon class="text-red-500" /> </button>
+                    <button
+                        v-if="post.can.update"
+                        @click="isEdit = true">
+                        <EditIcon />
+                    </button>
+                    <button
+                        v-if="post.can.delete"
+                        @click="handleDeletePost">
+                        <DeleteIcon class="text-red-500" />
+                    </button>
                 </div>
             </div>
         </div>
