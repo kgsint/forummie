@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PostUpdateRequest;
 use App\Http\Requests\StorePostRequest;
 use App\Models\Post;
 use App\Models\Thread;
@@ -21,8 +22,12 @@ class PostController extends Controller
         return redirect()->route('forum.show', $thread);
     }
 
-    public function update(Thread $thread, Post $post)
+    public function update(PostUpdateRequest $request, Thread $thread, Post $post)
     {
-        dd($thread, $post);
+        $post->update([
+            'body' => $request->body
+        ]);
+
+        return redirect()->route('forum.show', $thread->slug);
     }
 }

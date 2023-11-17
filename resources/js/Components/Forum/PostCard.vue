@@ -6,6 +6,7 @@ import EditIcon from '../Icons/EditIcon.vue';
 import DeleteIcon from '../Icons/DeleteIcon.vue';
 import { ref } from 'vue';
 import Textarea from '../Textarea.vue';
+import InputError from '../InputError.vue';
 
 defineOptions({
     inheritAttrs: false
@@ -17,16 +18,23 @@ const props = defineProps({
 
 const { showReplyForm } = useCreateReply()
 
+// edit form object
 const editForm = useForm({
     body: props.post.body
 })
+// ref for toggling edit form
 const isEdit = ref(false)
 
+// submit edit form request
 const handleEditPost = () => {
     editForm.patch(route('posts.update', {
         thread: props.post.thread,
         post: props.post
-    }))
+    }), {
+        onSuccess: () => {
+            isEdit.value = false
+        }
+    })
 }
 
 </script>
@@ -62,6 +70,7 @@ const handleEditPost = () => {
             <!-- edit form -->
             <form @submit.prevent="handleEditPost"  v-else>
                 <Textarea v-model="editForm.body" rows="4" />
+                <InputError :message="editForm.errors.body" />
                 <div class="space-x-3 text-right">
                     <button
                         type="button"
