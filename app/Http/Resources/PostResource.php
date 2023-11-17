@@ -25,8 +25,8 @@ class PostResource extends JsonResource
             'parent' => PostResource::make($this->parent),
             'replies' => PostResource::collection($this->whenLoaded('replies')),
             'can' => [
-                'update' => auth()->user()->can('update', $this->resource),
-                'delete' => auth()->user()->can('delete', $this->resource),
+                'update' => auth()->user()?->can('update', $this->resource) ?? false,
+                'delete' => auth()->user()?->can('delete', $this->resource) ?? false,
             ]
         ];
     }
