@@ -7,6 +7,7 @@ import DeleteIcon from '../Icons/DeleteIcon.vue';
 import { ref } from 'vue';
 import Textarea from '../Textarea.vue';
 import InputError from '../InputError.vue';
+import Swal from 'sweetalert2'
 
 defineOptions({
     inheritAttrs: false
@@ -39,10 +40,22 @@ const handleEditPost = () => {
 
 // submit delete form request
 const handleDeletePost = () => {
-    router.delete(route('posts.destroy', {
-        thread: props.post.thread,
-        post: props.post
-    }))
+    Swal.fire({
+      title: "Do you want to delete the post?",
+      showCancelButton: true,
+      confirmButtonText: "Delete",
+      confirmButtonColor: "#eb020e",
+    }).then((result) => {
+      /* if confirmed */
+      if (result.isConfirmed) {
+        router.delete(route('posts.destroy', {
+            thread: props.post.thread,
+            post: props.post
+        }))
+        Swal.fire("Deleted!", "", "success");
+      }
+    });
+
 }
 
 // hide edit form

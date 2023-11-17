@@ -12,6 +12,7 @@ import EditIcon from '@/Components/Icons/EditIcon.vue'
 import DeleteIcon from '@/Components/Icons/DeleteIcon.vue'
 import useUpdateThread from '@/Composables/useUpdateThread'
 import { onMounted } from 'vue';
+import Swal from 'sweetalert2'
 
 // composabled
 const { showReplyForm } = useCreateReply()
@@ -41,7 +42,20 @@ onMounted(() => {
 
 // delete thread
 const handleDelete = () => {
-    router.delete(route('forum.destroy', props.thread))
+    Swal.fire({
+      title: `Do you want delete this thread "${props.thread.title}"?`,
+      showCancelButton: true,
+      confirmButtonText: "Delete",
+      confirmButtonColor: "#eb020e",
+      denyButtonText: `Don't save`
+    }).then((result) => {
+      /* if confirmed */
+      if (result.isConfirmed) {
+        router.delete(route('forum.destroy', props.thread))
+        Swal.fire("Deleted!", "", "success");
+      }
+    });
+
 }
 </script>
 
