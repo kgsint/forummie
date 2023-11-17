@@ -55,9 +55,6 @@ class ForumController extends Controller
     // update
     public function update(ThreadUpdateRequest $request, Thread $thread)
     {
-        // authorize
-        $this->authorize('update', $thread);
-
         // update
         $this->threadRepo->update($thread, [
             'title' => $request->title,
