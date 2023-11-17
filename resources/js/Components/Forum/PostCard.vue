@@ -82,6 +82,7 @@ const hideEditForm = () => {
                 v-html="post.body"
                 class="text-sm text-gray-600 leading-7">
             </p>
+
             <!-- edit form -->
             <form @submit.prevent="handleEditPost"  v-else>
                 <Textarea v-model="editForm.body" rows="4" />
