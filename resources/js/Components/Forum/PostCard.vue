@@ -20,7 +20,7 @@ const { showReplyForm } = useCreateReply()
 
 // edit form object
 const editForm = useForm({
-    body: props.post.body
+    body: props.post.body_markdown
 })
 // ref for toggling edit form
 const isEdit = ref(false)
