@@ -4,19 +4,22 @@ import ForumPostCard from '@/Components/Forum/PostCard.vue'
 import useCreateReply from '@/Composables/useCreateReply'
 import EditIcon from '../Icons/EditIcon.vue';
 import DeleteIcon from '../Icons/DeleteIcon.vue';
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import Textarea from '../Textarea.vue';
 import InputError from '../InputError.vue';
 import Swal from 'sweetalert2'
+import axios from 'axios';
 
 defineOptions({
     inheritAttrs: false
 })
 
+// props
 const props = defineProps({
     post: Object
 })
 
+// composables
 const { showReplyForm } = useCreateReply()
 
 // edit form object
@@ -25,6 +28,23 @@ const editForm = useForm({
 })
 // ref for toggling edit form
 const isEdit = ref(false)
+const markdownPreviewEnabled = ref(false)
+const markdownHtml = ref('')
+
+watch(markdownPreviewEnabled, (isEnabled) => {
+    // markdown preview is off, do nothing
+    if(! isEnabled) {
+        return
+    }
+
+    // if turn on, making request to the specific route
+    axios.post(route('markdown.preview'), {
+        body: editForm.body.trim(),
+    }).then(res => {
+        console.log(res.data.markdown_html)
+        markdownHtml.value = res.data.markdown_html
+    })
+})
 
 // submit edit form request
 const handleEditPost = () => {
@@ -98,20 +118,34 @@ const hideEditForm = () => {
 
             <!-- edit form -->
             <form @submit.prevent="handleEditPost"  v-else>
-                <Textarea v-model="editForm.body" rows="4" />
-                <InputError :message="editForm.errors.body" />
-                <div class="space-x-3 text-right">
+                <!-- textarea for editing post -->
+                <div v-if="! markdownPreviewEnabled">
+                    <Textarea v-model="editForm.body" rows="4" class="h-32" />
+                    <InputError :message="editForm.errors.body" />
+                </div>
+                <!-- markdown preview panel -->
+                <div v-html="markdownHtml" class="bg-gray-200 w-full h-32 mb-2 p-3 rounded-lg  markdown" v-else></div>
+
+                <div class="space-x-3 flex justify-between items-start">
                     <button
                         type="button"
-                        @click="hideEditForm"
-                        class="bg-gray-200 px-4 py-2 text-sm rounded-xl font-bold hover:bg-gray-300 transition-all duration-150">
-                        Cancel
+                        @click="markdownPreviewEnabled = !markdownPreviewEnabled"
+                        class="text-xs text-blue-500 cursor-pointer">
+                        {{ markdownPreviewEnabled ? 'Turn off' : 'Turn on' }} Markdown Preview
                     </button>
-                    <button
-                        type="submit"
-                        class="bg-blue-500 text-white px-4 py-2 text-sm rounded-xl font-bold hover:bg-blue-300 transition-all duration-150">
-                        Update
-                    </button>
+                    <div class="space-x-2">
+                        <button
+                            type="button"
+                            @click="hideEditForm"
+                            class="bg-gray-200 px-4 py-2 text-sm rounded-xl font-bold hover:bg-gray-300 transition-all duration-150">
+                            Cancel
+                        </button>
+                        <button
+                            type="submit"
+                            class="bg-blue-500 text-white px-4 py-2 text-sm rounded-xl font-bold hover:bg-blue-300 transition-all duration-150">
+                            Update
+                        </button>
+                    </div>
                 </div>
             </form>
 
