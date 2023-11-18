@@ -14,6 +14,24 @@ class ThreadPostTest extends TestCase
 {
     use RefreshDatabase;
 
+    // posts and replies test
+    public function test_posts_and_replies_of_the_thread_are_displayed()
+    {
+        $thread = Thread::factory()->create();
+
+        $post = Post::factory()->create(['thread_id' => $thread->id]);
+        // replies of the $post
+        $replyOne = Post::factory()->create(['thread_id' => $thread->id, 'parent_id' => $post->id]);
+        $replyTwo = Post::factory()->create(['thread_id' => $thread->id, 'parent_id' => $post->id]);
+
+        // in show page of forum
+        $response = $this->get(route('forum.show', $thread->slug));
+
+        $response->assertInertia(
+            fn(Assert $page) => $page->where('posts.data.0.replies', fn($replies) => $replies->count() === 2)
+        );
+    }
+
     // store test for guest
     public function test_guest_cannot_create_reply_post()
     {
