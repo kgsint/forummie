@@ -30,6 +30,7 @@ const editForm = useForm({
 const isEdit = ref(false)
 const markdownPreviewEnabled = ref(false)
 const markdownHtml = ref('')
+const loading = ref(false) // loading indicator for markdown preview
 
 watch(markdownPreviewEnabled, (isEnabled) => {
     // markdown preview is off, do nothing
@@ -37,11 +38,12 @@ watch(markdownPreviewEnabled, (isEnabled) => {
         return
     }
 
+    loading.value = true
     // if turn on, making request to the specific route
     axios.post(route('markdown.preview'), {
         body: editForm.body.trim(),
     }).then(res => {
-        console.log(res.data.markdown_html)
+        loading.value = false
         markdownHtml.value = res.data.markdown_html
     })
 })
@@ -124,7 +126,16 @@ const hideEditForm = () => {
                     <InputError :message="editForm.errors.body" />
                 </div>
                 <!-- markdown preview panel -->
-                <div v-html="markdownHtml" class="bg-gray-200 w-full h-32 mb-2 p-3 rounded-lg  markdown" v-else></div>
+                <div
+                    v-html="markdownHtml"
+                    class="bg-gray-200 w-full h-32 mb-2 p-3 rounded-lg  markdown"
+                    v-if="markdownPreviewEnabled && !loading">
+                </div>
+
+                <!-- loading indicator -->
+                <div v-if="loading" class="bg-gray-200 w-full mb-2 p-3 rounded-lg  markdown text-center my-auto">
+                    <span>Loading...</span>
+                </div>
 
                 <div class="space-x-3 flex justify-between items-start">
                     <button
