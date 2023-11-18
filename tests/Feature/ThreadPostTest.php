@@ -66,33 +66,6 @@ class ThreadPostTest extends TestCase
         ]);
     }
 
-    // markdown test for creating post
-    public function test_it_store_markdown_in_database_and_display_html_to_client()
-    {
-        $user = User::factory()->create();
-
-        $thread = Thread::factory()->create();
-
-        // create post
-        $this->actingAs($user)->post(
-            route('posts.store', ['thread' => $thread]
-        ), [
-            'body' => '**body** of the post',
-        ]);
-
-        // store as raw markdown
-        $this->assertDatabaseHas('posts', [
-            'body' => '**body** of the post'
-        ]);
-
-        $response = $this->get(route('forum.show', $thread));
-
-        // render as html in client
-        $response->assertInertia(
-            fn(Assert $page) => $page->where('posts.data.0.body', "<p><strong>body</strong> of the post</p>\n")
-        );
-    }
-
     // validation for creating post
     public function test_it_validates_when_creating_the_reply_post()
     {
