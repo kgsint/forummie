@@ -59,7 +59,10 @@ class ThreadPostTest extends TestCase
             'body' => 'This is reply post'
         ]);
 
-        $response->assertRedirect("/threads/{$thread->slug}");
+        // get the latest created post/reply
+        $post = Post::latest('id')->first();
+
+        $response->assertRedirect("/threads/{$thread->slug}?post={$post->id}");
         $this->assertDatabaseHas('posts', [
             'body' => 'This is reply post',
             'thread_id' => $thread->id,
@@ -79,5 +82,31 @@ class ThreadPostTest extends TestCase
                                         );
 
         $response->assertSessionHasErrors(['body' => 'The text body cannot be empty']);
+    }
+
+    // test jump to the currently create post
+    public function test_it_jump_to_the_page_the_newly_created_post()
+    {
+        $thread = Thread::factory()->create();
+        Post::factory(10)->create(['thread_id' => $thread->id]);
+
+        $response = $this->actingAs(User::factory()->create())->post(
+            route('posts.store', ['thread' => $thread]), [
+                'body' => 'A new reply',
+            ]
+            );
+        // get the currently created post
+        $post = Post::latest('id')->first();
+
+        // check response with query string of 'post=id' when created
+        $response->assertRedirectToRoute('forum.show', ['thread' => $thread, 'post' => $post->id]);
+
+        // making request to forum.show route with query param of '?post=id'
+        $response = $this->get(route('forum.show', ['thread' => $thread, 'post' => $post->id]));
+
+        // assertion of redirect back to the page of the created post (the post is 11th and assuming post per page is 10)
+        $response->assertRedirect(
+            route('forum.show', ['thread' => $thread, 'page' => 2, 'post_id' => $post->id])
+        );
     }
 }
