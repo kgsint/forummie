@@ -27,7 +27,7 @@ class PostController extends Controller
             'body' => $request->body
         ]);
 
-        return redirect()->route('forum.show', $thread->slug);
+        return redirect()->route('forum.show', ['thread' => $thread, 'post' => $post->id]);
     }
 
     public function destroy(Thread $thread, Post $post)

@@ -2,7 +2,7 @@
 import SideNavigation from '@/Components/Forum/SideNavigation.vue';
 import AppLayout from '@/Layouts/AppLayout.vue';
 import ForumShowCard from '@/Components/Forum/ShowCard.vue'
-import { Link, Head, router } from '@inertiajs/vue3'
+import { Link, Head, router, usePage } from '@inertiajs/vue3'
 import BackIcon from '@/Components/Icons/BackIcon.vue'
 import ForumPostCard from '@/Components/Forum/PostCard.vue'
 import Pagination from '@/Components/Forum/Pagination.vue'
@@ -11,10 +11,12 @@ import useCreateReply from '@/Composables/useCreateReply'
 import EditIcon from '@/Components/Icons/EditIcon.vue'
 import DeleteIcon from '@/Components/Icons/DeleteIcon.vue'
 import useUpdateThread from '@/Composables/useUpdateThread'
-import { onMounted } from 'vue';
+import { onMounted, onUpdated, nextTick } from 'vue';
 import Swal from 'sweetalert2'
+import VueScrollTo from 'vue-scrollto'
 
-// composabled
+const page = usePage()
+// composables
 const { showReplyForm } = useCreateReply()
 const { showUpdateForm, form, threadData } = useUpdateThread()
 
@@ -38,7 +40,28 @@ onMounted(() => {
 
     // populate threadData for request
     threadData.value = props.thread
+
+    // scroll to the newly created post
+    nextTick(() => {
+        let postId = page.props.queryStrings?.post_id
+        scrollToPost(postId)
+    })
 })
+
+// when component is updated (condition when post was edited or so...)
+onUpdated(() => {
+    // scroll to the newly created post
+    nextTick(() => {
+        let postId = page.props.queryStrings?.post_id
+        scrollToPost(postId)
+    })
+})
+// scroll to post fn
+const scrollToPost = (postId) => {
+    if(postId) {
+        VueScrollTo.scrollTo(`#post-${postId}`, 500)
+    }
+}
 
 // delete thread
 const handleDelete = () => {
@@ -56,7 +79,6 @@ const handleDelete = () => {
         Swal.fire("Deleted!", "", "success");
       }
     });
-
 }
 </script>
 

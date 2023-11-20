@@ -89,7 +89,11 @@ const hideEditForm = () => {
 
 
 <template>
-    <article class="relative flex bg-white space-x-2 px-2 py-4 rounded-lg shadow"  v-bind="$attrs">
+    <article
+        :id="`post-${post.id}`"
+        class="relative flex bg-white space-x-2 px-2 py-4 rounded-lg shadow thread-post"
+        v-bind="$attrs"
+    >
         <!-- profile image -->
         <div class="flex-none flex lg:items-center gap-2 lg:block mb-3">
             <a href="#">
@@ -100,7 +104,7 @@ const hideEditForm = () => {
         </div>
         <div class="flex flex-col flex-1 space-y-3">
             <div class="flex flex-col">
-                <Link href="#" class="text-gray-900 no-underline mb-1">
+                <Link href="#" class="mb-1" style="color: #111; text-decoration: none;">
                     <!-- username -->
                     <h4 class="text-md font-semibold">{{ post.user?.username || '[Deleted User]' }}</h4>
                 </Link>
