@@ -11,14 +11,14 @@ class PostController extends Controller
 {
     public function store(PostStoreRequest $request, Thread $thread)
     {
-        Post::create([
+        $post = Post::create([
             'body' => $request->body,
             'thread_id' => $thread->id,
             'parent_id' => $request->parent_id,
             'user_id' => $request->user()->id,
         ]);
 
-        return redirect()->route('forum.show', $thread);
+        return redirect()->route('forum.show', ['thread' => $thread, 'post' => $post->id]);
     }
 
     public function update(PostUpdateRequest $request, Thread $thread, Post $post)

@@ -13,7 +13,7 @@ class Post extends Model
 
     protected $guarded = [];
 
-    const PAGINATION_COUNT = 10;
+    const PAGINATION_COUNT = 2;
 
     public function user(): BelongsTo
     {
