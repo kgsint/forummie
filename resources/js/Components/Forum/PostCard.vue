@@ -99,17 +99,18 @@ const hideEditForm = () => {
             </a>
         </div>
         <div class="flex flex-col flex-1 space-y-3">
-            <div class="flex justify-between items-center">
-                <Link href="#">
+            <div class="flex flex-col">
+                <Link href="#" class="text-gray-900 no-underline mb-1">
                     <!-- username -->
                     <h4 class="text-md font-semibold">{{ post.user?.username || '[Deleted User]' }}</h4>
                 </Link>
+                <!-- created date -->
+                <div class="text-xs text-gray-600 leading-normal font-semibold">
+                    <time :datetime="post.created_at.datetime" :title="post.created_at.datetime">{{ post.created_at.human }}</time>
+                </div>
             </div>
 
-            <!-- created date -->
-            <div class="text-xs text-gray-600 leading-normal font-semibold mb-3">
-                <time :datetime="post.created_at.datetime" :title="post.created_at.datetime">{{ post.created_at.human }}</time>
-            </div>
+
 
             <!-- description -->
             <p

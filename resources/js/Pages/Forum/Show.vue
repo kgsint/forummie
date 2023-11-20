@@ -42,6 +42,7 @@ onMounted(() => {
 
 // delete thread
 const handleDelete = () => {
+    // confirm with sweet alert
     Swal.fire({
       title: `Do you want delete this thread "${props.thread.title}"?`,
       showCancelButton: true,
@@ -89,7 +90,6 @@ const handleDelete = () => {
         </div>
         <!-- main thread -->
         <ForumShowCard :thread="thread" />
-
 
         <!-- posts for thread (replies / responses) -->
         <div class="posts-container relative space-y-3">

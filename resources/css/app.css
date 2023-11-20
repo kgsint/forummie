@@ -21,6 +21,9 @@
 .markdown p{
     @apply text-sm text-gray-600 leading-normal mb-3 last:mb-0;
 }
+.markdown a{
+    @apply text-sm text-blue-500 mb-3 underline;
+}
 /* a {
     @apply text-blue-500 underline hover:text-blue-600 duration-150 transition-all;
 } */
@@ -40,6 +43,9 @@ code {
 
 
 /* reply posts styling */
+.thread-post a{
+    @apply text-sm text-blue-500 mb-3 underline;
+}
 .posts-container::before {
     content: "";
     position: absolute;
@@ -49,6 +55,7 @@ code {
     height: 98%;
     background: #ccd1d3;
 }
+
 .reply-post::before {
     content: "";
     position: relative;
