@@ -60,5 +60,10 @@ class Thread extends Model
         return $this->hasOne(Post::class)
                                         ->latestOfMany();
     }
+
+    public function solution()
+    {
+        return $this->belongsTo(Post::class, 'solution_post_id');
+    }
     // --
 }

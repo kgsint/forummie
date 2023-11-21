@@ -114,8 +114,6 @@ const hideEditForm = () => {
                 </div>
             </div>
 
-
-
             <!-- description -->
             <p
                 v-if="!isEdit"
@@ -177,6 +175,10 @@ const hideEditForm = () => {
                 <!-- action btns -->
                 <div class="space-x-3">
                     <button
+                        v-if="post.thread.can.manage"
+                        class="text-sm text-blue-500 hover:underline">Mark as best answer</button>
+
+                    <button
                         v-if="post.can.update"
                         @click="isEdit = true">
                         <EditIcon />
@@ -190,10 +192,6 @@ const hideEditForm = () => {
             </div>
         </div>
     </article>
-
-    <!-- <pre>
-        {{ post }}
-    </pre> -->
 
         <!-- {{ post.replies }} -->
         <ForumPostCard class="reply-post ml-10" v-if="post?.replies?.length" v-for="reply in post.replies" :key="reply.id" :post="reply"  />

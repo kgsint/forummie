@@ -7,6 +7,11 @@ use App\Models\User;
 
 class ThreadPolicy
 {
+    public function manage(User $user, Thread $thread): bool
+    {
+        return $user->id === $thread->user_id;
+    }
+
     public function update(User $user, Thread $thread): bool
     {
         return $user->id === $thread->user_id;

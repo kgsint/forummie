@@ -35,8 +35,8 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $this->call([
-            ThreadSeeder::class,
             TopicSeeder::class,
+            ThreadSeeder::class,
         ]);
     }
 }

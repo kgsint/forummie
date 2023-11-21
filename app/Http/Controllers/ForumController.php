@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Contracts\ThreadInterface;
-use App\Http\Requests\StoreThreadRequest;
 use App\Http\Requests\ThreadStoreRequest;
 use App\Http\Requests\ThreadUpdateRequest;
 use Inertia\Inertia;
@@ -43,7 +42,7 @@ class ForumController extends Controller
         }
 
         // eager load
-        $thread->load(['topic', 'user']);
+        $thread->load(['topic', 'user', 'solution']);
 
         return Inertia::render('Forum/Show', [
             'thread' => new ThreadResource($thread),
