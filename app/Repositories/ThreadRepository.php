@@ -18,7 +18,7 @@ class ThreadRepository implements ThreadInterface
     public function getFilterablePaginatedCollection()
     {
         return QueryBuilder::for(Thread::class)
-                                ->with(['topic', 'user', 'posts.thread.user', 'latestPost.user']) // eager load
+                                ->with(['topic', 'user', 'posts.thread.user', 'latestPost.user', 'solution']) // eager load
                                 ->allowedFilters($this->customAllowedFilters()) // custom filters
                                 ->orderByLatestPost()
                                 ->orderBy('created_at', 'desc')

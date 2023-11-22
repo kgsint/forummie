@@ -80,6 +80,7 @@ const filterTopic = (e) => {
                     v-for="thread in threads.data"
                     :key="thread.id"
                     :thread="thread"
+                    :isSolved="thread.solution?.id ?? false"
                 />
             </div>
             <!-- pagination -->

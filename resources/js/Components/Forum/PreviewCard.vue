@@ -4,7 +4,8 @@ import MessageIcon from '@/Components/Icons/MessageIcon.vue'
 import { router } from '@inertiajs/vue3';
 
 const props = defineProps({
-    thread: Object
+    thread: Object,
+    isSolved: Boolean,
 })
 
 const redirectToShow = (e) => {
@@ -21,6 +22,7 @@ const redirectToShow = (e) => {
         @click="redirectToShow"
         class="flex flex-col lg:flex-row bg-white lg:space-x-2 px-2 py-4 rounded-lg
             shadow cursor-pointer hover:shadow-lg duration-150 transition-all"
+        :class="{ 'border-2 border-blue-200': isSolved }"
     >
         <!-- profile image -->
         <div class="flex-none flex items-center gap-2 lg:block mb-3">
@@ -55,19 +57,24 @@ const redirectToShow = (e) => {
             <div class="markdown preview" v-html="thread.body"></div>
             <!-- <p class="text-sm text-gray-600 leading-normal line-clamp-2 mb-3">{{ thread.body }}</p> -->
 
-            <!-- conditionally display reply or posted by owner -->
-            <Link :href="route('forum.show', thread.slug)" v-if="thread.latest_post" class="text-xs text-gray-600 leading-normal line-clamp-2 hover:underline">
-                <Link href="#" class="text-blue-400 hover:underline">
-                    {{ thread.latest_post.user?.username || '[deleted user]' }}
-                </Link> replied
-                <time :datetime="thread.latest_post.created_at.datetime" :title="thread.latest_post.created_at.datetime">{{ thread.latest_post.created_at.human }}</time>
-            </Link>
+            <div class="flex justify-between items-center">
+                <!-- conditionally display reply or posted by owner -->
+                <Link :href="route('forum.show', thread.slug)" v-if="thread.latest_post" class="text-xs text-gray-600 leading-normal line-clamp-2 hover:underline">
+                    <Link href="#" class="text-blue-400 hover:underline">
+                        {{ thread.latest_post.user?.username || '[deleted user]' }}
+                    </Link> replied
+                    <time :datetime="thread.latest_post.created_at.datetime" :title="thread.latest_post.created_at.datetime">{{ thread.latest_post.created_at.human }}</time>
+                </Link>
+                <div v-else class="text-xs text-gray-600 leading-normal line-clamp-2">
+                    <Link href="#" class="text-blue-400 hover:underline">
+                        {{ thread.user?.username || '[deleted user]' }}
+                    </Link> posted
+                    <time :datetime="thread.created_at.datetime" :title="thread.created_at.datetime">{{ thread.created_at.human }}</time>
+                </div>
 
-            <div v-else class="text-xs text-gray-600 leading-normal line-clamp-2">
-                <Link href="#" class="text-blue-400 hover:underline">
-                    {{ thread.user?.username || '[deleted user]' }}
-                </Link> posted
-                <time :datetime="thread.created_at.datetime" :title="thread.created_at.datetime">{{ thread.created_at.human }}</time>
+                <div v-if="isSolved" class="text-blue-500">
+                    Solved
+                </div>
             </div>
         </div>
     </article>
