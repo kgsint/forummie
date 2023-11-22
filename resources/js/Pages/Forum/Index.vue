@@ -28,6 +28,15 @@ const filterTopic = (e) => {
     })
 }
 
+// filter solved and unresolved threads via dropdown
+const filterNav = (e) => {
+    router.visit('/', {
+        data: _omitBy({
+            [e.target.value]: e.target.value ? '1' : null
+        }, _isempty)
+    })
+}
+
 </script>
 
 
@@ -38,13 +47,25 @@ const filterTopic = (e) => {
             <!-- top nav filter -->
             <nav class="flex flex-col md:flex-row md:items-center md:justify-between space-y-3 md:space-x-6">
                 <div class="flex space-x-2 items-center">
-                    <Select class="w-32 rounded-full">
+                    <select
+                        @change="filterNav"
+                        class="w-32 bg-gray-50 border border-gray-300 text-gray-900 text-sm
+                        focus:ring-blue-500 focus:border-blue-500 block p-2.5 rounded-full cursor-pointer"
+                    >
                         <option value="">Latest</option>
-                        <option value="">Resolved</option>
-                        <option value="">Unresolved</option>
-                    </Select>
-
-
+                        <option
+                            value="filter[resolved]"
+                            :selected="$page.props.queryStrings?.filter?.resolved"
+                        >
+                            Resolved
+                        </option>
+                        <option
+                            value="filter[unresolved]"
+                            :selected="$page.props.queryStrings?.filter?.unresolved"
+                        >
+                            Unresolved
+                        </option>
+                    </select>
 
                     <select
                         @change="filterTopic"
@@ -80,7 +101,7 @@ const filterTopic = (e) => {
                     v-for="thread in threads.data"
                     :key="thread.id"
                     :thread="thread"
-                    :isSolved="thread.solution?.id ?? false"
+                    :isSolved="thread.solution?.id ? true : false"
                 />
             </div>
             <!-- pagination -->

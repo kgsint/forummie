@@ -39,18 +39,18 @@ import { Link } from '@inertiajs/vue3'
                     No Replies Yet
                 </Link>
             </li>
-            <!-- <li class="list-none">
-                <a href="#" class="inline-block hover:bg-blue-100 hover:text-blue-400 p-3 w-full rounded-xl transition-colors duration-200 text-sm font-semibold">
+            <li class="list-none">
+                <Link href="/?filter[resolved]=1" class="inline-block hover:bg-blue-100 hover:text-blue-400 p-3 w-full rounded-xl transition-colors duration-200 text-sm font-semibold">
                     <span class="bg-gray-300 hover w-[4px] h-[16px] px-2 py-1 rounded-lg mr-2"></span>
-                    Solved
-                </a>
+                    Resolved
+                </Link>
             </li>
             <li class="list-none">
-                <a href="#" class="inline-block hover:bg-blue-100 hover:text-blue-400 p-3 w-full rounded-xl transition-colors duration-200 text-sm font-semibold">
+                <Link href="/?filter[unresolved]=1" class="inline-block hover:bg-blue-100 hover:text-blue-400 p-3 w-full rounded-xl transition-colors duration-200 text-sm font-semibold">
                     <span class="bg-gray-300 w-[4px] h-[16px] px-2 py-1 rounded-lg mr-2"></span>
-                    Unsolved
-                </a>
-            </li> -->
+                    Unresolved
+                </Link>
+            </li>
         </ul>
         <!-- filter options for auth user only -->
         <ul class="flex flex-col space-y-3 mt-3" v-if="$page.props.auth.user">

@@ -11,6 +11,8 @@ use App\Http\QueryFilters\MineQueryFilter;
 use App\Http\QueryFilters\TopicQueryFilter;
 use App\Http\QueryFilters\NoRepliesQueryFilter;
 use App\Http\QueryFilters\ParticipatingQueryFilter;
+use App\Http\QueryFilters\SolvedQueryFilter;
+use App\Http\QueryFilters\UnsolvedQueryFilter;
 
 class ThreadRepository implements ThreadInterface
 {
@@ -76,6 +78,8 @@ class ThreadRepository implements ThreadInterface
             AllowedFilter::custom('mine', new MineQueryFilter),
             AllowedFilter::custom('participating', new ParticipatingQueryFilter),
             AllowedFilter::custom('topic', new TopicQueryFilter),
+            AllowedFilter::custom('resolved', new SolvedQueryFilter),
+            AllowedFilter::custom('unresolved', new UnsolvedQueryFilter),
         ];
     }
 }
