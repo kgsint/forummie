@@ -5,6 +5,7 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\ForumController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\GenerateMarkdownPreview;
+use App\Http\Controllers\MarkAsBestAnswer;
 
 // forum routes
 Route::controller(ForumController::class)->group(function() {
@@ -32,6 +33,9 @@ Route::middleware('auth')->group(function () {
     // markdown preview
     Route::post('/markdown-preview', GenerateMarkdownPreview::class)
                                                                     ->name('markdown.preview');
+
+    Route::patch('/thread/{thread}/{post}/best-answer', MarkAsBestAnswer::class)
+                                                                    ->name('threads.best-answer');
     // profile related routes
     Route::get('/account-info', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/account-info', [ProfileController::class, 'update'])->name('profile.update');

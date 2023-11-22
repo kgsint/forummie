@@ -4,7 +4,7 @@ import ForumPostCard from '@/Components/Forum/PostCard.vue'
 import useCreateReply from '@/Composables/useCreateReply'
 import EditIcon from '../Icons/EditIcon.vue';
 import DeleteIcon from '../Icons/DeleteIcon.vue';
-import { ref, watch } from 'vue';
+import { ref, watch, computed } from 'vue';
 import Textarea from '../Textarea.vue';
 import InputError from '../InputError.vue';
 import Swal from 'sweetalert2'
@@ -16,12 +16,12 @@ defineOptions({
 
 // props
 const props = defineProps({
-    post: Object
+    post: Object,
+    solutionId: Number
 })
 
 // composables
 const { showReplyForm } = useCreateReply()
-
 // edit form object
 const editForm = useForm({
     body: props.post.body_markdown
@@ -85,6 +85,19 @@ const hideEditForm = () => {
     isEdit.value = false
     editForm.errors.body = '' // when toggling off the form, reset validation error if any
 }
+
+// mark/unmark as best answer
+const handleBestAnswer = () => {
+    router.patch(route('threads.best-answer', {
+        thread: props.post.thread,
+        post: props.post
+    }
+        ), {
+        post_id: props.solutionId === props.post.id ? null : props.post.id, // if is already marked, unmark, if not mark as best answer
+    }, {
+        preserveScroll: true
+    })
+}
 </script>
 
 
@@ -93,6 +106,7 @@ const hideEditForm = () => {
         :id="`post-${post.id}`"
         class="relative flex bg-white space-x-2 px-2 py-4 rounded-lg shadow thread-post"
         v-bind="$attrs"
+        :class="{ '!bg-blue-50': solutionId === post.id }"
     >
         <!-- profile image -->
         <div class="flex-none flex lg:items-center gap-2 lg:block mb-3">
@@ -173,8 +187,9 @@ const hideEditForm = () => {
                 </button>
 
                 <!-- action btns -->
-                <div class="space-x-3">
+                <div class="space-x-3 flex items-center">
                     <button
+                        @click="handleBestAnswer"
                         v-if="post.thread.can.manage"
                         class="text-sm text-blue-500 hover:underline">Mark as best answer</button>
 
@@ -194,5 +209,12 @@ const hideEditForm = () => {
     </article>
 
         <!-- {{ post.replies }} -->
-        <ForumPostCard class="reply-post ml-10" v-if="post?.replies?.length" v-for="reply in post.replies" :key="reply.id" :post="reply"  />
+        <ForumPostCard
+            class="reply-post ml-10"
+            v-if="post?.replies?.length"
+            v-for="reply in post.replies"
+            :key="reply.id"
+            :post="reply"
+            :solutionId="solutionId"
+        />
 </template>

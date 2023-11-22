@@ -115,7 +115,12 @@ const handleDelete = () => {
 
         <!-- posts for thread (replies / responses) -->
         <div class="posts-container relative space-y-3">
-            <ForumPostCard v-for="post in posts.data" :key="post.id" :post="post" />
+            <ForumPostCard
+                v-for="post in posts.data"
+                :key="post.id"
+                :post="post"
+                :solutionId="thread.solution?.id"
+            />
         </div>
         <!-- pagination -->
         <div class="flex justify-center">
