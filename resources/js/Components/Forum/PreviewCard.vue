@@ -40,14 +40,21 @@ const redirectToShow = (e) => {
         <div class="flex flex-col flex-grow">
             <!-- title -->
             <div class="flex flex-col lg:flex-row lg:justify-between lg:items-center mb-3">
-                <Link :href="route('forum.show', thread.slug)" class="hover:underline mb-3 lg:mb-0">
+                <Link
+                    :href="route('forum.show', thread.slug)"
+                    class="hover:underline mb-3 lg:mb-0"
+                >
                     <h4 class="text-lg lg:text-2xl font-semibold">{{ thread.title }}</h4>
                 </Link>
                 <div class="flex lg:items-center space-x-4">
                     <!-- no of posts in the thread -->
                     <span class="flex items-center text-xs gap-1"><MessageIcon />{{ thread.no_of_posts }}</span>
                     <!-- topic -->
-                    <Link :href="`/?filter[topic]=${thread.topic.slug}`" class="topic text-xs font-semibold px-3 py-1 rounded-full border hover:bg-gray-900 hover:text-white transition-colors duration-150 border-gray-700">
+                    <Link
+                        :href="`/?filter[topic]=${thread.topic.slug}`"
+                        class="topic text-xs font-semibold px-3 py-1 rounded-full border hover:bg-gray-900
+                        hover:text-white transition-colors duration-150 border-gray-700"
+                    >
                         {{ thread.topic.name }}
                     </Link>
                 </div>
@@ -59,17 +66,30 @@ const redirectToShow = (e) => {
 
             <div class="flex justify-between items-center">
                 <!-- conditionally display reply or posted by owner -->
-                <Link :href="route('forum.show', thread.slug)" v-if="thread.latest_post" class="text-xs text-gray-600 leading-normal line-clamp-2 hover:underline">
+                <Link
+                    :href="route('forum.show', thread.slug)"
+                    v-if="thread.latest_post"
+                    class="text-xs text-gray-600 leading-normal line-clamp-2 hover:underline">
                     <Link href="#" class="text-blue-400 hover:underline">
                         {{ thread.latest_post.user?.username || '[deleted user]' }}
                     </Link> replied
-                    <time :datetime="thread.latest_post.created_at.datetime" :title="thread.latest_post.created_at.datetime">{{ thread.latest_post.created_at.human }}</time>
+                    <time
+                        :datetime="thread.latest_post.created_at.datetime"
+                        :title="thread.latest_post.created_at.datetime"
+                    >
+                        {{ thread.latest_post.created_at.human }}
+                    </time>
                 </Link>
                 <div v-else class="text-xs text-gray-600 leading-normal line-clamp-2">
                     <Link href="#" class="text-blue-400 hover:underline">
                         {{ thread.user?.username || '[deleted user]' }}
                     </Link> posted
-                    <time :datetime="thread.created_at.datetime" :title="thread.created_at.datetime">{{ thread.created_at.human }}</time>
+                    <time
+                        :datetime="thread.created_at.datetime"
+                        :title="thread.created_at.datetime"
+                    >
+                        {{ thread.created_at.human }}
+                    </time>
                 </div>
 
                 <div v-if="isSolved" class="text-blue-500">
