@@ -38,6 +38,7 @@ class Thread extends Model
                     'desc');
     }
 
+    // search by thread's title
     public function scopeSearchByTitle($query)
     {
         return $query->when(
