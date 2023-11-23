@@ -38,6 +38,14 @@ class Thread extends Model
                     'desc');
     }
 
+    public function scopeSearchByTitle($query)
+    {
+        return $query->when(
+            request()->has('s'),
+            fn($query) => $query->where('title', 'LIKE', "%" . request('s') . "%")
+        );
+    }
+
     // elquoent relationships
     // ---
     public function user(): BelongsTo

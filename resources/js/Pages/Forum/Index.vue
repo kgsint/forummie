@@ -7,16 +7,21 @@ import ForumPreview from '@/Components/Forum/PreviewCard.vue'
 import SearchIcon from '@/Components/Icons/SearchIcon.vue'
 import SideNavigation from '@/Components/Forum/SideNavigation.vue'
 import Pagination from '@/Components/Forum/Pagination.vue'
-import { Head, router } from '@inertiajs/vue3'
+import { Head, router, usePage } from '@inertiajs/vue3'
 import _omitBy from 'lodash.omitby'
 import _isempty from 'lodash.isempty'
 import useCreateThread from '@/Composables/useCreateThread'
+import { ref } from 'vue'
+import { onUpdated } from 'vue';
+import { onMounted } from 'vue';
 
 const { showCreateThreadForm } = useCreateThread()
 
 defineProps({
     threads: Object,
 })
+
+const page = usePage()
 
 // filter threads via topic
 const filterTopic = (e) => {
@@ -28,6 +33,27 @@ const filterTopic = (e) => {
     })
 }
 
+// search
+const search = ref('')
+const searchInput = ref(null)
+
+const handleSearch = (e) => {
+    router.get('/', _omitBy({
+        s: search.value
+    }, _isempty))
+
+}
+
+onMounted(() => {
+    // track current search value
+    search.value = page.props.queryStrings?.s ?? ''
+
+    // focus when searching
+    if(search.value) {
+        searchInput.value.focus()
+    }
+})
+
 // filter solved and unresolved threads via dropdown
 const filterNav = (e) => {
     router.visit('/', {
@@ -36,7 +62,6 @@ const filterNav = (e) => {
         }, _isempty)
     })
 }
-
 </script>
 
 
@@ -87,7 +112,13 @@ const filterNav = (e) => {
                 <form action="#" method="get" class="bg-gray-200 px-2 rounded-full">
                     <label for="s" class="flex items-center">
                         <SearchIcon />
-                        <TextInput class="bg-transparent border-none outline-none focus:ring-0" placeholder="Search for threads..." />
+                        <TextInput
+                            v-model="search"
+                            @input="handleSearch"
+                            class="bg-transparent border-none outline-none focus:ring-0"
+                            placeholder="Search for threads..."
+                            ref="searchInput"
+                        />
                     </label>
                 </form>
             </nav>

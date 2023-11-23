@@ -22,6 +22,7 @@ class ThreadRepository implements ThreadInterface
         return QueryBuilder::for(Thread::class)
                                 ->with(['topic', 'user', 'posts.thread.user', 'latestPost.user', 'solution']) // eager load
                                 ->allowedFilters($this->customAllowedFilters()) // custom filters
+                                ->searchByTitle()
                                 ->orderByLatestPost()
                                 ->orderBy('created_at', 'desc')
                                 ->paginate(Thread::PAGINATION_COUNT)
