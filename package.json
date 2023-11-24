@@ -19,11 +19,13 @@
         "vue": "^3.2.41"
     },
     "dependencies": {
+        "floating-vue": "^2.0.0-beta.24",
         "lodash.debounce": "^4.0.8",
         "lodash.isempty": "^4.4.0",
         "lodash.omitby": "^4.6.0",
         "shiki": "^0.14.5",
         "sweetalert2": "^11.10.0",
+        "vue-mention": "^2.0.0-alpha.3",
         "vue-scrollto": "^2.20.0"
     }
 }

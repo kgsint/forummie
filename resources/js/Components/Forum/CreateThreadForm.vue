@@ -7,6 +7,7 @@ import SecondaryButton from '../SecondaryButton.vue';
 import Select from '../Select.vue'
 import FormWrapper from '@/Components/Forum/FormWrapper.vue'
 import useCreateThread from '@/Composables/useCreateThread'
+import { Mentionable } from 'vue-mention'
 
 
 const { isVisible, hideCreateThreadForm, form } = useCreateThread()
@@ -67,7 +68,17 @@ const handleStoreThread = () => {
                 </div>
                 <!-- body textarea -->
                 <div v-if="! markdownPreviewEnabled">
-                    <Textarea placeholder="What's on your mind?" rows="4" v-model="form.body" class="h-64 align-top" />
+                    <Mentionable :keys="['@']" :items="[
+                        { label: 'Kaung Sint(@kgsint)', value: 'kgsint' },
+                        { label: 'Pann Phyu Sin (@pann_phyu_sin)', value: 'pann_phyu_sin'},
+                    ]">
+                        <Textarea
+                            placeholder="What's on your mind?"
+                            rows="4"
+                            v-model="form.body"
+                            class="h-64 align-top"
+                        />
+                    </Mentionable>
                     <InputError :message="form.errors.body" />
                 </div>
             </form>
