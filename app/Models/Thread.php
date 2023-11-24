@@ -34,8 +34,8 @@ class Thread extends Model
                 Post::select('created_at')
                         ->whereColumn('posts.thread_id', 'threads.id')
                         ->latest()
-                        ->take(1),
-                    'desc');
+                        ->take(1)
+                        ,'desc');
     }
 
     // search by thread's title

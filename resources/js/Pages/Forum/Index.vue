@@ -14,6 +14,8 @@ import useCreateThread from '@/Composables/useCreateThread'
 import { ref } from 'vue'
 import { onUpdated } from 'vue';
 import { onMounted } from 'vue';
+import _debounce from 'lodash.debounce'
+import { watch } from 'vue';
 
 const { showCreateThreadForm } = useCreateThread()
 
@@ -34,19 +36,26 @@ const filterTopic = (e) => {
 }
 
 // search
-const search = ref('')
+const search = ref(page.props.queryStrings?.s ?? '')
 const searchInput = ref(null)
 
-const handleSearch = (e) => {
-    router.get('/', _omitBy({
-        s: search.value
-    }, _isempty))
+// search
+const handleSearch = _debounce((search) => {
+    router.reload({
+        data: {
+            s: search
+        }
+    })
+}, 500)
 
-}
+// watch search model for changes
+watch(search, (search) => {
+    handleSearch(search)
+})
 
 onMounted(() => {
     // track current search value
-    search.value = page.props.queryStrings?.s ?? ''
+    // search.value = page.props.queryStrings?.s ?? ''
 
     // focus when searching
     if(search.value) {
@@ -114,7 +123,6 @@ const filterNav = (e) => {
                         <SearchIcon />
                         <TextInput
                             v-model="search"
-                            @input="handleSearch"
                             class="bg-transparent border-none outline-none focus:ring-0"
                             placeholder="Search for threads..."
                             ref="searchInput"
