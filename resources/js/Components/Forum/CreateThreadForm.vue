@@ -8,9 +8,12 @@ import Select from '../Select.vue'
 import FormWrapper from '@/Components/Forum/FormWrapper.vue'
 import useCreateThread from '@/Composables/useCreateThread'
 import { Mentionable } from 'vue-mention'
+import useMentionSearch from '@/Composables/useMentionable'
 
 
+// composables
 const { isVisible, hideCreateThreadForm, form } = useCreateThread()
+const { mentionableList, handleMentionSearch } = useMentionSearch()
 
 // create thread
 const handleStoreThread = () => {
@@ -68,10 +71,7 @@ const handleStoreThread = () => {
                 </div>
                 <!-- body textarea -->
                 <div v-if="! markdownPreviewEnabled">
-                    <Mentionable :keys="['@']" :items="[
-                        { label: 'Kaung Sint(@kgsint)', value: 'kgsint' },
-                        { label: 'Pann Phyu Sin (@pann_phyu_sin)', value: 'pann_phyu_sin'},
-                    ]">
+                    <Mentionable v-on:search="handleMentionSearch" :keys="['@']" :items="mentionableList">
                         <Textarea
                             placeholder="What's on your mind?"
                             rows="4"

@@ -65,3 +65,11 @@ code {
     left: -25px;
     background: #ccd1d3;
 }
+/* vue mention */
+.mention-item {
+    @apply p-3 cursor-pointer text-sm;
+
+}
+.mention-selected {
+    @apply bg-gray-100;
+}

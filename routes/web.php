@@ -6,6 +6,7 @@ use App\Http\Controllers\ForumController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\GenerateMarkdownPreview;
 use App\Http\Controllers\MarkAsBestAnswer;
+use App\Http\Controllers\SearchMentionableUser;
 
 // forum routes
 Route::controller(ForumController::class)->group(function() {
@@ -36,6 +37,9 @@ Route::middleware('auth')->group(function () {
 
     Route::patch('/thread/{thread}/{post}/best-answer', MarkAsBestAnswer::class)
                                                                     ->name('threads.best-answer');
+    // mentionable list
+    Route::post('/mentions/search', SearchMentionableUser::class)
+                                                                ->name('mention.search');
     // profile related routes
     Route::get('/account-info', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/account-info', [ProfileController::class, 'update'])->name('profile.update');
