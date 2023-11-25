@@ -29,7 +29,7 @@ class Post extends Model
     // a list of users being mentioned
     public function mentions(): BelongsToMany
     {
-        return $this->belongsToMany(User::class, 'mentions', 'post_id')
+        return $this->belongsToMany(User::class, 'post_mention', 'post_id')
                                                                     ->withTimestamps();
     }
 
