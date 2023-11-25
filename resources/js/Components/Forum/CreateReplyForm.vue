@@ -7,7 +7,7 @@ import FormWrapper from '@/Components/Forum/FormWrapper.vue'
 import useCreateReply from '@/Composables/useCreateReply'
 import { Mentionable } from 'vue-mention';
 import useMentionable from '@/Composables/useMentionable'
-import { onMounted } from 'vue';
+import { onMounted, onUpdated } from 'vue';
 
 // composables
 const { isVisible, hideReplyForm, form, thread, post } = useCreateReply()
@@ -34,6 +34,29 @@ const handleCreateReply = () => {
         }
     })
 }
+
+// on mounted hook
+onMounted(() => {
+    if(post.value) {
+        console.log(post.value.user.username)
+        // prefix with @username when click reply button of the post of the thread
+        form.body = `@${post.value.user.username} ${form.body}`
+    }else {
+        // reset if not click on reply button
+        form.body = ''
+    }
+})
+
+onUpdated(() => {
+        if(post.value) {
+            // console.log(post.value.user.username)
+            // prefix with @username when click reply button of the post of the thread
+            form.body = `@${post.value.user.username} ${form.body}`
+        }else {
+            // reset if not click on reply button of the post | but click reply to this thread button
+            form.body = ''
+        }
+    })
 </script>
 
 
