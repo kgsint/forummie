@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Models\Post;
 use App\Models\Thread;
+use App\Observers\PostObserver;
 use App\Observers\ThreadObserver;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -27,7 +29,9 @@ class EventServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // register observers
         Thread::observe(ThreadObserver::class);
+        Post::observe(PostObserver::class);
     }
 
     /**

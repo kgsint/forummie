@@ -5,12 +5,16 @@ import PrimaryButton from '../PrimaryButton.vue';
 import SecondaryButton from '../SecondaryButton.vue';
 import FormWrapper from '@/Components/Forum/FormWrapper.vue'
 import useCreateReply from '@/Composables/useCreateReply'
+import { Mentionable } from 'vue-mention';
+import useMentionable from '@/Composables/useMentionable'
+import { onMounted } from 'vue';
 
+// composables
 const { isVisible, hideReplyForm, form, thread, post } = useCreateReply()
+const { mentionableList, handleMentionSearch } = useMentionable()
 
 // create reply
 const handleCreateReply = () => {
-    // i am resetting states everytime toggle the form, so need to check properly
     // thread or post is'nt null or not
     let threadId = thread.value ? thread.value.id : post.value.thread.id
 
@@ -53,7 +57,18 @@ const handleCreateReply = () => {
             <form id="storeReplyForm" @submit.prevent="handleCreateReply">
                 <!-- body textarea -->
                 <div v-if="! markdownPreviewEnabled">
-                    <Textarea placeholder="What's on your mind?" rows="4" v-model="form.body" class="h-64 align-top" />
+                    <Mentionable
+                        :keys="['@']"
+                        :items="mentionableList"
+                        v-on:search="handleMentionSearch"
+                    >
+                        <Textarea
+                            placeholder="What's on your mind?"
+                            rows="4"
+                            v-model="form.body"
+                            class="h-64 align-top"
+                        />
+                    </Mentionable>
                     <InputError :message="form.errors.body" />
                 </div>
             </form>
