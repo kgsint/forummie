@@ -129,7 +129,7 @@ const handleDelete = () => {
 
         <!-- sidebar -->
         <template #sidebar>
-            <PrimaryButton v-if="$page.props.auth.user" @click="showReplyForm(thread)">Reply</PrimaryButton>
+            <PrimaryButton v-if="$page.props.auth.user" @click="showReplyForm(thread)">Reply To This Thread</PrimaryButton>
             <SideNavigation />
         </template>
     </AppLayout>
