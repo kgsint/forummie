@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\Models\Post;
 use App\Models\Thread;
 use App\Contracts\ThreadInterface;
+use App\Http\QueryFilters\MentionedQueryFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 use Spatie\QueryBuilder\AllowedFilter;
 use App\Http\QueryFilters\MineQueryFilter;
@@ -81,6 +82,7 @@ class ThreadRepository implements ThreadInterface
             AllowedFilter::custom('topic', new TopicQueryFilter),
             AllowedFilter::custom('resolved', new SolvedQueryFilter),
             AllowedFilter::custom('unresolved', new UnsolvedQueryFilter),
+            AllowedFilter::custom('mentioned', new MentionedQueryFilter)
         ];
     }
 }
