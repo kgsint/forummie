@@ -4,11 +4,12 @@ import ForumPostCard from '@/Components/Forum/PostCard.vue'
 import useCreateReply from '@/Composables/useCreateReply'
 import EditIcon from '../Icons/EditIcon.vue';
 import DeleteIcon from '../Icons/DeleteIcon.vue';
-import { ref, watch, computed } from 'vue';
+import { ref, watch, computed, onMounted } from 'vue';
 import Textarea from '../Textarea.vue';
 import InputError from '../InputError.vue';
 import Swal from 'sweetalert2'
 import axios from 'axios';
+import { onUpdated } from 'vue';
 
 defineOptions({
     inheritAttrs: false
@@ -50,6 +51,18 @@ watch(markdownPreviewEnabled, (isEnabled) => {
         loading.value = false
         markdownHtml.value = res.data.markdown_html
     })
+})
+
+// highlight mention user
+const highlightMentionedUser = () => {
+    props.post.body = props.post.body.replace(/@(\w+)/g, '<span class="mentioned-user">@$1</span>')
+}
+
+onMounted(() => {
+    highlightMentionedUser()
+})
+onUpdated(() => {
+    highlightMentionedUser()
 })
 
 // submit edit form request

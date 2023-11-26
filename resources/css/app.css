@@ -73,3 +73,7 @@ code {
 .mention-selected {
     @apply bg-gray-100;
 }
+
+.mentioned-user {
+    @apply text-blue-500 cursor-pointer;
+}
