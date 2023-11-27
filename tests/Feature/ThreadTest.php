@@ -10,7 +10,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Inertia\Testing\AssertableInertia as Assert;
 use Tests\TestCase;
 
-class ForumTest extends TestCase
+class ThreadTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -35,7 +35,7 @@ class ForumTest extends TestCase
                                     ->component('Forum/Index')
                                     ->has('threads') // passing prop
                                     ->has('threads.data', 10) // thread's collection count
-                                    ->has('threads.data.0', 11) // no of properties in single thread
+                                    ->has('threads.data.0', 12) // no of properties in thread resource
                                     ->has('threads.data.0.title') // title of the first thread
                                     ->has('threads.data.0.body') // body of the first thread
 
@@ -59,7 +59,7 @@ class ForumTest extends TestCase
             fn(Assert $page) =>
                         $page->url("/threads/{$thread->slug}")
                             ->component('Forum/Show')
-                            ->has('thread', 10) // passing prop
+                            ->has('thread', 11) // no of properties in thread resource for show page of the therad/forum
                             ->has('thread.title') // title of the thread
                             ->has('thread.body') // body of the thread
                             ->has('posts') // passing prop
