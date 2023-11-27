@@ -13,7 +13,7 @@ class QueryFilterTest extends TestCase
 {
     use RefreshDatabase;
 
-    // filter no replies test
+    // no replies filter test
     public function test_it_can_filter_thread_with_no_replies()
     {
         // total of 3 threads
@@ -31,14 +31,14 @@ class QueryFilterTest extends TestCase
 
         // end point assertions
         $response->assertInertia(
-            fn(Assert $page) => $page->has('threads.data', 1)
+            fn(Assert $page) => $page->has('threads.data', 1)   // no of thereads displayed
                                         ->where('threads.data.0.title', $threadOne->title)
                                         ->where('threads.data.0.body', "<p>{$threadOne->body}</p>\n") // markdown to html
                                         ->where('threads.data.0.body_markdown', $threadOne->body) // raw body
         );
     }
 
-    // filter resolved thread test
+    // resolved filter test
     public function test_it_can_filter_thread_with_solution()
     {
         $threadOne = Thread::factory()->create();
@@ -60,10 +60,39 @@ class QueryFilterTest extends TestCase
         // end point test
         $response->assertInertia(
             fn(Assert $page)
-            => $page->has('threads.data', 1)
+            => $page->has('threads.data', 1)    // no of thereads displayed
                     ->where('threads.data.0.title', $threadOne->title)
                     ->where('threads.data.0.body', "<p>{$threadOne->body}</p>\n") // markdown to html
                     ->where('threads.data.0.body_markdown', $threadOne->body) // raw body
+        );
+    }
+
+    // unresolved filter test
+    public function test_it_can_filter_thread_without_solution()
+    {
+        $threadOne = Thread::factory()->create();
+        $threadTwo = Thread::factory()->create();
+        $threadThree = Thread::factory()->create();
+
+        $solutionPost = Post::factory()->create(['thread_id' => $threadOne->id]);
+        Post::factory()->create(['thread_id' => $threadTwo->id]);
+        Post::factory()->create(['thread_id' => $threadThree->id]);
+
+        // mark as best answer
+        $threadOne->solution_post_id = $solutionPost->id;
+        $threadOne->save();
+
+        // filter response
+        $response = $this->get(route('forum.index', ['filter[unresolved]' => '1']));
+        $response->assertSuccessful();
+
+        // end point test
+        $response->assertInertia(
+            fn(Assert $page)
+            => $page->has('threads.data', 2) // no of thereads displayed
+                    ->where('threads.data.0.title', $threadTwo->title)
+                    ->where('threads.data.0.body', "<p>{$threadTwo->body}</p>\n") // markdown to html
+                    ->where('threads.data.0.body_markdown', $threadTwo->body) // raw body
         );
     }
 }
