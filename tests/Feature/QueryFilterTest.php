@@ -153,4 +153,33 @@ class QueryFilterTest extends TestCase
                             ->where('threads.data.0.body_markdown', $myThreadOne->body) // raw body
                     );
     }
+
+    // participating query filter test
+    public function test_it_can_filter_threads_that_user_participated()
+    {
+        $user = User::factory()->create();
+
+        $threadOne = Thread::factory()->create();
+        Thread::factory(2)->create();
+
+        // reply/post in $threadOne
+        Post::factory()->create(['user_id' => $user->id, 'thread_id' => $threadOne->id]);
+
+        // initial page load
+        $initialResponse = $this->get(route('forum.index'));
+        $initialResponse->assertInertia(fn(Assert $page) => $page->has('threads.data', 3));
+
+        // cannot filter as guest
+        $guestResponse = $this->get(route('forum.index', ['filter[participating]' => '1']));
+        $guestResponse->assertInertia(fn(Assert $page) => $page->has('threads.data', 3)); //remain unchanged
+
+        // filter assertions
+        $response = $this->actingAs($user)->get(route('forum.index', ['filter[participating]' => '1']));
+        $response->assertInertia(
+            fn(Assert $page) => $page->has('threads.data', 1)
+                                    ->where('threads.data.0.title', $threadOne->title)
+                                    ->where('threads.data.0.body', "<p>{$threadOne->body}</p>\n") // markdown to html
+                                    ->where('threads.data.0.body_markdown', $threadOne->body) // raw body
+        );
+    }
 }
