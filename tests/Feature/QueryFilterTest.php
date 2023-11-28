@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\Post;
 use App\Models\Thread;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Inertia\Testing\AssertableInertia as Assert;
@@ -94,5 +95,41 @@ class QueryFilterTest extends TestCase
                     ->where('threads.data.0.body', "<p>{$threadTwo->body}</p>\n") // markdown to html
                     ->where('threads.data.0.body_markdown', $threadTwo->body) // raw body
         );
+    }
+
+    // test for my threads query filter
+    public function test_it_can_filter_my_threads()
+    {
+        $me = User::factory()->create();
+        $userOne = User::factory()->create();
+        $userTwo = User::factory()->create();
+
+        // create 2 thread by $me
+        $myThreadOne = Thread::factory()->create(['user_id' => $me->id]);
+        $myThreadTwo = Thread::factory()->create(['user_id' => $me->id]);
+
+        Thread::factory(2)->create(['user_id' => $userOne->id]);
+        Thread::factory(3)->create(['user_id' => $userTwo->id]);
+
+        $initialResponse = $this->get(route('forum.index'));
+        $initialResponse->assertSuccessful();
+        // initial page load
+        $initialResponse->assertInertia(
+            fn(Assert $page) => $page->has('threads.data', 7) // initial page load with total of 7 threads
+        );
+
+        // should not work when filter as a guest
+        $guestResponse = $this->get(route('forum.index', ['filter[mine]' => '1']));
+        $guestResponse->assertInertia(fn(Assert $page) => $page->has('threads.data', 7)); //threads remain the same
+
+        // should work as authenticated user
+        $guestResponse = $this->actingAs($me)->get(route('forum.index', ['filter[mine]' => '1']));
+        $guestResponse->assertInertia(
+            fn(Assert $page) =>
+                        $page->has('threads.data', 2) // total of 2 threads
+                            ->where('threads.data.0.title', $myThreadOne->title)
+                            ->where('threads.data.0.body', "<p>{$myThreadOne->body}</p>\n") // markdown to html
+                            ->where('threads.data.0.body_markdown', $myThreadOne->body) // raw body
+                    );
     }
 }
