@@ -26,6 +26,13 @@ class QueryFilterTest extends TestCase
         Post::factory()->create(['thread_id' => $threadTwo->id]);
         Post::factory()->create(['thread_id' => $threadThree->id]);
 
+         // initial page load
+         $initialResponse = $this->get(route('forum.index'));
+         $initialResponse->assertSuccessful();
+         $initialResponse->assertInertia(
+             fn(Assert $page) => $page->has('threads.data', 3) // initial page load with total of 3 threads
+         );
+
         // filter response
         $response = $this->get(route('forum.index', ['filter[noreplies]' => '1']));
         $response->assertSuccessful();
@@ -53,6 +60,13 @@ class QueryFilterTest extends TestCase
         // mark as best answer
         $threadOne->solution_post_id = $solutionPost->id;
         $threadOne->save();
+
+         // initial page load
+         $initialResponse = $this->get(route('forum.index'));
+         $initialResponse->assertSuccessful();
+         $initialResponse->assertInertia(
+             fn(Assert $page) => $page->has('threads.data', 3) // initial page load with total of 3 threads
+         );
 
         // filter response
         $response = $this->get(route('forum.index', ['filter[resolved]' => '1']));
@@ -82,6 +96,13 @@ class QueryFilterTest extends TestCase
         // mark as best answer
         $threadOne->solution_post_id = $solutionPost->id;
         $threadOne->save();
+
+        // initial page load
+        $initialResponse = $this->get(route('forum.index'));
+        $initialResponse->assertSuccessful();
+        $initialResponse->assertInertia(
+            fn(Assert $page) => $page->has('threads.data', 3) // initial page load with total of 3 threads
+        );
 
         // filter response
         $response = $this->get(route('forum.index', ['filter[unresolved]' => '1']));
