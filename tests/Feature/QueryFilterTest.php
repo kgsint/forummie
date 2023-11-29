@@ -182,4 +182,49 @@ class QueryFilterTest extends TestCase
                                     ->where('threads.data.0.body_markdown', $threadOne->body) // raw body
         );
     }
+
+    // mentioned query filter test
+    public function test_it_can_filter_theads_that_user_being_mentioned_from_thread_or_post()
+    {
+        $user = User::factory()->create(['username' => 'kgsint']);
+        $userOne = User::factory()->create();
+        $userTwo = User::factory()->create();
+
+        // being mentioned $user by $userOne in the $threadOne
+        $threadOne = Thread::factory()->create(['body' => "Hey!, @kgsint", 'user_id' => $userOne->id]);
+        $threadTwo = Thread::factory()->create();
+
+        // initial page load
+        $initialResponse = $this->get(route('forum.index'));
+        $initialResponse->assertInertia(
+            fn(Assert $page) => $page->has('threads.data', 2)
+        );
+
+        // should not work when filter as a guest
+        $guestResponse = $this->get(route('forum.index', ['filter[mentioned]' => '1']));
+        $guestResponse->assertInertia(
+            fn(Assert $page) => $page->has('threads.data', 2)
+        );
+
+        // mentioned $response
+        $response = $this->actingAs($user)->get(route('forum.index', ['filter[mentioned]' => '1']));
+        $response->assertInertia(
+            fn(Assert $page) => $page
+            ->has('threads.data', 1)    // only one thread being mentioned
+            ->where('threads.data.0.title', $threadOne->title)
+            ->where('threads.data.0.body', "<p>{$threadOne->body}</p>\n")
+        );
+
+        // when mentioned again mentioned from post of the $threadTwo by $userTwo
+        Post::factory()->create([
+            'user_id' => $userTwo->id,
+            'thread_id' => $threadTwo->id,
+            'body' => "Hello, @kgsint",
+        ]);
+        // and filter again
+        $response = $this->actingAs($user)->get(route('forum.index', ['filter[mentioned]' => '1']));
+        $response->assertInertia(
+            fn(Assert $page) => $page->has('threads.data', 2) // should bump up to 2
+        );
+    }
 }
