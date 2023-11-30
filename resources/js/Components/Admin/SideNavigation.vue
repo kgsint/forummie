@@ -1,6 +1,8 @@
 <script setup>
 import UserIcon from "@/Components/Icons/UserIcon.vue"
 import PostIcon from "@/Components/Icons/PostIcon.vue"
+import { Link } from '@inertiajs/vue3'
+
 defineProps(['showSideNavigation'])
 </script>
 
@@ -52,27 +54,26 @@ defineProps(['showSideNavigation'])
                             </form>
                         </li>
                         <li>
-                            <a
-                                href="#"
+                            <Link
+                                :href="route('admin.users')"
                                 class="flex items-center p-2 text-base text-gray-900 rounded-lg hover:bg-gray-100 group"
                             >
                                 <UserIcon />
                                 <span class="ml-3" sidebar-toggle-item=""
                                     >Manage Users</span
                                 >
-                            </a>
+                            </Link>
                         </li>
                         <li>
-                            <a
-                                href="https://github.com/themesberg/flowbite-admin-dashboard"
-                                target="_blank"
+                            <Link
+                                href="#"
                                 class="flex items-center p-2 text-base text-gray-900 transition duration-75 rounded-lg hover:bg-gray-100 group"
                             >
                                 <PostIcon />
-                                <span class="ml-3" sidebar-toggle-item=""
-                                    >Manage Replies</span
-                                >
-                            </a>
+                                <span class="ml-3">
+                                    Manage Replies
+                                </span>
+                            </Link>
                         </li>
                     </ul>
                 </div>
