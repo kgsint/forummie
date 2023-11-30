@@ -10,4 +10,11 @@ class UserPolicy
     {
         return $user->isAdmin();
     }
+
+    public function delete(User $user, User $subject): bool
+    {
+        return ($user->isAdmin() || $user->is($subject))
+            &&
+        ! $subject->isAdmin();
+    }
 }

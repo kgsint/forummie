@@ -5,6 +5,7 @@ import { Head, router, usePage } from '@inertiajs/vue3'
 import Pagination from '@/Components/Forum/Pagination.vue'
 import { ref, watch } from 'vue'
 import _debounce from 'lodash.debounce'
+import Swal from 'sweetalert2'
 
 defineProps({
     users: Object,
@@ -27,6 +28,27 @@ const handleSearch = _debounce((search) => {
 watch(searchUser, (search) => {
     handleSearch(search)
 })
+
+// delete user
+const handleDelete = (user) => {
+    // confirm with sweet alert
+    Swal.fire({
+      title: `Do you want delete "${user.username}"?`,
+      showCancelButton: true,
+      confirmButtonText: "Delete",
+      confirmButtonColor: "#eb020e",
+      denyButtonText: `Don't save`
+    }).then((result) => {
+      /* if confirmed */
+      if (result.isConfirmed) {
+        router.delete(route('admin.user.delete', user.username), {
+            onSuccess: () => {
+                Swal.fire("Deleted!", "", "success");
+            }
+        })
+      }
+    });
+}
 
 </script>
 
@@ -140,6 +162,7 @@ watch(searchUser, (search) => {
                                         class="p-4 space-x-2 whitespace-nowrap"
                                     >
                                         <button
+                                            @click="handleDelete(user)"
                                             type="button"
                                             class="inline-flex items-center px-3 py-2 text-xs font-medium text-center text-white bg-red-600 rounded-lg hover:bg-red-800 focus:ring-4 focus:ring-red-300 dark:focus:ring-red-900"
                                         >
