@@ -19,6 +19,7 @@ class UserResource extends JsonResource
             'name' => $this->name,
             'email' => $this->email,
             'username' => $this->username,
+            'role' => $this->isAdmin() ? 'admin' : 'user',
             'avatar' => $this->getAvatar(),
             'joined_at' => DateTimeResource::make($this->created_at),
         ];

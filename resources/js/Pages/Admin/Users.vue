@@ -94,7 +94,7 @@ defineProps({
                                             <div
                                                 class="text-base font-semibold text-gray-900"
                                             >
-                                                {{ user.name }}
+                                                {{ user.name }} <span class="font-light text-xs">(@{{ user.username }})</span>
                                             </div>
                                             <div
                                                 class="text-sm font-normal text-gray-500"
@@ -104,9 +104,9 @@ defineProps({
                                         </div>
                                     </td>
                                     <td
-                                        class="p-4 text-base font-medium text-gray-900 whitespace-nowrap"
+                                        class="p-4 text-base text-gray-900 whitespace-nowrap"
                                     >
-                                        user
+                                        {{ user.role }}
                                     </td>
                                     <td
                                         class="p-4 text-base font-medium text-gray-900 whitespace-nowrap"
