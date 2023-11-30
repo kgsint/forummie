@@ -4,6 +4,7 @@ import CloseIcon from "@/Components/Icons/CloseIcon.vue"
 import SideNavigation from "@/Components/Admin/SideNavigation.vue"
 import SearchIcon from "@/Components/Icons/SearchIcon.vue"
 import { ref } from 'vue'
+import { Link, router } from "@inertiajs/vue3"
 
 const showUserInfoDropdown = ref(false)
 const showSideNavigation = ref(true)
@@ -17,6 +18,11 @@ window.addEventListener('resize', () => {
         showSideNavigation.value = true
     }
 })
+
+// logout
+const logout = () => {
+    router.post(route('logout'))
+}
 
 </script>
 
@@ -106,7 +112,7 @@ window.addEventListener('resize', () => {
                                 <span class="sr-only">Open user menu</span>
                                 <img
                                     class="w-8 h-8 rounded-full"
-                                    src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
+                                    :src="$page.props.auth.user.avatar"
                                     alt="user photo"
                                 />
                             </button>
@@ -121,31 +127,33 @@ window.addEventListener('resize', () => {
                                     class="text-sm text-gray-900"
                                     role="none"
                                 >
-                                    Neil Sims
+                                    {{ $page.props.auth.user.name }}
                                 </p>
                                 <p
                                     class="text-sm font-medium text-gray-900 truncate"
                                     role="none"
                                 >
-                                    neil.sims@flowbite.com
+                                    {{ $page.props.auth.user.email }}
                                 </p>
                             </div>
                             <ul class="py-1" role="none">
                                 <li>
-                                    <a
-                                        href="#"
+                                    <Link
+                                        :href="route('profile.edit')"
                                         class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                                         role="menuitem"
-                                        >Settings</a
-                                    >
+                                        >
+                                        Settings
+                                    </Link>
                                 </li>
                                 <li>
-                                    <a
-                                        href="#"
-                                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                    <Link
+                                        @click="logout"
+                                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full"
                                         role="menuitem"
-                                        >Sign out</a
-                                    >
+                                        >
+                                        Sign out
+                                    </Link>
                                 </li>
                             </ul>
                         </div>

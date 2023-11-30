@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use App\Http\Resources\TopicResource;
+use App\Http\Resources\UserResource;
 use App\Models\Topic;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
@@ -35,7 +36,7 @@ class HandleInertiaRequests extends Middleware
         return [
             ...parent::share($request),
             'auth' => [
-                'user' => $request->user(),
+                'user' => $request->user() ? new UserResource($request->user()) : request()->user(),
             ],
             'topics' => TopicResource::collection(Topic::orderBy('name')->get()),
             'queryStrings' => (object) $request->query(), // query string(s) for request
