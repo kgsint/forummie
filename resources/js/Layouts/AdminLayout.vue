@@ -43,7 +43,7 @@ const logout = () => {
                         <!-- close menu icon -->
                         <CloseIcon />
                     </button>
-                    <a
+                    <Link
                         href="/admin"
                         class="flex ml-2 md:mr-24"
                     >
@@ -51,7 +51,7 @@ const logout = () => {
                             class="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap"
                             >Forummie Admin</span
                         >
-                    </a>
+                    </Link>
                     <!-- global search form -->
                     <form
                         action="#"
