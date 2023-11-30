@@ -16,7 +16,10 @@ class ForumController extends Controller
 {
     public function __construct(
         private ThreadInterface $threadRepo,
-    ){}
+    )
+    {
+        $this->middleware('auth')->only(['store', 'update', 'destroy']);
+    }
 
     // all
     public function index()

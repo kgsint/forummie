@@ -14,13 +14,10 @@ Route::controller(ForumController::class)->group(function() {
     Route::get('/', 'index')->name('forum.index');
     Route::get('/threads/{thread:slug}', 'show')->name('forum.show');
     Route::post('/threads', 'store')
-                                    ->middleware('auth')
                                     ->name('forum.store');
     Route::patch('/threads/{thread}', 'update')
-                                                ->middleware('auth')
                                                 ->name('forum.update');
     Route::delete('/threads/{thread}', 'destroy')
-                                                ->middleware('auth')
                                                 ->name('forum.destroy');
 });
 
@@ -28,7 +25,7 @@ Route::controller(ForumController::class)->group(function() {
 Route::prefix('admin')->group(function() {
     // redirect /admin to /admin/users
     Route::redirect('/', '/admin/users');
-    Route::get('/users', [UsersController::class, 'index'])->name('admin.users')->middleware('auth');
+    Route::get('/users', [UsersController::class, 'index'])->name('admin.users');
 });
 
 
