@@ -3,10 +3,11 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ForumController;
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\GenerateMarkdownPreview;
 use App\Http\Controllers\MarkAsBestAnswer;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\SearchMentionableUser;
+use App\Http\Controllers\GenerateMarkdownPreview;
 
 // forum routes
 Route::controller(ForumController::class)->group(function() {
@@ -22,6 +23,11 @@ Route::controller(ForumController::class)->group(function() {
                                                 ->middleware('auth')
                                                 ->name('forum.destroy');
 });
+
+Route::prefix('admin')->group(function() {
+    Route::get('/users', [UsersController::class, 'index'])->name('admin.users');
+});
+
 
 Route::middleware('auth')->group(function () {
     // routes for posts or replies for the thread
