@@ -21,7 +21,7 @@ class UsersController extends Controller
     {
         return Inertia::render('Admin/Users', [
             'users' => UserResource::collection(
-                User::paginate(10)
+                User::latest()->paginate(User::PAGINATION_COUNT)
             ),
         ]);
     }
