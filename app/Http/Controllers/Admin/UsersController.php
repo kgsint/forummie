@@ -21,7 +21,14 @@ class UsersController extends Controller
     {
         return Inertia::render('Admin/Users', [
             'users' => UserResource::collection(
-                User::latest()->paginate(User::PAGINATION_COUNT)
+                User::
+                    when(
+                        request('s'),
+                        fn($query) => $query->where('name', 'LIKE', "%". request('s') ."%")
+                                            ->orWhere('username', 'LIKE', "%". request('s') ."%")
+                    )
+                    ->latest()
+                    ->paginate(User::PAGINATION_COUNT)
             ),
         ]);
     }

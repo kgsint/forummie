@@ -1,12 +1,33 @@
 <script setup>
 import AdminLayout from '@/Layouts/AdminLayout.vue';
 import DeleteIcon from '@/Components/Icons/DeleteIcon.vue';
-import { Head } from '@inertiajs/vue3'
+import { Head, router, usePage } from '@inertiajs/vue3'
 import Pagination from '@/Components/Forum/Pagination.vue'
+import { ref, watch } from 'vue'
+import _debounce from 'lodash.debounce'
 
 defineProps({
     users: Object,
 })
+
+const page = usePage()
+
+const searchUser = ref(page.props.queryStrings?.s ?? '')
+
+// debounced search
+const handleSearch = _debounce((search) => {
+    router.reload({
+        data: {
+            s: search
+        }
+    })
+}, 500)
+
+// watch changes in search input
+watch(searchUser, (search) => {
+    handleSearch(search)
+})
+
 </script>
 
 
@@ -33,6 +54,7 @@ defineProps({
                             >
                             <div class="relative mt-1 lg:w-64 xl:w-96">
                                 <input
+                                    v-model="searchUser"
                                     type="text"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5"
                                     placeholder="Search for users"
