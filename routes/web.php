@@ -25,7 +25,7 @@ Route::controller(ForumController::class)->group(function() {
 });
 
 Route::prefix('admin')->group(function() {
-    Route::get('/users', [UsersController::class, 'index'])->name('admin.users');
+    Route::get('/users', [UsersController::class, 'index'])->name('admin.users')->middleware('auth');
 });
 
 
