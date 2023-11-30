@@ -1,7 +1,7 @@
 <script setup>
 import AdminLayout from '@/Layouts/AdminLayout.vue';
-import EditIcon from '@/Components/Icons/EditIcon.vue';
 import DeleteIcon from '@/Components/Icons/DeleteIcon.vue';
+import { Head } from '@inertiajs/vue3'
 
 defineProps({
     users: Object,
@@ -10,6 +10,7 @@ defineProps({
 
 
 <template>
+    <Head title="Manage Users" />
     <AdminLayout>
         <!-- header -->
         <template #header>
