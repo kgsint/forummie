@@ -58,4 +58,11 @@ class User extends Authenticatable
         return $this->hasMany(Thread::class);
     }
 
+    public function isAdmin(): bool
+    {
+        return in_array($this->email, [
+            'kgsint@mail.co.uk',
+        ]);
+    }
+
 }
