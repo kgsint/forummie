@@ -75,8 +75,12 @@ const handleDelete = () => {
     }).then((result) => {
       /* if confirmed */
       if (result.isConfirmed) {
-        router.delete(route('forum.destroy', props.thread))
-        Swal.fire("Deleted!", "", "success");
+        router.delete(route('forum.destroy', props.thread), {
+            onSuccess: () => {
+                Swal.fire("Deleted!", "", "success");
+            }
+        })
+
       }
     });
 }
