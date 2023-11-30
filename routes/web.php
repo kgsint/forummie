@@ -24,7 +24,10 @@ Route::controller(ForumController::class)->group(function() {
                                                 ->name('forum.destroy');
 });
 
+// admin routes
 Route::prefix('admin')->group(function() {
+    // redirect /admin to /admin/users
+    Route::redirect('/', '/admin/users');
     Route::get('/users', [UsersController::class, 'index'])->name('admin.users')->middleware('auth');
 });
 
