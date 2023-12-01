@@ -14,11 +14,13 @@ import useUpdateThread from '@/Composables/useUpdateThread'
 import { onMounted, onUpdated, nextTick } from 'vue';
 import Swal from 'sweetalert2'
 import VueScrollTo from 'vue-scrollto'
+import useSweetalert from '@/Composables/useSweetalert'
 
-const page = usePage()
 // composables
+const page = usePage()
 const { showReplyForm } = useCreateReply()
 const { showUpdateForm, form, threadData } = useUpdateThread()
+const { displayConfirmMessage, displayToastMessage } = useSweetalert()
 
 // props
 const props = defineProps({
@@ -66,32 +68,13 @@ const scrollToPost = (postId) => {
 // delete thread
 const handleDelete = () => {
     // confirm with sweet alert
-    Swal.fire({
-      text: `Do you want delete this thread "${props.thread.title}"?`,
-      showCancelButton: true,
-      confirmButtonText: "Delete",
-      confirmButtonColor: "#eb020e",
-    }).then((result) => {
+    displayConfirmMessage(`Do you want delete this thread "${props.thread.title}"?`)
+    .then((result) => {
       /* if confirmed */
       if (result.isConfirmed) {
         router.delete(route('forum.destroy', props.thread), {
             onSuccess: () => {
-                // sweetalert toast
-                const Toast = Swal.mixin({
-                  toast: true,
-                  position: "top-end",
-                  showConfirmButton: false,
-                  timer: 3000,
-                  didOpen: (toast) => {
-                    toast.onmouseenter = Swal.stopTimer;
-                    toast.onmouseleave = Swal.resumeTimer;
-                  }
-                });
-                // success toast message after delete
-                Toast.fire({
-                    title: "Thread has been deleted!",
-                    icon: "success",
-                });
+                displayToastMessage(`Thread has been deleted!`)
             }
         })
 

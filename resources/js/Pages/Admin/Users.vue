@@ -6,12 +6,14 @@ import Pagination from '@/Components/Forum/Pagination.vue'
 import { ref, watch } from 'vue'
 import _debounce from 'lodash.debounce'
 import Swal from 'sweetalert2'
+import useSweetalert from '@/Composables/useSweetalert';
 
 defineProps({
     users: Object,
 })
 
 const page = usePage()
+const { displayConfirmMessage, displayToastMessage } = useSweetalert()
 
 const searchUser = ref(page.props.queryStrings?.s ?? '')
 
@@ -32,38 +34,19 @@ watch(searchUser, (search) => {
 // delete user
 const handleDelete = (user) => {
     // confirm with sweet alert
-    Swal.fire({
-      text: `Do you want delete "${user.username}"?`,
-      showCancelButton: true,
-      confirmButtonText: "Delete",
-      confirmButtonColor: "#eb020e",
-      denyButtonText: `Don't save`
-    }).then((result) => {
-      /* if confirmed */
-      if (result.isConfirmed) {
-        let username = user.username
-        router.delete(route('admin.user.delete', user.username), {
-            onSuccess: () => {
-                // sweetalert toast
-                const Toast = Swal.mixin({
-                  toast: true,
-                  position: "top-end",
-                  showConfirmButton: false,
-                  timer: 3000,
-                  didOpen: (toast) => {
-                    toast.onmouseenter = Swal.stopTimer;
-                    toast.onmouseleave = Swal.resumeTimer;
-                  }
-                });
-                // success toast message after delete
-                Toast.fire({
-                    text: `@${username} has been deleted`,
-                    icon: "success",
-                });
-            }
-        })
-      }
-    });
+    displayConfirmMessage(
+        `Do you want to delete ${user.username}`)
+                        .then((result) => {
+                            /* if confirmed */
+                            if (result.isConfirmed) {
+                            let username = user.username
+                            router.delete(route('admin.user.delete', user.username), {
+                            onSuccess: () => {
+                                displayToastMessage(`@${username} has been deleted`)
+                            }
+                            })
+                            }
+                        });
 }
 
 </script>
