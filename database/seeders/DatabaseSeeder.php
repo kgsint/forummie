@@ -19,20 +19,25 @@ class DatabaseSeeder extends Seeder
         User::factory()->create([
             'name' => 'kgsint',
             'email' => 'kgsint@mail.co.uk',
-            'username' => 'kgsint'
+            'username' => 'kgsint',
+            'type' => User::ADMIN,
         ]);
 
         User::factory()->create([
             'name' => 'John Doe',
             'email' => 'johndoe@gmail.com',
-            'username' => 'johndoe'
+            'username' => 'johndoe',
+            'type' => User::MODERATOR,
         ]);
 
         User::factory()->create([
             'name' => 'Sussy',
             'email' => 'sussy@gmail.com',
-            'username' => 'sussy'
+            'username' => 'sussy',
+            'type' => User::ADMIN,
         ]);
+
+        User::factory(10)->create();
 
         $this->call([
             TopicSeeder::class,
