@@ -12,7 +12,6 @@ import EditIcon from '@/Components/Icons/EditIcon.vue'
 import DeleteIcon from '@/Components/Icons/DeleteIcon.vue'
 import useUpdateThread from '@/Composables/useUpdateThread'
 import { onMounted, onUpdated, nextTick } from 'vue';
-import Swal from 'sweetalert2'
 import VueScrollTo from 'vue-scrollto'
 import useSweetalert from '@/Composables/useSweetalert'
 

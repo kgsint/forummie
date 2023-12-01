@@ -3,7 +3,7 @@ import { Link } from '@inertiajs/vue3'
 import MessageIcon from '@/Components/Icons/MessageIcon.vue'
 import { router } from '@inertiajs/vue3';
 import useMentionable from '@/Composables/useMentionable'
-import {  onMounted, onUpdated } from 'vue'
+import { onMounted, onUpdated } from 'vue'
 
 const { highlightMentionedUser } = useMentionable()
 

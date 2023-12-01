@@ -12,7 +12,6 @@ import _omitBy from 'lodash.omitby'
 import _isempty from 'lodash.isempty'
 import useCreateThread from '@/Composables/useCreateThread'
 import { ref } from 'vue'
-import { onUpdated } from 'vue';
 import { onMounted } from 'vue';
 import _debounce from 'lodash.debounce'
 import { watch } from 'vue';
