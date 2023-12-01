@@ -12,7 +12,7 @@ import { Link } from '@inertiajs/vue3'
             <li class="list-none">
                 <Link
                     href="/"
-                    class="inline-block p-3 w-full
+                    class="inline-block p-3 w-full hover:text-blue-400 hover:bg-blue-100
                     rounded-xl transition-colors duration-200 text-sm font-semibold"
                     :class="{ 'bg-blue-100 text-blue-400': ! $page.props.queryStrings?.filter && $page.component === 'Forum/Index' }"
                 >
@@ -40,14 +40,32 @@ import { Link } from '@inertiajs/vue3'
                 </Link>
             </li>
             <li class="list-none">
-                <Link href="/?filter[resolved]=1" class="inline-block hover:bg-blue-100 hover:text-blue-400 p-3 w-full rounded-xl transition-colors duration-200 text-sm font-semibold">
-                    <span class="bg-gray-300 hover w-[4px] h-[16px] px-2 py-1 rounded-lg mr-2"></span>
+                <Link
+                    href="/?filter[resolved]=1"
+                    class="inline-block hover:bg-blue-100 hover:text-blue-400 p-3
+                        w-full rounded-xl transition-colors duration-200 text-sm font-semibold"
+                    :class="{ 'bg-blue-100 text-blue-400': $page.props.queryStrings?.filter?.resolved }"
+                >
+                    <span
+                        class="bg-gray-300 hover w-[4px] h-[16px] px-2 py-1 rounded-lg mr-2"
+                        :class="{ '!bg-blue-400': $page.props.queryStrings?.filter?.resolved }"
+                    >
+                    </span>
                     Resolved
                 </Link>
             </li>
             <li class="list-none">
-                <Link href="/?filter[unresolved]=1" class="inline-block hover:bg-blue-100 hover:text-blue-400 p-3 w-full rounded-xl transition-colors duration-200 text-sm font-semibold">
-                    <span class="bg-gray-300 w-[4px] h-[16px] px-2 py-1 rounded-lg mr-2"></span>
+                <Link
+                    href="/?filter[unresolved]=1"
+                    class="inline-block hover:bg-blue-100 hover:text-blue-400 p-3 w-full
+                    rounded-xl transition-colors duration-200 text-sm font-semibold"
+                    :class="{ 'bg-blue-100 text-blue-400': $page.props.queryStrings?.filter?.unresolved }"
+                >
+                    <span
+                        class="bg-gray-300 w-[4px] h-[16px] px-2 py-1 rounded-lg mr-2"
+                        :class="{ '!bg-blue-400': $page.props.queryStrings?.filter?.unresolved }"
+                    >
+                    </span>
                     Unresolved
                 </Link>
             </li>

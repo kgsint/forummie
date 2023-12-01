@@ -38,7 +38,7 @@ onUpdated(() => {
         <!-- profile image -->
         <div class="flex-none flex items-center gap-2 lg:block mb-3">
             <a href="#">
-                <img :src="thread.user?.avatar" class="w-14 h-14 rounded-xl" alt="profile image" v-if="thread.user">
+                <img :src="thread.user?.avatar" class="w-8 h-8 md:w-14 md:h-14 rounded-xl" alt="profile image" v-if="thread.user">
                 <img src="https://static.thenounproject.com/png/5034901-200.png" class="w-14 h-14 rounded-xl" alt="default profile image" v-else >
             </a>
             <!-- username -->

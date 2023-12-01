@@ -30,7 +30,7 @@ onUpdated(() => {
                 <img src="https://static.thenounproject.com/png/5034901-200.png" class="w-[28px] h-[28px] lg:w-14 lg:h-14 rounded-xl" v-else >
             </a>
         </div>
-        <div class="flex flex-col">
+        <div class="flex flex-col flex-1">
             <div class="flex justify-between items-center">
                 <Link href="#">
                     <!-- username -->

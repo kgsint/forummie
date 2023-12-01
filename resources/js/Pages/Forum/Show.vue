@@ -67,17 +67,16 @@ const scrollToPost = (postId) => {
 const handleDelete = () => {
     // confirm with sweet alert
     Swal.fire({
-      title: `Do you want delete this thread "${props.thread.title}"?`,
+      text: `Do you want delete this thread "${props.thread.title}"?`,
       showCancelButton: true,
       confirmButtonText: "Delete",
       confirmButtonColor: "#eb020e",
-      denyButtonText: `Don't save`
     }).then((result) => {
       /* if confirmed */
       if (result.isConfirmed) {
         router.delete(route('forum.destroy', props.thread), {
             onSuccess: () => {
-                Swal.fire("Deleted!", "", "success");
+                Swal.fire("Thread has been deleted!", "", "success");
             }
         })
 

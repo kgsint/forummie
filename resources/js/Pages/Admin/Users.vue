@@ -33,7 +33,7 @@ watch(searchUser, (search) => {
 const handleDelete = (user) => {
     // confirm with sweet alert
     Swal.fire({
-      title: `Do you want delete "${user.username}"?`,
+      text: `Do you want delete "${user.username}"?`,
       showCancelButton: true,
       confirmButtonText: "Delete",
       confirmButtonColor: "#eb020e",
@@ -166,7 +166,7 @@ const handleDelete = (user) => {
                                             type="button"
                                             class="inline-flex items-center px-3 py-2 text-xs font-medium text-center text-white bg-red-600 rounded-lg hover:bg-red-800 focus:ring-4 focus:ring-red-300 dark:focus:ring-red-900"
                                         >
-                                            <DeleteIcon class="mr-1" />
+                                            <DeleteIcon class="w-4 h-4 mr-1" />
                                             Delete user
                                         </button>
                                     </td>
