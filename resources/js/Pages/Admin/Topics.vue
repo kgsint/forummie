@@ -21,7 +21,7 @@ defineProps({
                     <h1
                         class="text-xl font-semibold text-gray-900 sm:text-2xl"
                     >
-                        All Tags
+                        All Topics
                     </h1>
                 </div>
                 <div class="sm:flex">
@@ -36,7 +36,7 @@ defineProps({
                                 <input
                                     type="text"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5"
-                                    placeholder="Search for tags"
+                                    placeholder="Search for topics"
                                 />
                             </div>
                         </form>
