@@ -105,7 +105,7 @@ const handleDelete = (user) => {
                                         scope="col"
                                         class="p-4 text-xs font-medium text-left text-gray-500 uppercase"
                                     >
-                                        Role
+                                        Type
                                     </th>
                                     <th
                                         scope="col"
@@ -151,7 +151,7 @@ const handleDelete = (user) => {
                                     <td
                                         class="p-4 text-base text-gray-900 whitespace-nowrap"
                                     >
-                                        {{ user.role }}
+                                        {{ user.type }}
                                     </td>
                                     <td
                                         class="p-4 text-base font-medium text-gray-900 whitespace-nowrap"
