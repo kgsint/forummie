@@ -40,7 +40,7 @@ const handleDelete = (user) => {
                             /* if confirmed */
                             if (result.isConfirmed) {
                             let username = user.username
-                            router.delete(route('admin.user.delete', user.username), {
+                            router.delete(route('admin.user.destroy', user.username), {
                             onSuccess: () => {
                                 displayToastMessage(`@${username} has been deleted`)
                             }

@@ -2,6 +2,8 @@
 import UserIcon from "@/Components/Icons/UserIcon.vue"
 import PostIcon from "@/Components/Icons/PostIcon.vue"
 import { Link } from '@inertiajs/vue3'
+import TagIcon from '@/Components/Icons/TagIcon.vue';
+
 
 defineProps(['showSideNavigation'])
 </script>
@@ -57,10 +59,23 @@ defineProps(['showSideNavigation'])
                             <Link
                                 :href="route('admin.users')"
                                 class="flex items-center p-2 text-base text-gray-900 rounded-lg hover:bg-gray-100 group"
+                                :class="{ 'bg-gray-200 hover:bg-gray-300': $page.component === 'Admin/Users' }"
                             >
                                 <UserIcon />
                                 <span class="ml-3" sidebar-toggle-item=""
                                     >Manage Users</span
+                                >
+                            </Link>
+                        </li>
+                        <li>
+                            <Link
+                                :href="route('admin.topics')"
+                                class="flex items-center p-2 text-base text-gray-900 rounded-lg hover:bg-gray-100 group"
+                                :class="{ 'bg-gray-200 hover:bg-gray-300': $page.component === 'Admin/Topics' }"
+                            >
+                                <TagIcon />
+                                <span class="ml-3" sidebar-toggle-item=""
+                                    >Manage Topics</span
                                 >
                             </Link>
                         </li>

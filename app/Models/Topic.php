@@ -9,5 +9,7 @@ class Topic extends Model
 {
     use HasFactory;
 
+    const PAGINATION_COUNT = 10;
+
     protected $guarded = [];
 }

@@ -5,9 +5,10 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\ForumController;
 use App\Http\Controllers\MarkAsBestAnswer;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\SearchMentionableUser;
 use App\Http\Controllers\GenerateMarkdownPreview;
+use App\Http\Controllers\Admin\UsersController;
+use App\Http\Controllers\Admin\TopicsController;
 
 // forum routes
 Route::controller(ForumController::class)->group(function() {
@@ -26,7 +27,9 @@ Route::prefix('admin')->group(function() {
     // redirect /admin to /admin/users
     Route::redirect('/', '/admin/users');
     Route::get('/users', [UsersController::class, 'index'])->name('admin.users');
-    Route::delete('/user/{user:username}', [UsersController::class, 'delete'])->name('admin.user.delete');
+    Route::delete('/user/{user:username}', [UsersController::class, 'delete'])->name('admin.user.destroy');
+
+    Route::get('/topics', [TopicsController::class, 'index'])->name('admin.topics');
 });
 
 
