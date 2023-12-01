@@ -13,6 +13,11 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
+    // account's type
+    const DEFAULT = 1;
+    const MODERATOR = 2;
+    const ADMIN = 3;
+
     const PAGINATION_COUNT = 10;
 
     /**
