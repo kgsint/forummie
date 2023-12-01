@@ -41,9 +41,25 @@ const handleDelete = (user) => {
     }).then((result) => {
       /* if confirmed */
       if (result.isConfirmed) {
+        let username = user.username
         router.delete(route('admin.user.delete', user.username), {
             onSuccess: () => {
-                Swal.fire("Deleted!", "", "success");
+                // sweetalert toast
+                const Toast = Swal.mixin({
+                  toast: true,
+                  position: "top-end",
+                  showConfirmButton: false,
+                  timer: 3000,
+                  didOpen: (toast) => {
+                    toast.onmouseenter = Swal.stopTimer;
+                    toast.onmouseleave = Swal.resumeTimer;
+                  }
+                });
+                // success toast message after delete
+                Toast.fire({
+                    text: `@${username} has been deleted`,
+                    icon: "success",
+                });
             }
         })
       }

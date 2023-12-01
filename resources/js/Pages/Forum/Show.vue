@@ -76,7 +76,22 @@ const handleDelete = () => {
       if (result.isConfirmed) {
         router.delete(route('forum.destroy', props.thread), {
             onSuccess: () => {
-                Swal.fire("Thread has been deleted!", "", "success");
+                // sweetalert toast
+                const Toast = Swal.mixin({
+                  toast: true,
+                  position: "top-end",
+                  showConfirmButton: false,
+                  timer: 3000,
+                  didOpen: (toast) => {
+                    toast.onmouseenter = Swal.stopTimer;
+                    toast.onmouseleave = Swal.resumeTimer;
+                  }
+                });
+                // success toast message after delete
+                Toast.fire({
+                    title: "Thread has been deleted!",
+                    icon: "success",
+                });
             }
         })
 
