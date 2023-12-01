@@ -52,7 +52,7 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    public function getAvatar()
+    public function getAvatar(): string
     {
         return "https://gravatar.com/avatar/"
                 . md5($this->email)
@@ -65,11 +65,15 @@ class User extends Authenticatable
         return $this->hasMany(Thread::class);
     }
 
+    // account type checks
     public function isAdmin(): bool
     {
-        return in_array($this->email, [
-            'kgsint@mail.co.uk',
-        ]);
+        return $this->type === self::ADMIN;
+    }
+
+    public function isModerator(): bool
+    {
+        return $this->type === self::MODERATOR;
     }
 
 }
