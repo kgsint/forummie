@@ -6,18 +6,26 @@ import SearchIcon from "@/Components/Icons/SearchIcon.vue"
 import { ref } from 'vue'
 import { Link, router } from "@inertiajs/vue3"
 
-const showUserInfoDropdown = ref(false)
+let showUserInfoDropdown = ref(false)
 const showSideNavigation = ref(true)
 
 window.addEventListener('resize', () => {
     // hide side navigation on mobile (togglable)
-    // always show on larger view
+    // always shows on larger view
     if(window.innerWidth < 650) {
         showSideNavigation.value = false
     }else {
         showSideNavigation.value = true
     }
 })
+
+document.addEventListener('click', (e) => {
+    // close on click away | click outside for user dropdown info
+    if(! document.querySelector('#dropdown-info').contains(e.target) && showUserInfoDropdown.value) {
+        showUserInfoDropdown.value = false
+    }
+})
+
 
 // logout
 const logout = () => {
@@ -87,36 +95,34 @@ const logout = () => {
                         </div>
                     </form>
                 </div>
-                <div class="flex items-center">
+                <div id="dropdown-info" class="flex items-center">
                     <div class="hidden mr-3 -mb-1 sm:block">
                         <span></span>
                     </div>
                     <!-- toggle searchbar mobile -->
-                    <button
+                    <!-- <button
                         type="button"
                         class="p-2 text-gray-500 rounded-lg lg:hidden hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400"
                     >
                         <span class="sr-only">Search</span>
 
                         <SearchIcon />
-                    </button>
+                    </button> -->
 
                     <div class="flex items-center ml-3">
-                        <div class="relative ">
-                            <button
-                                @click="showUserInfoDropdown = !showUserInfoDropdown"
-                                type="button"
-                                class="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
-                                aria-expanded="false"
-                            >
-                                <span class="sr-only">Open user menu</span>
-                                <img
-                                    class="w-8 h-8 rounded-full"
-                                    :src="$page.props.auth.user.avatar"
-                                    alt="user photo"
-                                />
-                            </button>
-                        </div>
+                        <button
+                            @click="showUserInfoDropdown = !showUserInfoDropdown"
+                            type="button"
+                            class="relative flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
+                            aria-expanded="false"
+                        >
+                            <span class="sr-only">Open user menu</span>
+                            <img
+                                class="w-8 h-8 rounded-full"
+                                :src="$page.props.auth.user.avatar"
+                                alt="user photo"
+                            />
+                        </button>
                         <!-- nav bar user info dropdown -->
                         <div
                             v-show="showUserInfoDropdown"
