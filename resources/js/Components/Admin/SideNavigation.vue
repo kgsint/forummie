@@ -57,7 +57,7 @@ defineProps(['showSideNavigation'])
                         </li>
                         <li>
                             <Link
-                                :href="route('admin.users')"
+                                :href="route('admin.users.index')"
                                 class="flex items-center p-2 text-base text-gray-900 rounded-lg hover:bg-gray-100 group"
                                 :class="{ 'bg-gray-200 hover:bg-gray-300': $page.component === 'Admin/Users' }"
                             >
@@ -69,7 +69,7 @@ defineProps(['showSideNavigation'])
                         </li>
                         <li>
                             <Link
-                                :href="route('admin.topics')"
+                                :href="route('admin.topics.index')"
                                 class="flex items-center p-2 text-base text-gray-900 rounded-lg hover:bg-gray-100 group"
                                 :class="{ 'bg-gray-200 hover:bg-gray-300': $page.component === 'Admin/Topics' }"
                             >
