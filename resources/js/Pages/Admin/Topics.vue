@@ -14,11 +14,6 @@ defineProps({
 
 const { form, showCreateTopicModal, createNewTopic } = useCreateTopic()
 
-
-const handleCreateTopic = () => {
-
-}
-
 </script>
 
 
@@ -52,9 +47,9 @@ const handleCreateTopic = () => {
                             </div>
                         </form>
 
-                        <SecondaryButton class="boder border-gray-400 shadow" @click="showCreateTopicModal = true">
+                        <button class="text-sm font-semibold bg-gray-200 text-gray-700 hover:opacity-75 duration-200 px-2 py-3 rounded-lg border border-gray-400 shadow" @click="showCreateTopicModal = true">
                             Create new Topic
-                        </SecondaryButton>
+                        </button>
                     </div>
                 </div>
             </div>
