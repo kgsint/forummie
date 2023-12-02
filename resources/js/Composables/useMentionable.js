@@ -14,14 +14,8 @@ export default () => {
         mentionableList.value = res.data.items
     }
 
-    // highlight mention user
-    const highlightMentionedUser = (body) => {
-        return body.replace(/@(\w+)/g, '<span class="mentioned-user">@$1</span>')
-    }
-
     return {
         mentionableList,
         handleMentionSearch,
-        highlightMentionedUser,
     }
 }

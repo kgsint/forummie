@@ -4,12 +4,11 @@ import ForumPostCard from '@/Components/Forum/PostCard.vue'
 import useCreateReply from '@/Composables/useCreateReply'
 import EditIcon from '../Icons/EditIcon.vue';
 import DeleteIcon from '../Icons/DeleteIcon.vue';
-import { ref, watch, computed, onMounted, onUpdated } from 'vue';
+import { ref, watch, computed } from 'vue';
 import Textarea from '../Textarea.vue';
 import InputError from '../InputError.vue';
 import Swal from 'sweetalert2'
 import axios from 'axios';
-import useMentionable from '@/Composables/useMentionable'
 import CheckedIcon from '@/Components/Icons/CheckedIcon.vue'
 
 defineOptions({
@@ -28,7 +27,6 @@ const isBestAnswer = computed(() => {
 
 // composables
 const { showReplyForm } = useCreateReply()
-const { highlightMentionedUser } = useMentionable()
 // edit form object
 const editForm = useForm({
     body: props.post.body_markdown
@@ -55,13 +53,6 @@ watch(markdownPreviewEnabled, (isEnabled) => {
     })
 })
 
-// highlight mention user
-onMounted(() => {
-    props.post.body = highlightMentionedUser(props.post.body)
-})
-onUpdated(() => {
-    props.post.body = highlightMentionedUser(props.post.body)
-})
 
 // submit edit form request
 const handleEditPost = () => {

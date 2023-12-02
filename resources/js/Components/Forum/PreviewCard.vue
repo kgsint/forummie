@@ -2,11 +2,7 @@
 import { Link } from '@inertiajs/vue3'
 import MessageIcon from '@/Components/Icons/MessageIcon.vue'
 import { router } from '@inertiajs/vue3';
-import useMentionable from '@/Composables/useMentionable'
-import { onMounted, onUpdated } from 'vue'
 import CheckedIcon from '../Icons/CheckedIcon.vue'
-
-const { highlightMentionedUser } = useMentionable()
 
 const props = defineProps({
     thread: Object,
@@ -20,12 +16,6 @@ const redirectToShow = (e) => {
     }
 }
 
-onMounted(() => {
-    props.thread.body = highlightMentionedUser(props.thread.body)
-})
-onUpdated(() => {
-    props.thread.body = highlightMentionedUser(props.thread.body)
-})
 </script>
 
 

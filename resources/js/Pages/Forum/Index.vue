@@ -140,6 +140,7 @@ const filterNav = (e) => {
             <div class="space-y-6 mt-8">
                 <!-- loop threads (forum preview card) -->
                 <ForumPreview
+                    v-if="threads.data.length"
                     v-for="thread in threads.data"
                     :key="thread.id"
                     :thread="thread"

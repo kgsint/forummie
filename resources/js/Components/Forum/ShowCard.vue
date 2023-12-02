@@ -1,22 +1,11 @@
 <script setup>
 import { Link } from '@inertiajs/vue3';
-import { onMounted, onUpdated } from 'vue'
-import useMentionable from '@/Composables/useMentionable'
 
 const props = defineProps({
     thread: {
         type: Object,
         required: true,
     },
-})
-
-const { highlightMentionedUser } = useMentionable()
-
-onMounted(() => {
-    props.thread.body = highlightMentionedUser(props.thread.body)
-})
-onUpdated(() => {
-    props.thread.body = highlightMentionedUser(props.thread.body)
 })
 </script>
 
