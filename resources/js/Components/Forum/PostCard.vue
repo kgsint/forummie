@@ -10,6 +10,8 @@ import InputError from '../InputError.vue';
 import Swal from 'sweetalert2'
 import axios from 'axios';
 import CheckedIcon from '@/Components/Icons/CheckedIcon.vue'
+import { Mentionable } from 'vue-mention';
+import useMentionable from '@/Composables/useMentionable'
 
 defineOptions({
     inheritAttrs: false
@@ -27,6 +29,7 @@ const isBestAnswer = computed(() => {
 
 // composables
 const { showReplyForm } = useCreateReply()
+const { mentionableList, handleMentionSearch } = useMentionable()
 // edit form object
 const editForm = useForm({
     body: props.post.body_markdown
@@ -150,7 +153,13 @@ const handleBestAnswer = () => {
             <form @submit.prevent="handleEditPost"  v-else>
                 <!-- textarea for editing post -->
                 <div v-if="! markdownPreviewEnabled">
-                    <Textarea v-model="editForm.body" rows="4" class="h-32" />
+                    <Mentionable
+                        :keys="['@']"
+                        :items="mentionableList"
+                        v-on:search="handleMentionSearch"
+                    >
+                        <Textarea v-model="editForm.body" rows="4" class="h-32" />
+                    </Mentionable>
                     <InputError :message="editForm.errors.body" />
                 </div>
                 <!-- markdown preview panel -->
