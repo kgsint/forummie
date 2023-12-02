@@ -10,9 +10,9 @@ let showUserInfoDropdown = ref(false)
 const showSideNavigation = ref(true)
 
 window.addEventListener('resize', () => {
-    // hide side navigation on mobile (togglable)
+    // hide side navigation on screen size of below 1024px
     // always shows on larger view
-    if(window.innerWidth < 650) {
+    if(window.innerWidth < 1024) {
         showSideNavigation.value = false
     }else {
         showSideNavigation.value = true
