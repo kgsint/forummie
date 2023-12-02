@@ -6,58 +6,23 @@ import Pagination from '@/Components/Forum/Pagination.vue'
 import PrimaryButton from '@/Components/PrimaryButton.vue'
 import SecondaryButton from '@/Components/SecondaryButton.vue'
 import Modal from '@/Components/Modal.vue'
-import { ref } from 'vue'
+import useCreateTopic from '@/Composables/useCreateTopic'
 
 defineProps({
     topics: Object,
 })
 
-const showCreateTopicModal = ref(false)
+const { form, showCreateTopicModal, createNewTopic } = useCreateTopic()
+
+
+const handleCreateTopic = () => {
+
+}
 
 </script>
 
 
 <template>
-    <!-- create topic modal -->
-    <Modal :show="showCreateTopicModal" @close="showCreateTopicModal = false">
-        <div class="px-3 py-6">
-            <div class="flex justify-between items-start">
-                <h3 class="border-b-2 mb-3 pb-3 border-gray-300 flex-1">Create new Topic</h3>
-                <span
-                    @click="showCreateTopicModal = false"
-                    class="px-3 py-1 text-xl bg-gray-300 hover:bg-gray-500 hover:text-white
-                    transition-all rounded-md duration-150 cursor-pointer">
-                    &times;
-                </span>
-            </div>
-            <form>
-                <div class="flex justify-between items-center gap-3 mb-3">
-                    <div class="mt-1 lg:w-64 xl:w-96">
-                        <label for="name" class="sr-only">Topic's Name</label>
-                        <input
-                            type="text"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg
-                                focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5"
-                            id="name"
-                            placeholder="Name of the topic"
-                        />
-                    </div>
-                    <div class="mt-1 lg:w-64 xl:w-96">
-                        <label for="slug" class="sr-only">Topic's slug</label>
-                        <input
-                            type="text"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg
-                                focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5"
-                            id="name"
-                            placeholder="Slug for the Topic"
-                        />
-                    </div>
-                </div>
-                <PrimaryButton class="float-right mb-4">Create</PrimaryButton>
-            </form>
-        </div>
-    </Modal>
-
     <Head title="Manage Tags" />
     <AdminLayout>
         <!-- header -->
@@ -87,9 +52,9 @@ const showCreateTopicModal = ref(false)
                             </div>
                         </form>
 
-                        <PrimaryButton @click="showCreateTopicModal = true">
+                        <SecondaryButton class="boder border-gray-400 shadow" @click="showCreateTopicModal = true">
                             Create new Topic
-                        </PrimaryButton>
+                        </SecondaryButton>
                     </div>
                 </div>
             </div>
@@ -155,6 +120,48 @@ const showCreateTopicModal = ref(false)
             <!-- pagination -->
             <Pagination :links="topics.meta.links" class="mt-3 mb-20 mx-auto" />
     </AdminLayout>
+
+    <!-- create topic modal -->
+    <Modal :show="showCreateTopicModal" @close="showCreateTopicModal = false">
+        <div class="px-3 py-6">
+            <div class="flex justify-between items-start">
+                <h3 class="border-b-2 mb-3 pb-3 border-gray-300 flex-1">Create new Topic</h3>
+                <span
+                    @click="showCreateTopicModal = false"
+                    class="px-3 py-1 text-xl bg-gray-300 hover:bg-gray-500 hover:text-white
+                    transition-all rounded-md duration-150 cursor-pointer">
+                    &times;
+                </span>
+            </div>
+            <form @submit.prevent="createNewTopic">
+                <div class="flex justify-between items-center gap-3 mb-3">
+                    <div class="mt-1 lg:w-64 xl:w-96">
+                        <label for="name" class="sr-only">Topic's Name</label>
+                        <input
+                            v-model="form.name"
+                            type="text"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg
+                                focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5"
+                            id="name"
+                            placeholder="Name of the topic"
+                        />
+                    </div>
+                    <div class="mt-1 lg:w-64 xl:w-96">
+                        <label for="slug" class="sr-only">Topic's slug</label>
+                        <input
+                            v-model="form.slug"
+                            type="text"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg
+                                focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5"
+                            id="name"
+                            placeholder="Slug for the Topic"
+                        />
+                    </div>
+                </div>
+                <PrimaryButton class="float-right mb-4">Create</PrimaryButton>
+            </form>
+        </div>
+    </Modal>
 </template>
 
 

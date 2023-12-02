@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\TopicStoreRequest;
 use App\Http\Resources\TopicResource;
 use App\Models\Topic;
 use Illuminate\Http\Request;
@@ -19,8 +20,13 @@ class TopicsController extends Controller
         ]);
     }
 
-    public function store()
+    public function store(TopicStoreRequest $request)
     {
+        Topic::create([
+            'name' => $request->name,
+            'slug' => $request->slug,
+        ]);
 
+        return back();
     }
 }

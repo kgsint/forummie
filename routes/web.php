@@ -30,7 +30,7 @@ Route::prefix('admin')->group(function() {
     Route::delete('/user/{user:username}', [UsersController::class, 'destroy'])->name('admin.user.destroy');
 
     Route::get('/topics', [TopicsController::class, 'index'])->name('admin.topics.index');
-    Route::get('/topics/store', [TopicsController::class, 'store'])->name('admin.topics.store');
+    Route::post('/topics', [TopicsController::class, 'store'])->name('admin.topics.store');
 });
 
 
