@@ -10,10 +10,11 @@ const showCreateTopicModal = ref(false)
 
 export default () => {
     const createNewTopic = () => {
-        console.log(form.name, form.slug)
         form.post('/admin/topics', {
             onSuccess: () => {
+                // reset
                 form.reset()
+                // close modal
                 showCreateTopicModal.value = false
             }
         })
