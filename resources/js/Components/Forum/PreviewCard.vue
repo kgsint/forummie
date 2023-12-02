@@ -4,6 +4,7 @@ import MessageIcon from '@/Components/Icons/MessageIcon.vue'
 import { router } from '@inertiajs/vue3';
 import useMentionable from '@/Composables/useMentionable'
 import { onMounted, onUpdated } from 'vue'
+import CheckedIcon from '../Icons/CheckedIcon.vue'
 
 const { highlightMentionedUser } = useMentionable()
 
@@ -103,8 +104,8 @@ onUpdated(() => {
                     </time>
                 </div>
 
-                <div v-if="isSolved" class="text-blue-500">
-                    Solved
+                <div v-if="isSolved" class="flex items-center text-blue-500">
+                    <CheckedIcon /> Solved
                 </div>
             </div>
         </div>

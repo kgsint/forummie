@@ -10,6 +10,7 @@ import InputError from '../InputError.vue';
 import Swal from 'sweetalert2'
 import axios from 'axios';
 import useMentionable from '@/Composables/useMentionable'
+import CheckedIcon from '@/Components/Icons/CheckedIcon.vue'
 
 defineOptions({
     inheritAttrs: false
@@ -141,7 +142,10 @@ const handleBestAnswer = () => {
                         <time :datetime="post.created_at.datetime" :title="post.created_at.datetime">{{ post.created_at.human }}</time>
                     </div>
                 </div>
-                <h5 v-if="isBestAnswer" class="text-blue-600 font-bold">Best Answer</h5>
+                <h5 v-if="isBestAnswer" class="text-blue-600 font-bold flex items-center">
+                    <CheckedIcon />
+                    Best Answer
+                </h5>
             </div>
 
             <!-- description -->
