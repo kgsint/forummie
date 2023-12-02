@@ -18,4 +18,9 @@ class TopicsController extends Controller
             )
         ]);
     }
+
+    public function store()
+    {
+
+    }
 }

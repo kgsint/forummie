@@ -2,16 +2,62 @@
 import AdminLayout from '@/Layouts/AdminLayout.vue'
 import { Head } from '@inertiajs/vue3'
 import DeleteIcon from '@/Components/Icons/DeleteIcon.vue'
-import Pagination from '@/Components/Forum/Pagination.vue';
+import Pagination from '@/Components/Forum/Pagination.vue'
+import PrimaryButton from '@/Components/PrimaryButton.vue'
+import SecondaryButton from '@/Components/SecondaryButton.vue'
+import Modal from '@/Components/Modal.vue'
+import { ref } from 'vue'
 
 defineProps({
     topics: Object,
 })
 
+const showCreateTopicModal = ref(false)
+
 </script>
 
 
 <template>
+    <!-- create topic modal -->
+    <Modal :show="showCreateTopicModal" @close="showCreateTopicModal = false">
+        <div class="px-3 py-6">
+            <div class="flex justify-between items-start">
+                <h3 class="border-b-2 mb-3 pb-3 border-gray-300 flex-1">Create new Topic</h3>
+                <span
+                    @click="showCreateTopicModal = false"
+                    class="px-3 py-1 text-xl bg-gray-300 hover:bg-gray-500 hover:text-white
+                    transition-all rounded-md duration-150 cursor-pointer">
+                    &times;
+                </span>
+            </div>
+            <form>
+                <div class="flex justify-between items-center gap-3 mb-3">
+                    <div class="mt-1 lg:w-64 xl:w-96">
+                        <label for="name" class="sr-only">Topic's Name</label>
+                        <input
+                            type="text"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg
+                                focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5"
+                            id="name"
+                            placeholder="Name of the topic"
+                        />
+                    </div>
+                    <div class="mt-1 lg:w-64 xl:w-96">
+                        <label for="slug" class="sr-only">Topic's slug</label>
+                        <input
+                            type="text"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg
+                                focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5"
+                            id="name"
+                            placeholder="Slug for the Topic"
+                        />
+                    </div>
+                </div>
+                <PrimaryButton class="float-right mb-4">Create</PrimaryButton>
+            </form>
+        </div>
+    </Modal>
+
     <Head title="Manage Tags" />
     <AdminLayout>
         <!-- header -->
@@ -26,7 +72,7 @@ defineProps({
                 </div>
                 <div class="sm:flex">
                     <div
-                        class="items-center hidden mb-3 sm:flex sm:divide-x sm:divide-gray-100 sm:mb-0 dark:divide-gray-700"
+                        class="justify-between items-center mb-3 flex sm:divide-x sm:divide-gray-100 sm:mb-0 dark:divide-gray-700"
                     >
                         <form class="lg:pr-3" action="#" method="GET">
                             <label for="users-search" class="sr-only"
@@ -40,6 +86,10 @@ defineProps({
                                 />
                             </div>
                         </form>
+
+                        <PrimaryButton @click="showCreateTopicModal = true">
+                            Create new Topic
+                        </PrimaryButton>
                     </div>
                 </div>
             </div>
