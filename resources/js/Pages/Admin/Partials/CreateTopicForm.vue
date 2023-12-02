@@ -1,8 +1,17 @@
 <script setup>
 import useCreateTopic from '@/Composables/useCreateTopic'
 import PrimaryButton from '@/Components/PrimaryButton.vue'
+import { watch } from 'vue'
+import useHelper from '@/Composables/useHelper'
 
 const { form, createNewTopic } = useCreateTopic()
+const { convertToSlug } = useHelper()
+
+// auto-generated slug on type
+watch(() => form.name, (name) => {
+    // console.log(convertToSlug(name))
+    form.slug = convertToSlug(name)
+})
 
 </script>
 
