@@ -3,11 +3,10 @@ import AdminLayout from '@/Layouts/AdminLayout.vue'
 import { Head } from '@inertiajs/vue3'
 import DeleteIcon from '@/Components/Icons/DeleteIcon.vue'
 import Pagination from '@/Components/Forum/Pagination.vue'
-import PrimaryButton from '@/Components/PrimaryButton.vue'
-import SecondaryButton from '@/Components/SecondaryButton.vue'
 import Modal from '@/Components/Modal.vue'
 import useCreateTopic from '@/Composables/useCreateTopic'
 import CreateTopicForm from '@/Pages/Admin/Partials/CreateTopicForm.vue'
+import PlusCircleIcon from '@/Components/Icons/PlusCircleIcon.vue'
 
 defineProps({
     topics: Object,
@@ -48,7 +47,8 @@ const { showCreateTopicModal } = useCreateTopic()
                             </div>
                         </form>
 
-                        <button class="text-sm font-semibold bg-gray-200 text-gray-700 hover:opacity-75 duration-200 px-2 py-3 rounded-lg border border-gray-400 shadow" @click="showCreateTopicModal = true">
+                        <button class="flex items-center gap-1 text-sm font-semibold bg-gray-200 text-gray-700 hover:opacity-75 duration-200 px-2 py-3 rounded-lg border border-gray-400 shadow" @click="showCreateTopicModal = true">
+                            <PlusCircleIcon class="h-4 w-4" />
                             Create new Topic
                         </button>
                     </div>
