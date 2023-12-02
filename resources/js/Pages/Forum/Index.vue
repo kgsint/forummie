@@ -80,6 +80,9 @@ const filterNav = (e) => {
             <!-- top nav filter -->
             <nav class="flex flex-col md:flex-row md:items-center md:justify-between space-y-3 md:space-x-6">
                 <div class="flex space-x-2 items-center">
+                    <button @click="showCreateThreadForm" class="block md:hidden rounded-xl text-xs px-3 py-1 bg-blue-600 text-white font-semibold">
+                        Create Thread
+                    </button>
                     <select
                         @change="filterNav"
                         class="w-32 bg-gray-50 border border-gray-300 text-gray-900 text-sm
@@ -116,6 +119,7 @@ const filterNav = (e) => {
                         </option>
                     </select>
                     <!-- {{ $page.props.queryStrings }} -->
+
                 </div>
                 <form action="#" method="get" class="bg-gray-200 px-2 rounded-full">
                     <label for="s" class="flex items-center">
