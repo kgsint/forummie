@@ -29,4 +29,16 @@ class TopicsController extends Controller
 
         return back();
     }
+
+    public function destroy(Request $request, Topic $topic)
+    {
+        // authorize if admin or moderator
+        // if not forbidden
+        if($request->user()->isAdmin() || $request->user()->isModerator()) {
+            $topic->delete();
+            return back();
+        }
+
+        abort(403);
+    }
 }

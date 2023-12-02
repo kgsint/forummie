@@ -5,7 +5,6 @@ import { Head, router, usePage } from '@inertiajs/vue3'
 import Pagination from '@/Components/Forum/Pagination.vue'
 import { ref, watch } from 'vue'
 import _debounce from 'lodash.debounce'
-import Swal from 'sweetalert2'
 import useSweetalert from '@/Composables/useSweetalert';
 
 defineProps({
@@ -35,18 +34,19 @@ watch(searchUser, (search) => {
 const handleDelete = (user) => {
     // confirm with sweet alert
     displayConfirmMessage(
-        `Do you want to delete ${user.username}`)
-                        .then((result) => {
-                            /* if confirmed */
-                            if (result.isConfirmed) {
-                            let username = user.username
-                            router.delete(route('admin.user.destroy', user.username), {
-                            onSuccess: () => {
-                                displayToastMessage(`@${username} has been deleted`)
-                            }
-                            })
-                            }
-                        });
+        `Do you want to delete ${user.username}`
+        )
+        .then((result) => {
+            /* if confirmed */
+            if (result.isConfirmed) {
+                let username = user.username
+                router.delete(route('admin.user.destroy', user.username), {
+                onSuccess: () => {
+                    displayToastMessage(`@${username} has been deleted`)
+                }
+                })
+            }
+        });
 }
 
 </script>

@@ -1,19 +1,37 @@
 <script setup>
 import AdminLayout from '@/Layouts/AdminLayout.vue'
-import { Head } from '@inertiajs/vue3'
+import { Head, router } from '@inertiajs/vue3'
 import DeleteIcon from '@/Components/Icons/DeleteIcon.vue'
 import Pagination from '@/Components/Forum/Pagination.vue'
 import Modal from '@/Components/Modal.vue'
 import useCreateTopic from '@/Composables/useCreateTopic'
 import CreateTopicForm from '@/Pages/Admin/Partials/CreateTopicForm.vue'
 import PlusCircleIcon from '@/Components/Icons/PlusCircleIcon.vue'
+import useSweetalert from '@/Composables/useSweetalert';
 
 defineProps({
     topics: Object,
 })
 
+// composables
 const { showCreateTopicModal } = useCreateTopic()
+const { displayConfirmMessage, displayToastMessage } = useSweetalert()
 
+const handleDelete = (topic) => {
+    displayConfirmMessage(
+        `Do you want to delete "${topic.name}"`
+        ).then((result) => {
+            /* if confirmed */
+            if (result.isConfirmed) {
+                let topicName = topic.name
+                router.delete(route('admin.topics.destroy', topic.id), {
+                onSuccess: () => {
+                    displayToastMessage(`${topicName} has been deleted`)
+                }
+                })
+            }
+        })
+}
 </script>
 
 
@@ -101,6 +119,7 @@ const { showCreateTopicModal } = useCreateTopic()
                                         class="p-4 space-x-2 whitespace-nowrap"
                                     >
                                         <button
+                                            @click="handleDelete(topic)"
                                             type="button"
                                             class="px-3 py-2 text-xs font-medium text-white bg-red-600 rounded-lg hover:bg-red-800 focus:ring-4 focus:ring-red-300"
                                         >
