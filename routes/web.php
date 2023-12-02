@@ -26,7 +26,11 @@ Route::controller(ForumController::class)->group(function() {
 Route::prefix('admin')->group(function() {
     // redirect /admin to /admin/users
     Route::redirect('/', '/admin/users');
+<<<<<<< HEAD
     Route::get('/users', [UsersController::class, 'index'])->name('admin.users.index');
+=======
+    Route::get('/users', [UsersController::class, 'index'])->name('admin.users');
+>>>>>>> b4e123fab32c08f74b7d752bd44b4bf25af24280
     Route::delete('/user/{user:username}', [UsersController::class, 'destroy'])->name('admin.user.destroy');
 
     Route::get('/topics', [TopicsController::class, 'index'])->name('admin.topics.index');
