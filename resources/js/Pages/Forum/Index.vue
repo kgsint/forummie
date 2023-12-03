@@ -13,6 +13,7 @@ import useCreateThread from '@/Composables/useCreateThread'
 import _debounce from 'lodash.debounce'
 import { ref, watch, onMounted } from 'vue';
 import useInfiniteScrolling from '@/Composables/useInfiniteScrolling'
+import useIntersect from '@/Composables/useIntersect'
 
 const page = usePage()
 const { showCreateThreadForm } = useCreateThread()
@@ -28,18 +29,7 @@ const { data, loading, loadMoreData } = useInfiniteScrolling('threads')
 const breakPointEl = ref(null)
 
 // to observe intersect
-const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-        // if view point els are intersecting
-        if(entry.isIntersecting) {
-            loadMoreData()
-        }
-    })
-})
-// load more data when intersect
-onMounted(() => {
-    observer.observe(breakPointEl.value)
-})
+useIntersect(breakPointEl, loadMoreData)
 
 
 // filter threads via topic
