@@ -11,18 +11,50 @@ import { Head, router, usePage } from '@inertiajs/vue3'
 import _omitBy from 'lodash.omitby'
 import _isempty from 'lodash.isempty'
 import useCreateThread from '@/Composables/useCreateThread'
-import { ref } from 'vue'
-import { onMounted } from 'vue';
 import _debounce from 'lodash.debounce'
-import { watch } from 'vue';
+import { ref, watch, onMounted } from 'vue';
 
+const page = usePage()
 const { showCreateThreadForm } = useCreateThread()
 
-defineProps({
+const props = defineProps({
     threads: Object,
 })
 
-const page = usePage()
+// infinite scrolling
+const data = ref(props.threads.data)
+const breakPointEl = ref(null)
+const pageUrl = page.url
+const loadMoreData = () => {
+    // return when there is no next url to paginate
+    if(! props.threads.links.next) {
+        return
+    }
+
+    router.get(props.threads.links.next, {}, {
+        preserveState: true,
+        preserveScroll: true,
+        onSuccess: () => {
+            window.history.replaceState({}, '', pageUrl)
+            data.value = [...data.value, ...props.threads.data]
+        }
+    })
+}
+
+// to observe intersect
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+        // if view point els are intersecting
+        if(entry.isIntersecting) {
+            loadMoreData()
+        }
+    })
+})
+// load more data when intersect
+onMounted(() => {
+    observer.observe(breakPointEl.value)
+})
+
 
 // filter threads via topic
 const filterTopic = (e) => {
@@ -141,18 +173,19 @@ const filterNav = (e) => {
                 <!-- loop threads (forum preview card) -->
                 <ForumPreview
                     v-if="threads.data.length"
-                    v-for="thread in threads.data"
+                    v-for="thread in data"
                     :key="thread.id"
                     :thread="thread"
                     :isSolved="thread.solution?.id ? true : false"
                 />
             </div>
             <!-- pagination -->
-            <div class="mt-3" v-if="threads.data.length">
+            <!-- <div class="mt-3" v-if="threads.data.length">
                 <Pagination
                     :links="threads.meta.links"
                 />
-            </div>
+            </div> -->
+            <div ref="breakPointEl"></div>
         </main>
         <!-- sidebar -->
         <template #sidebar>
