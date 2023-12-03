@@ -6,45 +6,26 @@ import PrimaryButton from '@/Components/PrimaryButton.vue';
 import ForumPreview from '@/Components/Forum/PreviewCard.vue'
 import SearchIcon from '@/Components/Icons/SearchIcon.vue'
 import SideNavigation from '@/Components/Forum/SideNavigation.vue'
-import Pagination from '@/Components/Forum/Pagination.vue'
 import { Head, router, usePage } from '@inertiajs/vue3'
 import _omitBy from 'lodash.omitby'
 import _isempty from 'lodash.isempty'
 import useCreateThread from '@/Composables/useCreateThread'
 import _debounce from 'lodash.debounce'
 import { ref, watch, onMounted } from 'vue';
+import useInfiniteScrolling from '@/Composables/useInfiniteScrolling'
 
 const page = usePage()
 const { showCreateThreadForm } = useCreateThread()
+
 
 const props = defineProps({
     threads: Object,
 })
 
-// infinite scrolling
-const data = ref(props.threads.data)
-const loading = ref(false)
+// infinite scrolling composable
+const { data, loading, loadMoreData } = useInfiniteScrolling('threads')
+// break element to check for intersection with browser viewport
 const breakPointEl = ref(null)
-const pageUrl = page.url
-const loadMoreData = () => {
-    // return when there is no next url to paginate
-    if(! props.threads.links.next) {
-        return
-    }
-
-    // loading
-    loading.value = true
-    router.get(props.threads.links.next, {}, {
-        preserveState: true,
-        preserveScroll: true,
-        onSuccess: () => {
-            window.history.replaceState({}, '', pageUrl)
-            data.value = [...data.value, ...props.threads.data]
-            // reset loading
-            loading.value = false
-        }
-    })
-}
 
 // to observe intersect
 const observer = new IntersectionObserver((entries) => {
@@ -184,14 +165,8 @@ const filterNav = (e) => {
                     :isSolved="thread.solution?.id ? true : false"
                 />
             </div>
-            <!-- pagination -->
-            <!-- <div class="mt-3" v-if="threads.data.length">
-                <Pagination
-                    :links="threads.meta.links"
-                />
-            </div> -->
             <div ref="breakPointEl"></div>
-            <div v-if="loading" class="text-xl">Loading...</div>
+            <div v-if="loading" class="text-xl text-center my-12">Loading...</div>
         </main>
         <!-- sidebar -->
         <template #sidebar>
