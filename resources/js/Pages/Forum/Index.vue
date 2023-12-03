@@ -23,6 +23,7 @@ const props = defineProps({
 
 // infinite scrolling
 const data = ref(props.threads.data)
+const loading = ref(false)
 const breakPointEl = ref(null)
 const pageUrl = page.url
 const loadMoreData = () => {
@@ -31,12 +32,16 @@ const loadMoreData = () => {
         return
     }
 
+    // loading
+    loading.value = true
     router.get(props.threads.links.next, {}, {
         preserveState: true,
         preserveScroll: true,
         onSuccess: () => {
             window.history.replaceState({}, '', pageUrl)
             data.value = [...data.value, ...props.threads.data]
+            // reset loading
+            loading.value = false
         }
     })
 }
@@ -186,6 +191,7 @@ const filterNav = (e) => {
                 />
             </div> -->
             <div ref="breakPointEl"></div>
+            <div v-if="loading" class="text-xl">Loading...</div>
         </main>
         <!-- sidebar -->
         <template #sidebar>
