@@ -16,6 +16,10 @@ copy `.env.example` file to `.env` :
 ```
 cp .env.example .env
 ```
+Set up local database called `forummie` and migrate: 
+```
+php artisan migrate
+```
 Generate `APP_KEY`
 ```bash
 php artisan key:generate
@@ -29,7 +33,7 @@ Start your development server
 php artisan serve
 ```
 
-For Admin login, visit /admin
+For Admin login,
 ```
 email - admin@gmail.com
 password - password
