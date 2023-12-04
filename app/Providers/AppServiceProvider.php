@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Contracts\ThreadInterface;
 use App\Repositories\ThreadRepository;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -22,6 +23,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        if($this->app->environment('APP_ENV') === 'production') {
+            URL::forceScheme('https');
+        }
         // remove data  wrapper in resources
         JsonResource::withoutWrapping();
     }
