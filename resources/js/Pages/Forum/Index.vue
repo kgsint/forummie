@@ -51,6 +51,9 @@ const handleSearch = _debounce((search) => {
     router.reload({
         data: {
             s: search
+        },
+        onSuccess: () => {
+            data.value = props.threads.data
         }
     })
 }, 500)
@@ -129,7 +132,7 @@ const filterNav = (e) => {
                     <!-- {{ $page.props.queryStrings }} -->
 
                 </div>
-                <form action="#" method="get" class="bg-gray-200 px-2 rounded-full">
+                <form class="bg-gray-200 px-2 rounded-full">
                     <label for="s" class="flex items-center">
                         <SearchIcon />
                         <TextInput
@@ -154,6 +157,21 @@ const filterNav = (e) => {
                     :thread="thread"
                     :isSolved="thread.solution?.id ? true : false"
                 />
+                <!-- when there is no thread (excluding search or filter) -->
+                <div
+                    v-else-if="! threads.data.length && $page.props.queryStrings == {}"
+                    class="flex flex-col items-center"
+                >
+                    <h4 class="text-lg font-semibold">Sorry. There is no thread or question at the momemnt.</h4>
+                </div>
+                <!-- cannnot found illustration and text for search or filter -->
+                <div
+                    v-if="! threads.data.length && $page.props.queryStrings"
+                    class="flex flex-col items-center"
+                >
+                    <h4 class="text-lg font-semibold">Sorry. Cannot find what you are looking for at the moment.</h4>
+                    <img src="/images/cannot-search.png" alt="cannot search or filter illustration" class="max-w-[400px]">
+                </div>
             </div>
             <div ref="breakPointEl"></div>
             <div v-if="loading" class="text-xl text-center my-12">Loading...</div>
