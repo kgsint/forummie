@@ -51,6 +51,9 @@ const handleSearch = _debounce((search) => {
     router.reload({
         data: {
             s: search
+        },
+        onSuccess: () => {
+            data.value = props.threads.data
         }
     })
 }, 500)
