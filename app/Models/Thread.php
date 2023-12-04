@@ -32,19 +32,25 @@ class Thread extends Model
     public function scopeOrderByLatestPost($query)
     {
         return $query->orderBy(
-                Post::select('created_at')
-                        ->whereColumn('posts.thread_id', 'threads.id')
-                        ->latest()
-                        ->take(1)
+                    Post::select('created_at')
+                            ->whereColumn('posts.thread_id', 'threads.id')
+                            ->latest()
+                            ->take(1)
                         ,'desc');
     }
 
     // search by thread's title
     public function scopeSearchByTitle($query)
     {
+        $search = request('s');
+
         return $query->when(
-            request()->has('s'),
-            fn($query) => $query->where('title', 'LIKE', "%" . request('s') . "%")
+            $search,
+            // making case-insensitive for pgsql
+            // note - mysql is case-insensitive by default
+            fn($query) => $query->where('title', 'LIKE', "%" . ucfirst($search) . "%")
+                                ->orWhere('title', 'LIKE', "%", strtolower($search) . "%")
+                                ->orWhere('title', 'LIKE', "%", strtoupper($search) . "%")
         );
     }
 
