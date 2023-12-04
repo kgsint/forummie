@@ -14,6 +14,7 @@ import _debounce from 'lodash.debounce'
 import { ref, watch, onMounted } from 'vue';
 import useInfiniteScrolling from '@/Composables/useInfiniteScrolling'
 import useIntersect from '@/Composables/useIntersect'
+import cannotSearchImg from '@/assets/images/cannot-search.png'
 
 const page = usePage()
 const { showCreateThreadForm } = useCreateThread()
@@ -170,7 +171,7 @@ const filterNav = (e) => {
                     class="flex flex-col items-center"
                 >
                     <h4 class="text-lg font-semibold">Sorry. Cannot find what you are looking for at the moment.</h4>
-                    <img src="/images/cannot-search.png" alt="cannot search or filter illustration" class="max-w-[400px]">
+                    <img :src="cannotSearchImg" alt="cannot search or filter illustration" class="max-w-[400px]">
                 </div>
             </div>
             <div ref="breakPointEl"></div>
