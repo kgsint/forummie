@@ -52,14 +52,14 @@ class MarkdownTest extends TestCase
                                     ->component('Forum/Index')
                                     ->has('threads') // passing prop
                                     ->where(
-                                        'threads.data.0.body',
+                                        'threads.data.2.body',
                                         "<p>Body of the first thread.</p>\n")// <p> tag
                                     ->where(
                                         'threads.data.1.body',
                                         '<h1 id="body-of-the-first-thread">Body of the first thread.</h1>' . "\n" // h1 tag
                                     )
                                     ->where(
-                                        'threads.data.2.body',
+                                        'threads.data.0.body',
                                         "<p><strong>bold text</strong></p>\n" // bold tag
                                     )
 
