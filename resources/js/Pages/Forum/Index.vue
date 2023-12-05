@@ -15,39 +15,36 @@ import { ref, watch, onMounted } from 'vue';
 import useInfiniteScrolling from '@/Composables/useInfiniteScrolling'
 import useIntersect from '@/Composables/useIntersect'
 import cannotSearchImg from '@/assets/images/cannot-search.png'
+import useFilterThreads from '@/Composables/useFilterThreads'
 
-const page = usePage()
-const { showCreateThreadForm } = useCreateThread()
-
-
+// props
 const props = defineProps({
     threads: Object,
 })
 
+
+// composables
+const page = usePage()
+const { showCreateThreadForm } = useCreateThread()
+const { filterTopic, filterNav } = useFilterThreads()
 // infinite scrolling composable
 const { data, loading, loadMoreData } = useInfiniteScrolling('threads')
-// break element to check for intersection with browser viewport
-const breakPointEl = ref(null)
 
-// to observe intersect
+const breakPointEl = ref(null) // break element to check for intersection with browser viewport
+const search = ref(page.props.queryStrings?.s ?? '') // ref for search search
+const searchInput = ref(null) // search input element
+
+// to observe intersect using built-in Intersection api
 useIntersect(breakPointEl, loadMoreData)
 
+onMounted(() => {
+    // focus when searching
+    if(search.value) {
+        searchInput.value.focus()
+    }
+})
 
-// filter threads via topic
-const filterTopic = (e) => {
-    router.visit('/', {
-        data: _omitBy({
-            'filter[topic]': e.target.value
-        }, _isempty), // e.target.value is '' or null, data object won't be included in request params
-        preserveScroll: true,
-    })
-}
-
-// search
-const search = ref(page.props.queryStrings?.s ?? '')
-const searchInput = ref(null)
-
-// search
+// search for threads
 const handleSearch = _debounce((search) => {
     router.reload({
         data: {
@@ -64,24 +61,6 @@ watch(search, (search) => {
     handleSearch(search)
 })
 
-onMounted(() => {
-    // track current search value
-    // search.value = page.props.queryStrings?.s ?? ''
-
-    // focus when searching
-    if(search.value) {
-        searchInput.value.focus()
-    }
-})
-
-// filter solved and unresolved threads via dropdown
-const filterNav = (e) => {
-    router.visit('/', {
-        data: _omitBy({
-            [e.target.value]: e.target.value ? '1' : null
-        }, _isempty)
-    })
-}
 </script>
 
 
