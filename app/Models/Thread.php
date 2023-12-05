@@ -49,8 +49,8 @@ class Thread extends Model
             // making case-insensitive for pgsql
             // note - mysql is case-insensitive by default
             fn($query) => $query->where('title', 'LIKE', "%" . ucfirst($search) . "%")
-                                ->orWhere('title', 'LIKE', "%", strtolower($search) . "%")
-                                ->orWhere('title', 'LIKE', "%", strtoupper($search) . "%")
+                                ->orWhere('title', 'LIKE', "%" . strtolower($search) . "%")
+                                ->orWhere('title', 'LIKE', "%" . strtoupper($search) . "%")
         );
     }
 
