@@ -112,9 +112,9 @@ class QueryFilterTest extends TestCase
         $response->assertInertia(
             fn(Assert $page)
             => $page->has('threads.data', 2) // no of thereads displayed
-                    ->where('threads.data.0.title', $threadTwo->title)
-                    ->where('threads.data.0.body', "<p>{$threadTwo->body}</p>\n") // markdown to html
-                    ->where('threads.data.0.body_markdown', $threadTwo->body) // raw body
+                    ->where('threads.data.0.title', $threadThree->title)
+                    ->where('threads.data.0.body', "<p>{$threadThree->body}</p>\n") // markdown to html
+                    ->where('threads.data.0.body_markdown', $threadThree->body) // raw body
         );
     }
 
@@ -148,9 +148,9 @@ class QueryFilterTest extends TestCase
         $guestResponse->assertInertia(
             fn(Assert $page) =>
                         $page->has('threads.data', 2) // total of 2 threads
-                            ->where('threads.data.0.title', $myThreadOne->title)
-                            ->where('threads.data.0.body', "<p>{$myThreadOne->body}</p>\n") // markdown to html
-                            ->where('threads.data.0.body_markdown', $myThreadOne->body) // raw body
+                            ->where('threads.data.0.title', $myThreadTwo->title)
+                            ->where('threads.data.0.body', "<p>{$myThreadTwo->body}</p>\n") // markdown to html
+                            ->where('threads.data.0.body_markdown', $myThreadTwo->body) // raw body
                     );
     }
 
@@ -212,7 +212,7 @@ class QueryFilterTest extends TestCase
             fn(Assert $page) => $page
             ->has('threads.data', 1)    // only one thread being mentioned
             ->where('threads.data.0.title', $threadOne->title)
-            ->where('threads.data.0.body', "<p>{$threadOne->body}</p>\n")
+            ->where('threads.data.0.body', '<p>Hey!, <span class="mentioned-user">@kgsint</span></p>' . "\n")
         );
 
         // when mentioned again mentioned from post of the $threadTwo by $userTwo
