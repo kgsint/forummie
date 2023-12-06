@@ -22,6 +22,7 @@ const { displayConfirmMessage, displayToastMessage } = useSweetalert()
 
 const searchTopic = ref(page.props.queryStrings?.s ?? '')
 
+// search
 const handleSearch = _debounce((search) => {
     router.reload({
         data: {
@@ -55,7 +56,7 @@ const handleDelete = (topic) => {
 
 
 <template>
-    <Head title="Manage Tags" />
+    <Head title="Manage Topics" />
     <AdminLayout>
         <!-- header -->
         <template #header>
