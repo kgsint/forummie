@@ -15,7 +15,10 @@ class TopicsController extends Controller
     {
         return Inertia::render('Admin/Topics', [
             'topics' => TopicResource::collection(
-                Topic::latest()->paginate(Topic::PAGINATION_COUNT),
+                Topic::
+                    searchByName()
+                    ->latest()
+                    ->paginate(Topic::PAGINATION_COUNT),
             )
         ]);
     }

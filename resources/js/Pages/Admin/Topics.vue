@@ -1,6 +1,6 @@
 <script setup>
 import AdminLayout from '@/Layouts/AdminLayout.vue'
-import { Head, router } from '@inertiajs/vue3'
+import { Head, router, usePage } from '@inertiajs/vue3'
 import DeleteIcon from '@/Components/Icons/DeleteIcon.vue'
 import Pagination from '@/Components/Forum/Pagination.vue'
 import Modal from '@/Components/Modal.vue'
@@ -8,15 +8,34 @@ import useCreateTopic from '@/Composables/useCreateTopic'
 import CreateTopicForm from '@/Pages/Admin/Partials/CreateTopicForm.vue'
 import PlusCircleIcon from '@/Components/Icons/PlusCircleIcon.vue'
 import useSweetalert from '@/Composables/useSweetalert';
+import { ref, watch } from 'vue'
+import _debounce from 'lodash.debounce'
 
 defineProps({
     topics: Object,
 })
 
 // composables
+const page = usePage()
 const { showCreateTopicModal } = useCreateTopic()
 const { displayConfirmMessage, displayToastMessage } = useSweetalert()
 
+const searchTopic = ref(page.props.queryStrings?.s ?? '')
+
+const handleSearch = _debounce((search) => {
+    router.reload({
+        data: {
+            s: search
+        }
+    })
+}, 500)
+
+watch(searchTopic, (search) => {
+    handleSearch(search)
+})
+
+
+// delete
 const handleDelete = (topic) => {
     displayConfirmMessage(
         `Do you want to delete "${topic.name}"`
@@ -58,6 +77,7 @@ const handleDelete = (topic) => {
                             >
                             <div class="relative mt-1 lg:w-64 xl:w-96">
                                 <input
+                                    v-model="searchTopic"
                                     type="text"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5"
                                     placeholder="Search for topics"
