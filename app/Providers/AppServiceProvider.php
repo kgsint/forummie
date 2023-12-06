@@ -3,7 +3,9 @@
 namespace App\Providers;
 
 use App\Contracts\ThreadInterface;
+use App\Contracts\TopicInterface;
 use App\Repositories\ThreadRepository;
+use App\Repositories\TopicRepository;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
@@ -16,6 +18,7 @@ class AppServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->bind(ThreadInterface::class, fn() => new ThreadRepository);
+        $this->app->bind(TopicInterface::class, fn() => new TopicRepository);
     }
 
     /**

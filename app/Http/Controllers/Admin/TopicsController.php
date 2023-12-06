@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Contracts\TopicInterface;
 use App\Http\Controllers\Controller;
 use App\Http\Middleware\Authenticate;
 use App\Http\Middleware\VerifyAdmin;
@@ -14,7 +15,9 @@ use Inertia\Inertia;
 class TopicsController extends Controller
 {
 
-    public function __construct()
+    public function __construct(
+            private TopicInterface $topicRepo,
+        )
     {
         $this->middleware([Authenticate::class, VerifyAdmin::class]);
     }
@@ -23,17 +26,14 @@ class TopicsController extends Controller
     {
         return Inertia::render('Admin/Topics', [
             'topics' => TopicResource::collection(
-                Topic::
-                    searchByName()
-                    ->latest()
-                    ->paginate(Topic::PAGINATION_COUNT),
+                $this->topicRepo->getPaginatedCollection(),
             )
         ]);
     }
 
     public function store(TopicStoreRequest $request)
     {
-        Topic::create([
+        $this->topicRepo->store([
             'name' => $request->name,
             'slug' => $request->slug,
         ]);
@@ -46,7 +46,7 @@ class TopicsController extends Controller
         // authorize if admin or moderator
         // if not forbidden
         if($request->user()->isAdmin() || $request->user()->isModerator()) {
-            $topic->delete();
+            $this->topicRepo->delete($topic);
             return back();
         }
 
