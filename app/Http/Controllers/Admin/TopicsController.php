@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Middleware\Authenticate;
+use App\Http\Middleware\VerifyAdmin;
 use App\Http\Requests\TopicStoreRequest;
 use App\Http\Resources\TopicResource;
 use App\Models\Topic;
@@ -11,6 +13,12 @@ use Inertia\Inertia;
 
 class TopicsController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware([Authenticate::class, VerifyAdmin::class]);
+    }
+
     public function index()
     {
         return Inertia::render('Admin/Topics', [
