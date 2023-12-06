@@ -81,7 +81,7 @@ defineProps(['showSideNavigation'])
                         </li>
                         <li>
                             <Link
-                                href="#"
+                                :href="route('admin.replies.index')"
                                 class="flex items-center p-2 text-base text-gray-900 transition duration-75 rounded-lg hover:bg-gray-100 group"
                             >
                                 <PostIcon />

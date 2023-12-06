@@ -5,10 +5,11 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\ForumController;
 use App\Http\Controllers\MarkAsBestAnswer;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\SearchMentionableUser;
-use App\Http\Controllers\GenerateMarkdownPreview;
 use App\Http\Controllers\Admin\UsersController;
+use App\Http\Controllers\SearchMentionableUser;
 use App\Http\Controllers\Admin\TopicsController;
+use App\Http\Controllers\Admin\RepliesController;
+use App\Http\Controllers\GenerateMarkdownPreview;
 
 // forum routes
 Route::controller(ForumController::class)->group(function() {
@@ -26,12 +27,15 @@ Route::controller(ForumController::class)->group(function() {
 Route::prefix('admin')->group(function() {
     // redirect /admin to /admin/users
     Route::redirect('/', '/admin/users');
+
     Route::get('/users', [UsersController::class, 'index'])->name('admin.users.index');
     Route::delete('/user/{user:username}', [UsersController::class, 'destroy'])->name('admin.user.destroy');
 
     Route::get('/topics', [TopicsController::class, 'index'])->name('admin.topics.index');
     Route::post('/topics', [TopicsController::class, 'store'])->name('admin.topics.store');
     Route::delete('/topics/{topic}', [TopicsController::class, 'destroy'])->name('admin.topics.destroy');
+
+    Route::get('/replies', [RepliesController::class, 'index'])->name('admin.replies.index');
 });
 
 
