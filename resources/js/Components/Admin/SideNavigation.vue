@@ -63,7 +63,7 @@ defineProps(['showSideNavigation'])
                             >
                                 <UserIcon />
                                 <span class="ml-3" sidebar-toggle-item=""
-                                    >Manage Users</span
+                                    >Users</span
                                 >
                             </Link>
                         </li>
@@ -75,7 +75,7 @@ defineProps(['showSideNavigation'])
                             >
                                 <TagIcon />
                                 <span class="ml-3" sidebar-toggle-item=""
-                                    >Manage Topics</span
+                                    >Topics</span
                                 >
                             </Link>
                         </li>
@@ -86,7 +86,7 @@ defineProps(['showSideNavigation'])
                             >
                                 <PostIcon />
                                 <span class="ml-3">
-                                    Manage Replies
+                                    Replies
                                 </span>
                             </Link>
                         </li>
