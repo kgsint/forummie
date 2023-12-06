@@ -37,7 +37,7 @@ class UsersController extends Controller
 
     public function destroy(User $user)
     {
-        $this->authorize('admin', $user);
+        $this->authorize('delete', $user);
 
         $user->delete();
 
