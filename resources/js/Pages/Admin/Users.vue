@@ -6,6 +6,8 @@ import Pagination from '@/Components/Forum/Pagination.vue'
 import { ref, watch } from 'vue'
 import _debounce from 'lodash.debounce'
 import useSweetalert from '@/Composables/useSweetalert';
+import Modal from '@/Components/Modal.vue';
+import CreateUserForm from './Partials/CreateUserForm.vue';
 
 defineProps({
     users: Object,
@@ -15,6 +17,7 @@ const page = usePage()
 const { displayConfirmMessage, displayToastMessage } = useSweetalert()
 
 const searchUser = ref(page.props.queryStrings?.s ?? '')
+const showCreateUserModal = ref(false)
 
 // debounced search
 const handleSearch = _debounce((search) => {
@@ -82,6 +85,10 @@ const handleDelete = (user) => {
                                 />
                             </div>
                         </form>
+                        <button class="flex items-center gap-1 text-sm font-semibold bg-gray-200 text-gray-700 hover:opacity-75 duration-200 px-2 py-3 rounded-lg border border-gray-400 shadow" @click="showCreateUserModal = true">
+                            <!-- <PlusCircleIcon class="h-4 w-4" /> -->
+                            Create new User
+                        </button>
                     </div>
                 </div>
             </div>
@@ -178,6 +185,25 @@ const handleDelete = (user) => {
             <!-- pagination -->
             <Pagination :links="users.meta.links" class="mt-3 mb-20 mx-auto" />
     </AdminLayout>
+
+    <!-- create user modal -->
+    <Modal
+        :show="showCreateUserModal"
+        @close="showCreateUserModal = false"
+    >
+        <div class="px-3 py-6">
+            <div class="flex justify-between items-start">
+                <h3 class="border-b-2 mb-3 pb-3 border-gray-300 flex-1 text-center text-xl">Create new User</h3>
+                <span
+                    @click="showCreateUserModal = false"
+                    class="px-3 py-1 text-xl bg-gray-300 hover:bg-gray-500 hover:text-white
+                    transition-all rounded-md duration-150 cursor-pointer">
+                    &times;
+                </span>
+            </div>
+            <CreateUserForm />
+        </div>
+    </Modal>
 </template>
 
 
