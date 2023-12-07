@@ -127,9 +127,23 @@ const handleBestAnswer = () => {
         <div class="flex flex-col flex-1 space-y-3">
             <div class="flex justify-between items-start">
                 <div class="flex flex-col">
-                    <Link href="#" class="mb-1" style="color: #111; text-decoration: none;">
+                    <Link href="#" class="flex items-center space-x-2 mb-1" style="color: #111; text-decoration: none;">
                         <!-- username -->
                         <h4 class="text-md font-semibold">{{ post.user?.username || '[Deleted User]' }}</h4>
+                        <!-- thread owner badge -->
+                        <span
+                            v-if="post.thread.user.id === post.user.id"
+                            class="text-[10px] font-semibold bg-gray-400 px-2 py-1 text-gray-100 rounded-2xl"
+                        >
+                            Thread Owner
+                        </span>
+                        <!-- admin or moderator badge -->
+                        <span
+                            v-if="post.user.type !== 'user'"
+                            class="text-[10px] font-semibold bg-blue-400 px-3 py-1 text-gray-50 rounded-2xl uppercase"
+                        >
+                            {{ post.user.type }}
+                        </span>
                     </Link>
                     <!-- created date -->
                     <div class="text-xs text-gray-600 leading-normal font-semibold">

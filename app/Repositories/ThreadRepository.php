@@ -39,7 +39,7 @@ class ThreadRepository implements ThreadInterface
     public function relatedPosts(Thread $thread)
     {
         return Post::whereBelongsTo($thread)
-                        ->with(['user', 'thread', 'parent', 'replies.user', 'replies.thread', 'replies.parent'])
+                        ->with(['user', 'thread.user', 'parent', 'replies.thread.user', 'replies.parent'])
                         ->whereNull('parent_id')
                         ->oldest()
                         ->paginate(Post::PAGINATION_COUNT);
