@@ -1,13 +1,14 @@
 <script setup>
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import useCreateUser from '@/Composables/useCreateUser';
+import InputError from '@/Components/InputError.vue';
 
 const { form, createNewUser } = useCreateUser()
 </script>
 
 
 <template>
-    <form @click="createNewUser">
+    <form @submit.prevent="createNewUser">
         <div class="flex flex-col items-center gap-3 mb-3">
             <div class="mt-1 lg:w-64 xl:w-96">
                 <label for="name" class="sr-only">User's Name</label>
@@ -19,6 +20,7 @@ const { form, createNewUser } = useCreateUser()
                     id="name"
                     placeholder="Full Name of the user"
                 />
+                <InputError :message="form.errors.name" />
             </div>
             <div class="mt-1 lg:w-64 xl:w-96">
                 <label for="email" class="sr-only">User's email</label>
@@ -30,6 +32,7 @@ const { form, createNewUser } = useCreateUser()
                     id="email"
                     placeholder="Email Address of the user"
                 />
+                <InputError :message="form.errors.email" />
             </div>
             <div class="mt-1 lg:w-64 xl:w-96">
                 <label for="username" class="sr-only">User's username</label>
@@ -41,6 +44,7 @@ const { form, createNewUser } = useCreateUser()
                     id="username"
                     placeholder="Username of the user"
                 />
+                <InputError :message="form.errors.username" />
             </div>
             <div class="mt-1 lg:w-64 xl:w-96">
                 <label for="type" class="sr-only">Account Type</label>
@@ -54,6 +58,7 @@ const { form, createNewUser } = useCreateUser()
                     <option value="2">Moderator</option>
                     <option value="3">Admin</option>
                 </select>
+                <InputError :message="form.errors.type" />
             </div>
             <div class="mt-1 lg:w-64 xl:w-96">
                 <label for="password" class="sr-only">Password</label>
@@ -65,11 +70,12 @@ const { form, createNewUser } = useCreateUser()
                     id="password"
                     placeholder="Password"
                 />
+                <InputError :message="form.errors.password" />
             </div>
             <div class="mt-1 lg:w-64 xl:w-96">
                 <label for="confirm-password" class="sr-only">Confirm Password</label>
                 <input
-                    v-model="form.passwordConfirmation"
+                    v-model="form.password_confirmation"
                     type="password"
                     class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg
                         focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5"

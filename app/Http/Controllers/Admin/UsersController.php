@@ -9,6 +9,7 @@ use App\Http\Requests\UserStoreRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Inertia\Inertia;
 
 class UsersController extends Controller
@@ -38,7 +39,15 @@ class UsersController extends Controller
 
     public function store(UserStoreRequest $request)
     {
+        User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'username' => $request->username,
+            'type' => (int) $request->type,
+            'password' => Hash::make($request->password),
+        ]);
 
+        return redirect()->route('admin.users.index');
     }
 
     public function destroy(User $user)

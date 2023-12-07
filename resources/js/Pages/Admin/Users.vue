@@ -8,6 +8,7 @@ import _debounce from 'lodash.debounce'
 import useSweetalert from '@/Composables/useSweetalert';
 import Modal from '@/Components/Modal.vue';
 import CreateUserForm from './Partials/CreateUserForm.vue';
+import useCreateUser from '@/Composables/useCreateUser'
 
 defineProps({
     users: Object,
@@ -15,9 +16,9 @@ defineProps({
 
 const page = usePage()
 const { displayConfirmMessage, displayToastMessage } = useSweetalert()
+const { showCreateUserModal } = useCreateUser()
 
 const searchUser = ref(page.props.queryStrings?.s ?? '')
-const showCreateUserModal = ref(false)
 
 // debounced search
 const handleSearch = _debounce((search) => {
