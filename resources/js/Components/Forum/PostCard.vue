@@ -230,7 +230,7 @@ const handleBestAnswer = () => {
 
         <!-- {{ post.replies }} -->
         <ForumPostCard
-            class="reply-post ml-10"
+            class="reply-post ml-0 md:ml-10"
             v-if="post?.replies?.length"
             v-for="reply in post.replies"
             :key="reply.id"

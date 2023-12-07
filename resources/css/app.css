@@ -35,7 +35,7 @@
     @apply hidden;
 }
 .shiki {
-    @apply p-3 rounded-lg w-[335px] overflow-hidden md:w-[480px] lg:w-full;
+    @apply p-3 rounded-lg w-[300px] overflow-hidden md:w-[470px] lg:w-full;
 }
 code {
     @apply whitespace-pre-wrap flex-wrap text-[10px] leading-none lg:text-sm;
@@ -46,24 +46,53 @@ code {
 .thread-post a{
     @apply text-sm text-blue-500 mb-3 underline;
 }
-.posts-container::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 20px;
-    width: 3px;
-    height: 98%;
-    background: #ccd1d3;
+
+
+@media screen and (min-width: 200px) {
+    .posts-container::before {
+        display:none;
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 20px;
+        width: 3px;
+        height: 98%;
+        background: #ccd1d3;
+    }
+
+    .reply-post::before {
+        display:none;
+        content: "";
+        position: relative;
+        top: 60px;
+        width: 20px;
+        height: 3px;
+        left: -25px;
+        background: #ccd1d3;
+    }
 }
 
-.reply-post::before {
-    content: "";
-    position: relative;
-    top: 60px;
-    width: 20px;
-    height: 3px;
-    left: -25px;
-    background: #ccd1d3;
+@media screen and (min-width: 768px) {
+    .posts-container::before {
+        display:block;
+        /* content: "";
+        position: absolute;
+        top: 0;
+        left: 20px;
+        width: 3px;
+        height: 98%;
+        background: #ccd1d3; */
+    }
+    .reply-post::before {
+        display:block;
+        /* content: "";
+        position: relative;
+        top: 60px;
+        width: 20px;
+        height: 3px;
+        left: -25px;
+        background: #ccd1d3; */
+    }
 }
 /* vue mention */
 .mention-item {
