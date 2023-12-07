@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Middleware\Authenticate;
 use App\Http\Middleware\VerifyAdmin;
+use App\Http\Requests\UserStoreRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -33,6 +34,11 @@ class UsersController extends Controller
                 $users
             ),
         ]);
+    }
+
+    public function store(UserStoreRequest $request)
+    {
+
     }
 
     public function destroy(User $user)

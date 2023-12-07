@@ -29,6 +29,7 @@ Route::prefix('admin')->group(function() {
     Route::redirect('/', '/admin/users');
 
     Route::get('/users', [UsersController::class, 'index'])->name('admin.users.index');
+    Route::post('/users', [UsersController::class, 'store'])->name('admin.users.store');
     Route::delete('/user/{user:username}', [UsersController::class, 'destroy'])->name('admin.users.destroy');
 
     Route::get('/topics', [TopicsController::class, 'index'])->name('admin.topics.index');
