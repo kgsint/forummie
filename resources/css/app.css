@@ -35,10 +35,10 @@
     @apply hidden;
 }
 .shiki {
-    @apply p-3 rounded-lg;
+    @apply p-3 rounded-lg w-[335px] overflow-hidden md:w-[480px] lg:w-full;
 }
 code {
-    @apply whitespace-pre-wrap text-sm;
+    @apply whitespace-pre-wrap flex-wrap text-[10px] leading-none lg:text-sm;
 }
 
 
