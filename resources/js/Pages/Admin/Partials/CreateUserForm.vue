@@ -1,14 +1,18 @@
 <script setup>
 import PrimaryButton from '@/Components/PrimaryButton.vue';
+import useCreateUser from '@/Composables/useCreateUser';
+
+const { form, createNewUser } = useCreateUser()
 </script>
 
 
 <template>
-    <form>
+    <form @click="createNewUser">
         <div class="flex flex-col items-center gap-3 mb-3">
             <div class="mt-1 lg:w-64 xl:w-96">
                 <label for="name" class="sr-only">User's Name</label>
                 <input
+                    v-model="form.name"
                     type="text"
                     class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg
                         focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5"
@@ -19,6 +23,7 @@ import PrimaryButton from '@/Components/PrimaryButton.vue';
             <div class="mt-1 lg:w-64 xl:w-96">
                 <label for="email" class="sr-only">User's email</label>
                 <input
+                    v-model="form.email"
                     type="text"
                     class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg
                         focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5"
@@ -29,6 +34,7 @@ import PrimaryButton from '@/Components/PrimaryButton.vue';
             <div class="mt-1 lg:w-64 xl:w-96">
                 <label for="username" class="sr-only">User's username</label>
                 <input
+                    v-model="form.username"
                     type="text"
                     class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg
                         focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5"
@@ -37,8 +43,22 @@ import PrimaryButton from '@/Components/PrimaryButton.vue';
                 />
             </div>
             <div class="mt-1 lg:w-64 xl:w-96">
+                <label for="type" class="sr-only">Account Type</label>
+                <select
+                    v-model="form.type"
+                    class="w-64 bg-gray-50 border border-gray-300 text-gray-900 text-sm
+                    focus:ring-blue-500 focus:border-blue-500 block p-2.5 rounded-full cursor-pointer"
+                >
+                    <option value="">Choose Account Type</option>
+                    <option value="1">Default</option>
+                    <option value="2">Moderator</option>
+                    <option value="3">Admin</option>
+                </select>
+            </div>
+            <div class="mt-1 lg:w-64 xl:w-96">
                 <label for="password" class="sr-only">Password</label>
                 <input
+                    v-model="form.password"
                     type="password"
                     class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg
                         focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5"
@@ -49,6 +69,7 @@ import PrimaryButton from '@/Components/PrimaryButton.vue';
             <div class="mt-1 lg:w-64 xl:w-96">
                 <label for="confirm-password" class="sr-only">Confirm Password</label>
                 <input
+                    v-model="form.passwordConfirmation"
                     type="password"
                     class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg
                         focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5"
