@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\Admin;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -29,7 +29,7 @@ class AdminTest extends TestCase
         $response->assertForbidden();
     }
 
-    // test moderator cannot delete admin
+    // test moderator cannot delete use and admin
     public function test_moderator_cannot_delete_default_user_and_admin()
     {
         $admin = User::factory()->create([
@@ -73,7 +73,7 @@ class AdminTest extends TestCase
         ]);
     }
 
-    // test admin can delete all types of account
+    // test admin can delete user and moderator
     public function test_admin_can_delete_moderator_and_default_user()
     {
         $admin = User::factory()->create([
