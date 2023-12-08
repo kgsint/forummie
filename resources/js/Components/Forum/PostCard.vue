@@ -12,6 +12,7 @@ import axios from 'axios';
 import CheckedIcon from '@/Components/Icons/CheckedIcon.vue'
 import { Mentionable } from 'vue-mention';
 import useMentionable from '@/Composables/useMentionable'
+import useSweetalert from '@/Composables/useSweetalert';
 
 defineOptions({
     inheritAttrs: false
@@ -30,6 +31,7 @@ const isBestAnswer = computed(() => {
 // composables
 const { showReplyForm } = useCreateReply()
 const { mentionableList, handleMentionSearch } = useMentionable()
+const { displayConfirmMessage, displayToastMessage } = useSweetalert()
 // edit form object
 const editForm = useForm({
     body: props.post.body_markdown
@@ -71,21 +73,18 @@ const handleEditPost = () => {
 
 // submit delete form request
 const handleDeletePost = () => {
-    Swal.fire({
-      title: "Do you want to delete the post?",
-      showCancelButton: true,
-      confirmButtonText: "Delete",
-      confirmButtonColor: "#eb020e",
-    }).then((result) => {
-      /* if confirmed */
-      if (result.isConfirmed) {
-        router.delete(route('posts.destroy', {
-            thread: props.post.thread,
-            post: props.post
-        }))
-        Swal.fire("Deleted!", "", "success");
-      }
-    });
+    displayConfirmMessage('Do you want to delete the post?')
+                .then((result) => {
+                /* if confirmed */
+                if (result.isConfirmed) {
+                    router.delete(route('posts.destroy', {
+                        thread: props.post.thread,
+                        post: props.post
+                    }), {
+                        onSuccess: () => displayToastMessage('Post has been deleted')
+                    })
+                }
+                });
 
 }
 
