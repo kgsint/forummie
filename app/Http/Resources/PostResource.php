@@ -19,12 +19,12 @@ class PostResource extends JsonResource
 
         return [
             'id' => $this->id,
-            'thread' => ThreadResource::make($this->thread),
-            'user' => UserResource::make($this->user),
+            'thread' => ThreadResource::make($this->whenLoaded('thread')),
+            'user' => UserResource::make($this->whenLoaded('user')),
             'body' => $body, // markdown to html,
             'body_markdown' => $this->body,
             'created_at' => DateTimeResource::make($this->created_at),
-            'parent' => PostResource::make($this->parent),
+            'parent' => PostResource::make($this->whenLoaded('parent')),
             'replies' => PostResource::collection($this->whenLoaded('replies')),
             'can' => [
                 'update' => auth()->user()?->can('update', $this->resource) ?? false,

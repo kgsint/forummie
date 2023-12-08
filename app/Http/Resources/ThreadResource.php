@@ -26,7 +26,7 @@ class ThreadResource extends JsonResource
             'slug' => $this->slug,
             'body_markdown' => $this->body, // raw markdown in database
             'body' =>  $body, // markdown to html
-            'latest_post' => PostResource::make($this->whenLoaded('latestPost')),
+            'latest_post' => LatestPostResource::make($this->whenLoaded('latestPost')),
             'no_of_posts' => $this->posts?->count() ?? 0,
             'solution' => PostResource::make($this->whenLoaded('solution')),
             'topic' => TopicResource::make($this->whenLoaded('topic')),
