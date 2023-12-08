@@ -13,7 +13,7 @@ import CheckedIcon from '@/Components/Icons/CheckedIcon.vue'
 import { Mentionable } from 'vue-mention';
 import useMentionable from '@/Composables/useMentionable'
 import useSweetalert from '@/Composables/useSweetalert';
-import useHelper from '@/Composables/useHelper'
+import useCheckAccountType from '@/Composables/useCheckAccountType'
 
 defineOptions({
     inheritAttrs: false
@@ -33,7 +33,7 @@ const isBestAnswer = computed(() => {
 const { showReplyForm } = useCreateReply()
 const { mentionableList, handleMentionSearch } = useMentionable()
 const { displayConfirmMessage, displayToastMessage } = useSweetalert()
-const { isUser, isAdmin, isModerator } = useHelper({ user: props.post.user })
+const { isUser, isAdmin, isModerator } = useCheckAccountType(props.post.user)
 // edit form object
 const editForm = useForm({
     body: props.post.body_markdown

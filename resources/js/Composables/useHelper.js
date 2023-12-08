@@ -1,14 +1,4 @@
-export default ({ user }) => {
-    const isUser = () => {
-        return user?.type === 'user'
-    }
-    const isAdmin = () => {
-        return user?.type === 'admin'
-    }
-    const isModerator = () => {
-        return user?.type === 'moderator'
-    }
-
+export default () => {
     const convertToSlug = (str, seperator = "-") => {
         //replace all special characters | symbols with a space
         str = str.replace(/[`~!@#$%^&*()_\-+=\[\]{};:'"\\|\/,.<>?\s]/g, ' ')
@@ -23,9 +13,6 @@ export default ({ user }) => {
     }
 
     return {
-        isUser,
-        isAdmin,
-        isModerator,
         convertToSlug
     }
 }
