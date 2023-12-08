@@ -13,6 +13,7 @@ import CheckedIcon from '@/Components/Icons/CheckedIcon.vue'
 import { Mentionable } from 'vue-mention';
 import useMentionable from '@/Composables/useMentionable'
 import useSweetalert from '@/Composables/useSweetalert';
+import useHelper from '@/Composables/useHelper'
 
 defineOptions({
     inheritAttrs: false
@@ -32,6 +33,7 @@ const isBestAnswer = computed(() => {
 const { showReplyForm } = useCreateReply()
 const { mentionableList, handleMentionSearch } = useMentionable()
 const { displayConfirmMessage, displayToastMessage } = useSweetalert()
+const { isUser, isAdmin, isModerator } = useHelper({ user: props.post.user })
 // edit form object
 const editForm = useForm({
     body: props.post.body_markdown
@@ -138,8 +140,9 @@ const handleBestAnswer = () => {
                         </span>
                         <!-- admin or moderator badge -->
                         <span
-                            v-if="post.user.type !== 'user'"
-                            class="text-[10px] font-semibold bg-blue-400 px-3 py-1 text-gray-50 rounded-2xl uppercase"
+                            v-if="isAdmin() || isModerator()"
+                            class="text-[10px] font-semibold px-3 py-1 rounded-2xl uppercase"
+                            :class="{ 'bg-blue-400 text-gray-50': isAdmin(), 'border border-blue-400 text-blue-400': isModerator() }"
                         >
                             {{ post.user.type }}
                         </span>
