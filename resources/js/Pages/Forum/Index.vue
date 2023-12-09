@@ -16,6 +16,7 @@ import useInfiniteScrolling from '@/Composables/useInfiniteScrolling'
 import useIntersect from '@/Composables/useIntersect'
 import cannotSearchImg from '@/assets/images/cannot-search.png'
 import useFilterThreads from '@/Composables/useFilterThreads'
+import Placeholder from '@/Components/Forum/Placeholder.vue'
 
 // props
 const props = defineProps({
@@ -67,7 +68,7 @@ watch(search, (search) => {
 <template>
     <AppLayout>
         <Head title="Home" />
-        <main class="">
+        <main class="mb-12">
             <!-- top nav filter -->
             <nav class="flex flex-col md:flex-row md:items-center md:justify-between space-y-3 md:space-x-6">
                 <div class="flex space-x-2 items-center">
@@ -152,9 +153,12 @@ watch(search, (search) => {
                     <h4 class="text-lg font-semibold">Sorry. Cannot find what you are looking for at the moment.</h4>
                     <img :src="cannotSearchImg" alt="cannot search or filter illustration" class="max-w-[400px]">
                 </div>
+
+                <Placeholder v-if="loading" />
             </div>
             <div ref="breakPointEl"></div>
-            <div v-if="loading" class="text-xl text-center my-12">Loading...</div>
+            <!-- <div v-if="loading" class="text-xl text-center my-12">Loading...</div> -->
+
         </main>
         <!-- sidebar -->
         <template #sidebar>

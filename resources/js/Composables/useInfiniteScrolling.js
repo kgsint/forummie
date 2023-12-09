@@ -24,10 +24,13 @@ export default (propName) => {
             onSuccess: () => {
                 // reset history back to base url when scrolling
                 window.history.replaceState({}, '', pageUrl)
-                // push data to data ref
-                data.value = [...data.value, ...propData().data]
-                // reset loading
-                loading.value = false
+                // delay network request
+                setTimeout(() => {
+                    // push data to data ref
+                    data.value = [...data.value, ...propData().data]
+                    // reset loading
+                    loading.value = false
+                }, 300)
             }
         })
     }
