@@ -61,7 +61,7 @@ const logout = () => {
                         >
                     </Link>
                     <!-- global search form -->
-                    <form
+                    <!-- <form
                         action="#"
                         method="GET"
                         class="hidden lg:block lg:pl-3.5"
@@ -93,7 +93,7 @@ const logout = () => {
                                 placeholder="Search"
                             />
                         </div>
-                    </form>
+                    </form> -->
                 </div>
                 <div id="dropdown-info" class="flex items-center">
                     <div class="hidden mr-3 -mb-1 sm:block">

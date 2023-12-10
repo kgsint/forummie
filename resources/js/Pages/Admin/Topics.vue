@@ -44,9 +44,9 @@ watch(searchRef, (search) => {
                 </div>
                 <div class="sm:flex">
                     <div
-                        class="justify-between items-center mb-3 flex sm:divide-x sm:divide-gray-100 sm:mb-0 dark:divide-gray-700"
+                        class="flex-col md:flex-row md:justify-between md:items-center mb-3 flex"
                     >
-                        <form class="lg:pr-3" action="#" method="GET">
+                        <form class="lg:pr-3 mb-3 md:mb-0" action="#" method="GET">
                             <label for="users-search" class="sr-only"
                                 >Search</label
                             >
@@ -60,7 +60,7 @@ watch(searchRef, (search) => {
                             </div>
                         </form>
 
-                        <button class="flex items-center gap-1 text-sm font-semibold bg-gray-200 text-gray-700 hover:opacity-75 duration-200 px-2 py-3 rounded-lg border border-gray-400 shadow" @click="showCreateTopicModal = true">
+                        <button class="flex justify-center md:justify-start items-center gap-1 text-xs md:text-sm font-semibold bg-gray-200 text-gray-700 hover:opacity-75 duration-200 px-2 py-3 rounded-lg border border-gray-400 shadow" @click="showCreateTopicModal = true">
                             <PlusCircleIcon class="h-4 w-4" />
                             Create new Topic
                         </button>
