@@ -18,6 +18,7 @@ class Topic extends Model
         $query->when(
             request('s'),
             fn($query) => $query->where('name', 'LIKE', '%' . request('s') . '%')
+                                ->orWhere('slug', 'LIKE', '%' . request('s') . '%')
         );
     }
 }
