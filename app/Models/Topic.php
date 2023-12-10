@@ -13,7 +13,7 @@ class Topic extends Model
 
     protected $guarded = [];
 
-    public function scopeSearchByName($query)
+    public function scopeSearchByNameAndSlug($query)
     {
         $query->when(
             request('s'),

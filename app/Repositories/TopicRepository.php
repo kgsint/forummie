@@ -16,7 +16,7 @@ class TopicRepository implements TopicInterface
     public function getPaginatedCollection()
     {
         return Topic::
-                    searchByName()
+                    searchByNameAndSlug()
                     ->latest()
                     ->paginate(Topic::PAGINATION_COUNT);
     }
