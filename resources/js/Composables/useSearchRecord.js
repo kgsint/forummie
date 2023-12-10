@@ -12,7 +12,7 @@ export default () => {
                 s: searchRef.value,
             }
         })
-    })
+    }, 500)
 
     return {
         searchRef,
