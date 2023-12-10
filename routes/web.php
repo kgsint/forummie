@@ -34,6 +34,7 @@ Route::prefix('admin')->group(function() {
 
     Route::get('/topics', [TopicsController::class, 'index'])->name('admin.topics.index');
     Route::post('/topics', [TopicsController::class, 'store'])->name('admin.topics.store');
+    Route::patch('/topic/{topic}', [TopicsController::class, 'update'])->name('admin.topics.update');
     Route::delete('/topics/{topic}', [TopicsController::class, 'destroy'])->name('admin.topics.destroy');
 
     Route::get('/replies', [RepliesController::class, 'index'])->name('admin.replies.index');

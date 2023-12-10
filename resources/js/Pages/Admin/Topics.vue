@@ -7,9 +7,11 @@ import Modal from '@/Components/Modal.vue'
 import useCreateTopic from '@/Composables/useCreateTopic'
 import CreateTopicForm from '@/Pages/Admin/Partials/CreateTopicForm.vue'
 import PlusCircleIcon from '@/Components/Icons/PlusCircleIcon.vue'
-import useSweetalert from '@/Composables/useSweetalert';
 import { ref, watch } from 'vue'
 import _debounce from 'lodash.debounce'
+import EditIcon from '@/Components/Icons/EditIcon.vue'
+import useTopic from '@/Composables/useTopic'
+import EditTopicForm from './Partials/EditTopicForm.vue'
 
 defineProps({
     topics: Object,
@@ -18,7 +20,7 @@ defineProps({
 // composables
 const page = usePage()
 const { showCreateTopicModal } = useCreateTopic()
-const { displayConfirmMessage, displayToastMessage } = useSweetalert()
+const { showEditTopicRef, showEditTopicModal, hideEditTopicModal, handleDelete } = useTopic()
 
 const searchTopic = ref(page.props.queryStrings?.s ?? '')
 
@@ -34,24 +36,6 @@ const handleSearch = _debounce((search) => {
 watch(searchTopic, (search) => {
     handleSearch(search)
 })
-
-
-// delete
-const handleDelete = (topic) => {
-    displayConfirmMessage(
-        `Do you want to delete "${topic.name}"`
-        ).then((result) => {
-            /* if confirmed */
-            if (result.isConfirmed) {
-                let topicName = topic.name
-                router.delete(route('admin.topics.destroy', topic.id), {
-                onSuccess: () => {
-                    displayToastMessage(`${topicName} has been deleted`)
-                }
-                })
-            }
-        })
-}
 </script>
 
 
@@ -139,13 +123,22 @@ const handleDelete = (topic) => {
                                     <td
                                         class="p-4 space-x-2 whitespace-nowrap"
                                     >
-                                        <button
-                                            @click="handleDelete(topic)"
-                                            type="button"
-                                            class="px-3 py-2 text-xs font-medium text-white bg-red-600 rounded-lg hover:bg-red-800 focus:ring-4 focus:ring-red-300"
-                                        >
-                                            <DeleteIcon class="w-4 h-4" />
-                                        </button>
+                                        <div class="flex items-center space-x-2">
+                                            <button
+                                                @click="showEditTopicModal(topic)"
+                                                type="button"
+                                                class="px-3 py-2 text-xs font-medium text-white bg-gray-600 rounded-lg hover:bg-gray-800 focus:ring-4 focus:ring-red-300"
+                                            >
+                                                <EditIcon class="w-4 h-4" />
+                                            </button>
+                                            <button
+                                                @click="handleDelete(topic)"
+                                                type="button"
+                                                class="px-3 py-2 text-xs font-medium text-white bg-red-600 rounded-lg hover:bg-red-800 focus:ring-4 focus:ring-red-300"
+                                            >
+                                                <DeleteIcon class="w-4 h-4" />
+                                            </button>
+                                        </div>
                                     </td>
                                 </tr>
                             </tbody>
@@ -173,7 +166,19 @@ const handleDelete = (topic) => {
             <CreateTopicForm />
         </div>
     </Modal>
+
+    <Modal :show="showEditTopicRef" @close="hideEditTopicModal">
+        <div class="px-3 py-6">
+            <div class="flex justify-between items-start">
+                <h3 class="border-b-2 mb-3 pb-3 border-gray-300 flex-1">Edit Topic</h3>
+                <span
+                    @click="hideEditTopicModal"
+                    class="px-3 py-1 text-xl bg-gray-300 hover:bg-gray-500 hover:text-white
+                    transition-all rounded-md duration-150 cursor-pointer">
+                    &times;
+                </span>
+            </div>
+            <EditTopicForm />
+        </div>
+    </Modal>
 </template>
-
-
-<style scoped></style>

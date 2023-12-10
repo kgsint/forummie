@@ -17,7 +17,7 @@ class TopicStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|unique:topics,name',
+            'name' => 'required|min:3|max:255|unique:topics,name',
             'slug' => 'required|unique:topics,slug',
         ];
     }

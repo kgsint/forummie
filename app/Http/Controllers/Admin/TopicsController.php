@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Middleware\Authenticate;
 use App\Http\Middleware\VerifyAdmin;
 use App\Http\Requests\TopicStoreRequest;
+use App\Http\Requests\TopicUpdateRequest;
 use App\Http\Resources\TopicResource;
 use App\Models\Topic;
 use Illuminate\Http\Request;
@@ -34,6 +35,16 @@ class TopicsController extends Controller
     public function store(TopicStoreRequest $request)
     {
         $this->topicRepo->store([
+            'name' => $request->name,
+            'slug' => $request->slug,
+        ]);
+
+        return redirect()->route('admin.topics.index');
+    }
+
+    public function update(TopicUpdateRequest $request, Topic $topic)
+    {
+        $this->topicRepo->update($topic, [
             'name' => $request->name,
             'slug' => $request->slug,
         ]);
