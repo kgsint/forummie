@@ -1,21 +1,21 @@
 <script setup>
 import AdminLayout from '@/Layouts/AdminLayout.vue';
 import DeleteIcon from '@/Components/Icons/DeleteIcon.vue';
-import { Head, router, usePage } from '@inertiajs/vue3'
+import { Head } from '@inertiajs/vue3'
 import Pagination from '@/Components/Forum/Pagination.vue'
 import { watch } from 'vue'
 import _debounce from 'lodash.debounce'
-import useSweetalert from '@/Composables/useSweetalert';
 import Modal from '@/Components/Modal.vue';
 import CreateUserForm from './Partials/CreateUserForm.vue';
 import useCreateUser from '@/Composables/useCreateUser'
 import useSearchRecord from '@/Composables/useSearchRecord'
+import useUser from '@/Composables/useUser';
 
 defineProps({
     users: Object,
 })
 
-const { displayConfirmMessage, displayToastMessage } = useSweetalert()
+const { handleDelete} = useUser()
 const { showCreateUserModal } = useCreateUser()
 const { searchRef, handleSearch } = useSearchRecord()
 
@@ -23,25 +23,6 @@ const { searchRef, handleSearch } = useSearchRecord()
 watch(searchRef, (search) => {
     handleSearch(search)
 })
-
-// delete user
-const handleDelete = (user) => {
-    // confirm with sweet alert
-    displayConfirmMessage(
-        `Do you want to delete ${user.username}`
-        )
-        .then((result) => {
-            /* if confirmed */
-            if (result.isConfirmed) {
-                let username = user.username
-                router.delete(route('admin.users.destroy', user.username), {
-                onSuccess: () => {
-                    displayToastMessage(`@${username} has been deleted`)
-                }
-                })
-            }
-        });
-}
 
 </script>
 
