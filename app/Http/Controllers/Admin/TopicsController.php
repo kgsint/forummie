@@ -38,7 +38,7 @@ class TopicsController extends Controller
             'slug' => $request->slug,
         ]);
 
-        return back();
+        return redirect()->route('admin.topics.index');
     }
 
     public function destroy(Request $request, Topic $topic)
@@ -47,7 +47,7 @@ class TopicsController extends Controller
         // if not forbidden
         if($request->user()->isAdmin() || $request->user()->isModerator()) {
             $this->topicRepo->delete($topic);
-            return back();
+            return redirect()->route('admin.topics.index');
         }
 
         abort(403);
