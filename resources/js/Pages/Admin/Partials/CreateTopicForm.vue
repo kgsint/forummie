@@ -1,6 +1,7 @@
 <script setup>
 import useCreateTopic from '@/Composables/useCreateTopic'
 import PrimaryButton from '@/Components/PrimaryButton.vue'
+import InputError from '@/Components/InputError.vue'
 import { watch } from 'vue'
 import useHelper from '@/Composables/useHelper'
 
@@ -29,6 +30,7 @@ watch(() => form.name, (name) => {
                     id="name"
                     placeholder="Name of the topic"
                 />
+                <InputError :message="form.errors.name" />
             </div>
             <div class="mt-1 lg:w-64 xl:w-96">
                 <label for="slug" class="sr-only">Topic's slug</label>
@@ -40,6 +42,7 @@ watch(() => form.name, (name) => {
                     id="slug"
                     placeholder="Slug for the Topic"
                 />
+                <InputError :message="form.errors.slug" />
             </div>
         </div>
         <PrimaryButton class="float-right mb-4">Create</PrimaryButton>
