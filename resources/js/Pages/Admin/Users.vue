@@ -3,34 +3,24 @@ import AdminLayout from '@/Layouts/AdminLayout.vue';
 import DeleteIcon from '@/Components/Icons/DeleteIcon.vue';
 import { Head, router, usePage } from '@inertiajs/vue3'
 import Pagination from '@/Components/Forum/Pagination.vue'
-import { ref, watch } from 'vue'
+import { watch } from 'vue'
 import _debounce from 'lodash.debounce'
 import useSweetalert from '@/Composables/useSweetalert';
 import Modal from '@/Components/Modal.vue';
 import CreateUserForm from './Partials/CreateUserForm.vue';
 import useCreateUser from '@/Composables/useCreateUser'
+import useSearchRecord from '@/Composables/useSearchRecord'
 
 defineProps({
     users: Object,
 })
 
-const page = usePage()
 const { displayConfirmMessage, displayToastMessage } = useSweetalert()
 const { showCreateUserModal } = useCreateUser()
-
-const searchUser = ref(page.props.queryStrings?.s ?? '')
-
-// debounced search
-const handleSearch = _debounce((search) => {
-    router.reload({
-        data: {
-            s: search
-        }
-    })
-}, 500)
+const { searchRef, handleSearch } = useSearchRecord()
 
 // watch changes in search input
-watch(searchUser, (search) => {
+watch(searchRef, (search) => {
     handleSearch(search)
 })
 
@@ -79,7 +69,7 @@ const handleDelete = (user) => {
                             >
                             <div class="relative mt-1 lg:w-64 xl:w-96">
                                 <input
-                                    v-model="searchUser"
+                                    v-model="searchRef"
                                     type="text"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5"
                                     placeholder="Search for users"
