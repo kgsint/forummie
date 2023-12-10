@@ -19,9 +19,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->bind(ThreadInterface::class, fn() => new ThreadRepository);
-        $this->app->bind(TopicInterface::class, fn() => new TopicRepository);
-        $this->app->bind(PostInterface::class, fn() => new PostRepository);
+        $this->registerModelRepositories();
     }
 
     /**
@@ -34,5 +32,12 @@ class AppServiceProvider extends ServiceProvider
         }
         // remove data  wrapper in resources
         JsonResource::withoutWrapping();
+    }
+
+    private function registerModelRepositories()
+    {
+        $this->app->bind(ThreadInterface::class, fn() => new ThreadRepository);
+        $this->app->bind(TopicInterface::class, fn() => new TopicRepository);
+        $this->app->bind(PostInterface::class, fn() => new PostRepository);
     }
 }
