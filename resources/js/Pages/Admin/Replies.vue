@@ -3,6 +3,7 @@ import AdminLayout from '@/Layouts/AdminLayout.vue'
 import { Head, Link } from '@inertiajs/vue3';
 import DeleteIcon from '@/Components/Icons/DeleteIcon.vue';
 import Pagination from '@/Components/Forum/Pagination.vue'
+import ViewIcon from '@/Components/Icons/ViewIcon.vue';
 
 defineProps({
     replies: Object,
@@ -105,10 +106,14 @@ defineProps({
                                         class="p-4 space-x-2 whitespace-nowrap"
                                     >
                                         <div>
-                                            <Link :href="route('forum.show', {
-                                                thread: reply.thread,
-                                                post: reply.id
-                                            })">View</Link>
+                                            <Link
+                                                :href="route('forum.show', {
+                                                    thread: reply.thread,
+                                                    post: reply.id
+                                                })"
+                                            >
+                                                <ViewIcon class="text-gray-500 hover:text-gray-900" />
+                                            </Link>
                                             <!-- <button
                                                 @click="handleDelete(reply)"
                                                 type="button"

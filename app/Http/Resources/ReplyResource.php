@@ -13,7 +13,7 @@ class ReplyResource extends JsonResource
         return [
             'id' => $this->id,
             'user' => $this->whenLoaded('user'),
-            'excerpt' => Str::limit($this->body, 200),
+            'excerpt' => Str::limit($this->body, 120),
             'thread' => $this->whenLoaded('thread'),
         ];
     }
