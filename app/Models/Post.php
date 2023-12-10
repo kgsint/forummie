@@ -16,6 +16,15 @@ class Post extends Model
 
     const PAGINATION_COUNT = 10;
 
+    public function scopeSearchByBody($query)
+    {
+        $query->when(
+            request()->has('s'),
+            fn($query) =>
+                            $query->where('body', 'LIKE', "%" . request('s') . "%")
+        );
+    }
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);

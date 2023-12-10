@@ -22,6 +22,7 @@ class RepliesController extends Controller
         return Inertia::render('Admin/Replies', [
             'replies' => ReplyResource::collection(
                 Post::with(['user', 'thread'])
+                        ->searchByBody()
                         ->latest()
                         ->paginate(Post::PAGINATION_COUNT)
             ),
