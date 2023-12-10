@@ -1,39 +1,29 @@
 <script setup>
 import AdminLayout from '@/Layouts/AdminLayout.vue'
-import { Head, router, usePage } from '@inertiajs/vue3'
+import { Head } from '@inertiajs/vue3'
 import DeleteIcon from '@/Components/Icons/DeleteIcon.vue'
 import Pagination from '@/Components/Forum/Pagination.vue'
 import Modal from '@/Components/Modal.vue'
 import useCreateTopic from '@/Composables/useCreateTopic'
 import CreateTopicForm from '@/Pages/Admin/Partials/CreateTopicForm.vue'
 import PlusCircleIcon from '@/Components/Icons/PlusCircleIcon.vue'
-import { ref, watch } from 'vue'
+import { watch } from 'vue'
 import _debounce from 'lodash.debounce'
 import EditIcon from '@/Components/Icons/EditIcon.vue'
 import useTopic from '@/Composables/useTopic'
 import EditTopicForm from './Partials/EditTopicForm.vue'
+import useSearchRecord from '@/Composables/useSearchRecord'
 
 defineProps({
     topics: Object,
 })
 
 // composables
-const page = usePage()
 const { showCreateTopicModal } = useCreateTopic()
 const { showEditTopicRef, showEditTopicModal, hideEditTopicModal, handleDelete } = useTopic()
+const { searchRef, handleSearch} = useSearchRecord()
 
-const searchTopic = ref(page.props.queryStrings?.s ?? '')
-
-// search
-const handleSearch = _debounce((search) => {
-    router.reload({
-        data: {
-            s: search
-        }
-    })
-}, 500)
-
-watch(searchTopic, (search) => {
+watch(searchRef, (search) => {
     handleSearch(search)
 })
 </script>
@@ -62,7 +52,7 @@ watch(searchTopic, (search) => {
                             >
                             <div class="relative mt-1 lg:w-64 xl:w-96">
                                 <input
-                                    v-model="searchTopic"
+                                    v-model="searchRef"
                                     type="text"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5"
                                     placeholder="Search for topics"
