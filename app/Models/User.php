@@ -31,6 +31,7 @@ class User extends Authenticatable
         'password',
         'username',
         'type',
+        'banned_at',
     ];
 
     /**
@@ -52,6 +53,11 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function isBanned(): bool
+    {
+        return ! is_null($this->banned_at);
+    }
 
     public function getAvatar(): string
     {
