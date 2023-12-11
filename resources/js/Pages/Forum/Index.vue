@@ -72,7 +72,12 @@ watch(search, (search) => {
             <!-- top nav filter -->
             <nav class="flex flex-col md:flex-row md:items-center md:justify-between space-y-3 md:space-x-6">
                 <div class="flex space-x-2 items-center">
-                    <button @click="showCreateThreadForm" class="block md:hidden rounded-xl text-xs px-3 py-1 bg-blue-600 text-white font-semibold">
+                    <button
+                        v-if="$page.props.auth.user"
+                        @click="showCreateThreadForm"
+                        class="block md:hidden rounded-xl text-xs px-3 py-1
+                        bg-blue-600 text-white font-semibold"
+                    >
                         Create Thread
                     </button>
                     <select
