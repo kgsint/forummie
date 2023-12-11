@@ -35,7 +35,7 @@
     @apply hidden;
 }
 .shiki {
-    @apply p-3 rounded-lg w-[300px] overflow-hidden md:w-[470px] lg:w-full;
+    @apply p-3 rounded-lg w-[285px] overflow-auto md:w-[470px] lg:w-full -z-10;
 }
 code {
     @apply whitespace-pre-wrap flex-wrap text-[10px] leading-none lg:text-sm;
