@@ -2,8 +2,10 @@
 import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
+import SecondaryButton from '@/Components/SecondaryButton.vue'
 import TextInput from '@/Components/TextInput.vue';
 import { Link, useForm, usePage } from '@inertiajs/vue3';
+import { ref } from 'vue'
 
 defineProps({
     mustVerifyEmail: {
@@ -15,12 +17,30 @@ defineProps({
 });
 
 const user = usePage().props.auth.user;
-
 const form = useForm({
     name: user.name,
     email: user.email,
     username: user.username,
 });
+
+// template ref for photo
+const photoInput = ref(null)
+// preview photo
+const photoPreview = ref(null)
+const updatePhotoPreview = () => {
+    // get file
+    const photo = photoInput.value.files[0]
+
+    if(! photo) return
+    // read file
+    const reader = new FileReader
+    reader.onload = (e) => {
+        photoPreview.value = e.target.result
+    }
+    reader.readAsDataURL(photo)
+}
+
+
 </script>
 
 <template>
@@ -34,6 +54,39 @@ const form = useForm({
         </header>
 
         <form @submit.prevent="form.patch(route('profile.update'))" class="mt-6 space-y-6">
+            <!-- profile image -->
+            <div>
+                <!-- current profile image -->
+                <div v-if="! photoPreview">
+                    <img
+                        :src="user.avatar"
+                        :alt="user.username"
+                        class="rounded-full h-20 w-20 object-cover"
+                    >
+                </div>
+                <!-- preview image -->
+                <div v-else class="relative">
+                    <span
+                        class="block rounded-full w-20 h-20 bg-cover bg-no-repeat bg-center"
+                        :style="`background-image: url('${photoPreview}')`"
+                    >
+                    </span>
+                    <button class="absolute left-[4rem] top-1 text-xs bg-gray-900 text-white px-2 py-1 rounded-full" @click.prevent="photoPreview = null">&times;</button>
+                </div>
+                <!-- input file -->
+                <input
+                    ref="photoInput"
+                    type="file"
+                    id="profile-photo"
+                    class="hidden"
+                    @input="updatePhotoPreview"
+                >
+                <!-- label for input file -->
+                <InputLabel for="profile-photo" value="Profile Photo" class="sr-only" />
+
+                <SecondaryButton @click.prevent="photoInput.click()" class="mt-2">Upload a new Photo</SecondaryButton>
+            </div>
+            <!-- name -->
             <div>
                 <InputLabel for="name" value="Name" />
 
@@ -50,6 +103,7 @@ const form = useForm({
                 <InputError class="mt-2" :message="form.errors.name" />
             </div>
 
+            <!-- username -->
             <div>
                 <InputLabel for="username" value="Username" />
 
@@ -65,7 +119,7 @@ const form = useForm({
                 <InputError class="mt-2" :message="form.errors.username" />
             </div>
 
-
+            <!-- email -->
             <div>
                 <InputLabel for="email" value="Email" />
 
