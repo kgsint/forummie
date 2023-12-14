@@ -112,7 +112,7 @@ const handleUpdateProfileInformation = () => {
                 <!-- label for input file -->
                 <InputLabel for="profile-photo" value="Profile Photo" class="sr-only" />
 
-                <SecondaryButton @click.prevent="photoInput.click()" class="mt-2">Upload a new Photo</SecondaryButton>
+                <SecondaryButton @click.prevent="photoInput.click()" class="mt-2">Choose a new Photo</SecondaryButton>
             </div>
             <!-- name -->
             <div>
