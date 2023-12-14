@@ -83,7 +83,7 @@ const handleDeletePost = () => {
                         thread: props.post.thread,
                         post: props.post
                     }), {
-                        onSuccess: () => displayToastMessage('Post has been deleted')
+                        onSuccess: () => displayToastMessage('Reply has been deleted')
                     })
                 }
                 });
@@ -121,7 +121,7 @@ const handleBestAnswer = () => {
         <!-- profile image -->
         <div class="flex-none flex lg:items-center gap-2 lg:block mb-3">
             <a href="#">
-                <img :src="post.user?.avatar" class="w-[28px] h-[28px] lg:w-14 lg:h-14 rounded-xl" alt="profile image" v-if="post.user">
+                <img :src="post.user?.avatar" class="w-[28px] h-[28px] lg:w-14 lg:h-14 rounded-xl object-cover" alt="profile image" v-if="post.user">
                 <img src="https://static.thenounproject.com/png/5034901-200.png" class="w-[20px] h-[20px] lg:w-14 lg:h-14 rounded-xl" alt="default profile image" v-else>
             </a>
         </div>

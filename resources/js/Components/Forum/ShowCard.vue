@@ -15,7 +15,12 @@ const props = defineProps({
         <!-- profile image -->
         <div class="flex-none flex lg:items-center gap-2 lg:block mb-3">
             <a href="#">
-                <img :src="thread.user?.avatar" class="w-[28px] h-[28px] lg:w-14 lg:h-14 rounded-xl" alt="profile image" v-if="thread.user">
+                <img
+                    v-if="thread.user"
+                    :src="thread.user?.avatar"
+                    class="w-[28px] h-[28px] lg:w-14 lg:h-14 rounded-xl object-cover"
+                    :alt="thread.user?.username"
+                >
                 <img src="https://static.thenounproject.com/png/5034901-200.png" class="w-[28px] h-[28px] lg:w-14 lg:h-14 rounded-xl" v-else >
             </a>
         </div>
