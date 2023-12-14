@@ -43,7 +43,11 @@ const updatePhotoPreview = () => {
         photoPreview.value = e.target.result
     }
     reader.readAsDataURL(photo)
+}
 
+const removePhotoPreview = () => {
+    photoPreview.value = null
+    form.photo = null
 }
 
 // handle form request
@@ -92,8 +96,8 @@ const handleUpdateProfileInformation = () => {
                     </span>
                     <button
                         ref="removePreviewBtn"
-                        class="absolute left-[4rem] top-1 text-xs bg-gray-900 text-white px-2 py-1 rounded-full"
-                        @click.prevent="photoPreview = null">
+                        class="absolute left-[4rem] top-1 text-sm bg-red-500 text-white w-6 h-6 text-center flex items-center justify-center rounded-full"
+                        @click.prevent="removePhotoPreview">
                         &times;
                     </button>
                 </div>
