@@ -3,11 +3,12 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
@@ -61,10 +62,12 @@ class User extends Authenticatable
 
     public function getAvatar(): string
     {
-        return "https://gravatar.com/avatar/"
+        $gravatar_url =  "https://gravatar.com/avatar/"
                 . md5($this->email)
                 ."?s=200"
                 ."&d=https://s3.amazonaws.com/laracasts/images/forum/avatars/default-avatar-13.png";
+
+        return $this->profile_avatar_path ? Storage::url($this->profile_avatar_path) : $gravatar_url;
     }
 
     public function threads(): HasMany

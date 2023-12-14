@@ -7,7 +7,9 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -30,6 +32,11 @@ class ProfileController extends Controller
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
         $request->user()->fill($request->validated());
+
+        // upload profile avatar if any
+        if($request->hasFile('photo')) {
+            $this->uploadProfileAvatar($request);
+        }
 
         if ($request->user()->isDirty('email')) {
             $request->user()->email_verified_at = null;
@@ -59,5 +66,21 @@ class ProfileController extends Controller
         $request->session()->regenerateToken();
 
         return Redirect::to('/');
+    }
+
+    // upload profile avatar
+    private function uploadProfileAvatar(ProfileUpdateRequest $request)
+    {
+        if($prevPath = auth()->user()->profile_avatar_path) {
+            Storage::delete($prevPath);
+        }
+
+        $filename = $request->file('photo')->getClientOriginalName() . uniqid() . time();
+        $ext = $request->file('photo')->getClientOriginalExtension();
+
+        //  store in storage
+        $path = $request->file('photo')->storePubliclyAs('/public/profile-images', "{$filename}.{$ext}");
+        // store path in db
+        $request->user()->profile_avatar_path = $path;
     }
 }

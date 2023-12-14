@@ -18,15 +18,20 @@ defineProps({
 
 const user = usePage().props.auth.user;
 const form = useForm({
+    _method: 'PUT',
     name: user.name,
     email: user.email,
     username: user.username,
+    photo: null,
 });
 
-// template ref for photo
+// template ref
 const photoInput = ref(null)
+// template ref
+const removePreviewBtn = ref(null)
 // preview photo
 const photoPreview = ref(null)
+
 const updatePhotoPreview = () => {
     // get file
     const photo = photoInput.value.files[0]
@@ -38,8 +43,22 @@ const updatePhotoPreview = () => {
         photoPreview.value = e.target.result
     }
     reader.readAsDataURL(photo)
+
 }
 
+// handle form request
+const handleUpdateProfileInformation = () => {
+    if(photoInput.value) {
+        form.photo = photoInput.value.files[0]
+    }
+
+    form.post(route('profile.update'), {
+        preserveState: true,
+        onSuccess: () => {
+            removePreviewBtn.value.style.display = 'none'
+        }
+    })
+}
 
 </script>
 
@@ -53,7 +72,7 @@ const updatePhotoPreview = () => {
             </p>
         </header>
 
-        <form @submit.prevent="form.patch(route('profile.update'))" class="mt-6 space-y-6">
+        <form @submit.prevent="handleUpdateProfileInformation" class="mt-6 space-y-6">
             <!-- profile image -->
             <div>
                 <!-- current profile image -->
@@ -71,7 +90,12 @@ const updatePhotoPreview = () => {
                         :style="`background-image: url('${photoPreview}')`"
                     >
                     </span>
-                    <button class="absolute left-[4rem] top-1 text-xs bg-gray-900 text-white px-2 py-1 rounded-full" @click.prevent="photoPreview = null">&times;</button>
+                    <button
+                        ref="removePreviewBtn"
+                        class="absolute left-[4rem] top-1 text-xs bg-gray-900 text-white px-2 py-1 rounded-full"
+                        @click.prevent="photoPreview = null">
+                        &times;
+                    </button>
                 </div>
                 <!-- input file -->
                 <input

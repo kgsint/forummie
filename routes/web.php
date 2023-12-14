@@ -60,7 +60,7 @@ Route::middleware('auth')->group(function () {
                                                                 ->name('mention.search');
     // profile related routes
     Route::get('/account-info', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/account-info', [ProfileController::class, 'update'])->name('profile.update');
+    Route::put('/account-info', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/account-info', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
