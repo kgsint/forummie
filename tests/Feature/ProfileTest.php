@@ -4,6 +4,8 @@ namespace Tests\Feature;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
 class ProfileTest extends TestCase
@@ -27,7 +29,7 @@ class ProfileTest extends TestCase
 
         $response = $this
             ->actingAs($user)
-            ->patch('/account-info', [
+            ->put('/account-info', [
                 'name' => 'Test User',
                 'email' => 'test@example.com',
                 'username' => 'test_username',
@@ -44,13 +46,119 @@ class ProfileTest extends TestCase
         $this->assertNull($user->email_verified_at);
     }
 
+    public function test_profile_photo_can_be_uploaded()
+    {
+        $user = User::factory()->create();
+
+        $attributes = [
+            'name' => $user->name,
+            'username' => $user->username,
+            'email' => $user->email,
+        ];
+
+        $response = $this->actingAs($user)
+                                            ->put(route('profile.update'), array_merge(
+                                                $attributes,
+                                                ['photo' => UploadedFile::fake()->image('profile-photo.jpg')]
+                                            ));
+
+        $response->assertStatus(302);
+        $this->assertTrue(Storage::exists($user->profile_avatar_path));
+        $this->assertDatabaseHas('users', array_merge(
+            $attributes,
+            ['profile_avatar_path' => $user->profile_avatar_path]
+        ));
+    }
+
+    public function test_profile_avatar_mimes_type_validation()
+    {
+        $user = User::factory()->create();
+
+        $attributes = [
+            'name' => $user->name,
+            'username' => $user->username,
+            'email' => $user->email,
+        ];
+
+        $response = $this->actingAs($user)
+                                            ->put(route('profile.update'), array_merge(
+                                                $attributes,
+                                                ['photo' => UploadedFile::fake()->create('my-table.csv')]
+                                            ));
+
+        $response->assertInvalid(['photo' => 'Photo must be type of png, jpg or jpeg']);
+
+        $response = $this->actingAs($user)
+                                            ->put(route('profile.update'), array_merge(
+                                                $attributes,
+                                                ['photo' => UploadedFile::fake()->create('my-photo.png')]
+                                            ));
+
+        $response->assertValid(['photo']);
+    }
+
+    public function test_profile_avatar_max_size_validation()
+    {
+        $user = User::factory()->create();
+
+        $attributes = [
+            'name' => $user->name,
+            'username' => $user->username,
+            'email' => $user->email,
+        ];
+
+        $response = $this->actingAs($user)
+                                            ->put(route('profile.update'), array_merge(
+                                                $attributes,
+                                                ['photo' => UploadedFile::fake()->create('mine.png', 2049)]
+                                            ));
+
+        $response->assertInvalid(['photo' => 'Photo must not be greater than 2MB']);
+
+        $response = $this->actingAs($user)
+                                            ->put(route('profile.update'), array_merge(
+                                                $attributes,
+                                                ['photo' => UploadedFile::fake()->create('mine.png', 1000)]
+                                            ));
+
+        $response->assertValid(['photo']);
+    }
+
+    public function test_update_profile_pic_remove_old_one()
+    {
+        $user = User::factory()->create();
+
+        $attributes = [
+            'name' => $user->name,
+            'username' => $user->username,
+            'email' => $user->email,
+        ];
+
+        $response = $this->actingAs($user)
+                                            ->put(route('profile.update'), array_merge(
+                                                $attributes,
+                                                ['photo' => UploadedFile::fake()->create('photo-1.png', 1000)]
+                                            ));
+        $response->assertStatus(302);
+        $this->assertTrue(Storage::exists($prevPicPath = $user->profile_avatar_path));
+
+        // upload new profile pic
+        $response = $this->actingAs($user)
+                                    ->put(route('profile.update'), array_merge(
+                                        $attributes,
+                                        ['photo' => UploadedFile::fake()->create('photo-2.png', 1000)]
+                                    ));
+        // delete previous pic assertion
+        $this->assertFalse(Storage::exists($prevPicPath));
+    }
+
     public function test_email_verification_status_is_unchanged_when_the_email_address_is_unchanged(): void
     {
         $user = User::factory()->create();
 
         $response = $this
             ->actingAs($user)
-            ->patch('/account-info', [
+            ->put('/account-info', [
                 'name' => 'Test User',
                 'email' => $user->email,
                 'username' => 'test_username'
