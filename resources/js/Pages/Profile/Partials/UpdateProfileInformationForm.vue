@@ -101,6 +101,8 @@ const handleUpdateProfileInformation = () => {
                         &times;
                     </button>
                 </div>
+                <!-- error message -->
+                <InputError class="mt-2" :message="form.errors.photo" />
                 <!-- input file -->
                 <input
                     ref="photoInput"

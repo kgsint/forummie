@@ -31,7 +31,11 @@ class ProfileController extends Controller
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
-        $request->user()->fill($request->validated());
+        $request->user()->fill([
+            'name' => $request->name,
+            'email' => $request->email,
+            'username' => $request->username,
+        ]);
 
         // upload profile avatar if any
         if($request->hasFile('photo')) {

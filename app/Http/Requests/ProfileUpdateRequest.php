@@ -18,7 +18,8 @@ class ProfileUpdateRequest extends FormRequest
         return [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', Rule::unique(User::class)->ignore($this->user()->id)],
-            'username' => ['required', 'string', 'lowercase', 'max:255', Rule::unique(User::class)->ignore($this->user()->id)]
+            'username' => ['required', 'string', 'lowercase', 'max:255', Rule::unique(User::class)->ignore($this->user()->id)],
+            'photo' => ['nullable', 'file', 'mimes:png,jpg,jpeg', 'max:2048']
         ];
     }
 
@@ -27,6 +28,8 @@ class ProfileUpdateRequest extends FormRequest
         return [
             '*.required' => 'The :attribute cannot be empty',
             '*.lowercase' => 'The :attribute must be lowercase',
+            'photo.mimes' => 'Photo must be type of png, jpg or jpeg',
+            'photo.max' => 'Photo must not be greater than 2MB',
         ];
     }
 }
