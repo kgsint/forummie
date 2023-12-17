@@ -2,8 +2,10 @@
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import useCreateUser from '@/Composables/useCreateUser';
 import InputError from '@/Components/InputError.vue';
+import useCheckAccountType from '@/Composables/useCheckAccountType';
 
 const { form, createNewUser } = useCreateUser()
+const { isAdmin } = useCheckAccountType()
 </script>
 
 
@@ -56,7 +58,7 @@ const { form, createNewUser } = useCreateUser()
                     <option value="">Choose Account Type</option>
                     <option value="1">Default</option>
                     <option value="2">Moderator</option>
-                    <option value="3">Admin</option>
+                    <option v-if="isAdmin()" value="3">Admin</option>
                 </select>
                 <InputError :message="form.errors.type" />
             </div>

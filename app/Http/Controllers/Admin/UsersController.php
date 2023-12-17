@@ -2,15 +2,16 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
-use App\Http\Middleware\Authenticate;
-use App\Http\Middleware\VerifyAdmin;
-use App\Http\Requests\UserStoreRequest;
-use App\Http\Resources\UserResource;
 use App\Models\User;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 use Inertia\Inertia;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use App\Http\Controllers\Controller;
+use App\Http\Middleware\VerifyAdmin;
+use App\Http\Resources\UserResource;
+use Illuminate\Support\Facades\Hash;
+use App\Http\Middleware\Authenticate;
+use App\Http\Requests\UserStoreRequest;
 
 class UsersController extends Controller
 {
@@ -39,6 +40,8 @@ class UsersController extends Controller
 
     public function store(UserStoreRequest $request)
     {
+        $this->forbiddenIfModeratorCreateAdmin($request);
+
         User::create([
             'name' => $request->name,
             'email' => $request->email,
@@ -57,5 +60,13 @@ class UsersController extends Controller
         $user->delete();
 
         return redirect()->route('admin.users.index');
+    }
+
+    private function forbiddenIfModeratorCreateAdmin(UserStoreRequest $request): void
+    {
+        // moderator cannot create admin
+        if(auth()->user()->isModerator() && (int) $request->type === User::ADMIN) {
+            abort(Response::HTTP_FORBIDDEN);
+        }
     }
 }
