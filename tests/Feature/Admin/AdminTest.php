@@ -5,6 +5,7 @@ namespace Tests\Feature\Admin;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Hash;
 use Tests\TestCase;
 
 class AdminTest extends TestCase
@@ -27,6 +28,69 @@ class AdminTest extends TestCase
         $response = $this->actingAs($user)->get('/admin/users');
 
         $response->assertForbidden();
+    }
+
+    public function test_admin_or_moderator_can_create_user()
+    {
+        $admin = User::factory()->create(['type' => User::ADMIN]);
+        $moderator = User::factory()->create(['type' => User::MODERATOR]);
+
+        // admin
+        $response = $this->actingAs($admin)->post(route('admin.users.store', $attributes = [
+            'name' => 'Test User',
+            'email' => 'testuser@gmail.com',
+            'username' => 'test_user',
+            'type' => User::ADMIN,
+            'password' => 'password',
+            'password_confirmation' => 'password',
+        ]));
+        $response->assertRedirectToRoute('admin.users.index');
+        $this->assertDatabaseHas('users', [
+            'name' => $attributes['name'],
+            'email' => $attributes['email'],
+            'username' => $attributes['username'],
+            'type' => $attributes['type'],
+        ]);
+
+        // moderator
+        $response = $this->actingAs($moderator)->post(route('admin.users.store', $attributes = [
+            'name' => 'Test User One',
+            'email' => 'testuser1@gmail.com',
+            'username' => 'test_user1',
+            'type' => User::MODERATOR,
+            'password' => 'password',
+            'password_confirmation' => 'password',
+        ]));
+
+        $response->assertRedirectToRoute('admin.users.index');
+        $this->assertDatabaseHas('users', [
+            'name' => $attributes['name'],
+            'email' => $attributes['email'],
+            'username' => $attributes['username'],
+            'type' => $attributes['type'],
+        ]);
+    }
+
+    public function test_moderator_cannot_create_admin_account()
+    {
+        $moderator = User::factory()->create(['type' => User::MODERATOR]);
+
+        $response = $this->actingAs($moderator)->post(route('admin.users.store', $attributes = [
+            'name' => 'Test User One',
+            'email' => 'testuser1@gmail.com',
+            'username' => 'test_user1',
+            'type' => User::ADMIN,
+            'password' => 'password',
+            'password_confirmation' => 'password',
+        ]));
+
+        $response->assertForbidden();
+        $this->assertDatabaseMissing('users', [
+            'name' => $attributes['name'],
+            'email' => $attributes['email'],
+            'username' => $attributes['username'],
+            'type' => $attributes['type'],
+        ]);
     }
 
     // test moderator cannot delete use and admin
