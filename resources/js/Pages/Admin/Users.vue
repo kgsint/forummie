@@ -10,6 +10,7 @@ import CreateUserForm from './Partials/CreateUserForm.vue';
 import useCreateUser from '@/Composables/useCreateUser'
 import useSearchRecord from '@/Composables/useSearchRecord'
 import useUser from '@/Composables/useUser';
+import UserPlusIcon from '@/Components/Icons/UserPlusIcon.vue';
 
 defineProps({
     users: Object,
@@ -57,8 +58,9 @@ watch(searchRef, (search) => {
                                 />
                             </div>
                         </form>
-                        <button class="text-center text-xs md:text-sm font-semibold bg-gray-200 text-gray-700 hover:opacity-75 duration-200 px-2 py-3 rounded-lg border border-gray-400 shadow" @click="showCreateUserModal = true">
-                            Create new User
+                        <button class="flex items-center justify-center space-x-1 text-center text-xs md:text-sm font-semibold bg-gray-200 text-gray-700 hover:opacity-75 duration-200 px-2 py-3 rounded-lg border border-gray-400 shadow" @click="showCreateUserModal = true">
+                            <UserPlusIcon />
+                            <span>Create new User</span>
                         </button>
                     </div>
                 </div>
@@ -106,7 +108,7 @@ watch(searchRef, (search) => {
                                         class="flex items-center p-4 mr-12 space-x-6 whitespace-nowrap"
                                     >
                                         <img
-                                            class="w-10 h-10 rounded-full"
+                                            class="w-10 h-10 rounded-full object-cover"
                                             :src="user.avatar"
                                             alt="user's avatar"
                                         />

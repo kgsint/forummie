@@ -113,12 +113,12 @@ const logout = () => {
                         <button
                             @click="showUserInfoDropdown = !showUserInfoDropdown"
                             type="button"
-                            class="relative flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
+                            class="relative flex text-sm bg-gray-800 rounded-full focus:ring-2 focus:ring-blue-500"
                             aria-expanded="false"
                         >
                             <span class="sr-only">Open user menu</span>
                             <img
-                                class="w-8 h-8 rounded-full"
+                                class="w-8 h-8 rounded-full object-cover"
                                 :src="$page.props.auth.user.avatar"
                                 alt="user photo"
                             />
