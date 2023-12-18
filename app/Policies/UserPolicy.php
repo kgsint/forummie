@@ -16,6 +16,12 @@ class UserPolicy
         return $user->isAdmin() || $user->isModerator();
     }
 
+    public function ban(User $user, User $subject): bool
+    {
+        return ($user->isAdmin() && ! $subject->isAdmin()) ||
+                ($user->isModerator() && ! $subject->isAdmin() && ! $subject->isModerator());
+    }
+
     public function delete(User $user, User $subject): bool
     {
         return ($user->isAdmin() || $user->is($subject))

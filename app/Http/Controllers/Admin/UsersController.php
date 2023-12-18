@@ -56,6 +56,8 @@ class UsersController extends Controller
 
     public function ban(User $user, Request $request)
     {
+        $this->authorize('ban', $user);
+
         $request->validate([
             'banned_reason' => 'required|string|max:255',
         ], [

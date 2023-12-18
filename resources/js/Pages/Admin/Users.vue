@@ -164,7 +164,7 @@ watch(searchRef, (search) => {
                                     >
                                         <div class="flex items-center space-x-2">
                                             <button
-                                                v-if="! user.is_banned"
+                                                v-if="! user.is_banned && user.can.ban"
                                                 @click="displayBanUserModal(user)"
                                                 type="button"
                                                 class="inline-flex items-center px-3 py-2 text-xs font-medium text-center text-white bg-red-600 rounded-lg hover:bg-red-800 focus:ring-4"
@@ -173,19 +173,20 @@ watch(searchRef, (search) => {
                                                 <span>Ban</span>
                                             </button>
                                             <button
-                                                v-else
+                                                v-if="user.is_banned && user.can.ban"
                                                 type="button"
                                                 class="inline-flex items-center px-3 py-2 text-xs font-medium text-center text-white bg-gray-600 rounded-lg hover:bg-gray-800 focus:ring-4"
                                             >
                                                 <span>Unban</span>
                                             </button>
                                             <button
+                                                v-if="user.can.delete"
                                                 @click="handleDelete(user)"
                                                 type="button"
                                                 class="inline-flex items-center px-3 py-2 text-xs font-medium text-center text-white bg-red-600 rounded-lg hover:bg-red-800 focus:ring-4 focus:ring-red-300 dark:focus:ring-red-900"
                                             >
                                                 <DeleteIcon class="w-4 h-4 mr-1" />
-                                                Delete user
+                                                Delete
                                             </button>
                                         </div>
                                     </td>

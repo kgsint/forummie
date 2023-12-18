@@ -26,6 +26,10 @@ class UserIndexResource extends JsonResource
             'is_banned' => $this->isBanned(),
             'banned_reason' => $this->banned_reason,
             'joined_at' => DateTimeResource::make($this->created_at),
+            'can' => [
+                'ban' => auth()->user()->can('ban', $this->resource),
+                'delete' => auth()->user()->can('delete', $this->resource),
+            ]
         ];
     }
 }
