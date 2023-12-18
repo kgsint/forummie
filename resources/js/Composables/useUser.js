@@ -26,6 +26,7 @@ export default () => {
             onSuccess: () => {
                 displayToastMessage(`@${userRef.value.id} has been banned`)
                 hideBanUserModal()
+                banUserForm.reset()
             }
         })
     }
