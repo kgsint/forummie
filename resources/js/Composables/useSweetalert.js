@@ -1,10 +1,10 @@
 import Swal from "sweetalert2"
 export default () => {
-    const displayConfirmMessage = (text) => {
+    const displayConfirmMessage = (text, confirmButtonText = "Delete") => {
         return Swal.fire({
             text,
             showCancelButton: true,
-            confirmButtonText: "Delete",
+            confirmButtonText,
             confirmButtonColor: "#eb020e",
             denyButtonText: `Don't save`
           })

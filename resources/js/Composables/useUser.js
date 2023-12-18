@@ -31,6 +31,22 @@ export default () => {
         })
     }
 
+    const handleUnban = (user) => {
+        displayConfirmMessage(`
+            Do you want to unban @${user.username}
+        `, 'Unban').then((result) => {
+            if(result.isConfirmed) {
+                let username = user.username
+
+                router.patch(route('admin.users.unban', user.id), {}, {
+                    onSuccess: () => {
+                            displayToastMessage(`@${username} has been unbanned`)
+                    }
+                })
+            }
+        })
+    }
+
     const handleDelete = (user) => {
         // confirm with sweet alert
         displayConfirmMessage(
@@ -56,6 +72,7 @@ export default () => {
         hideBanUserModal,
         showBanUserModal,
         handleBan,
+        handleUnban,
         handleDelete,
     }
 }

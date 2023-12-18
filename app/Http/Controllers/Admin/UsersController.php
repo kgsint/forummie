@@ -72,6 +72,18 @@ class UsersController extends Controller
         return redirect()->route('admin.users.index');
     }
 
+    public function unban(Request $request, User $user)
+    {
+        $this->authorize('ban', $user);
+
+        $user->update([
+            'banned_at' => null,
+            'banned_reason' => null,
+        ]);
+
+        return redirect()->route('admin.users.index');
+    }
+
     public function destroy(User $user)
     {
         $this->authorize('delete', $user);

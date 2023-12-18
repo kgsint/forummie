@@ -30,7 +30,8 @@ Route::prefix('admin')->group(function() {
 
     Route::get('/users', [UsersController::class, 'index'])->name('admin.users.index');
     Route::post('/users', [UsersController::class, 'store'])->name('admin.users.store');
-    Route::patch('/users/{user}', [UsersController::class, 'ban'])->name('admin.users.ban');
+    Route::patch('/users/{user}/ban', [UsersController::class, 'ban'])->name('admin.users.ban');
+    Route::patch('/users/{user}/unban', [UsersController::class, 'unban'])->name('admin.users.unban');
     Route::delete('/users/{user:username}', [UsersController::class, 'destroy'])->name('admin.users.destroy');
 
     Route::get('/topics', [TopicsController::class, 'index'])->name('admin.topics.index');

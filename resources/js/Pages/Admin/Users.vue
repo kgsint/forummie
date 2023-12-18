@@ -18,7 +18,7 @@ defineProps({
     users: Object,
 })
 
-const { showBanUserModal, userRef, displayBanUserModal, hideBanUserModal, handleDelete} = useUser()
+const { showBanUserModal, userRef, displayBanUserModal, hideBanUserModal, handleUnban, handleDelete} = useUser()
 const { showCreateUserModal } = useCreateUser()
 const { searchRef, handleSearch } = useSearchRecord()
 
@@ -173,6 +173,7 @@ watch(searchRef, (search) => {
                                                 <span>Ban</span>
                                             </button>
                                             <button
+                                                @click="handleUnban(user)"
                                                 v-if="user.is_banned && user.can.ban"
                                                 type="button"
                                                 class="inline-flex items-center px-3 py-2 text-xs font-medium text-center text-white bg-gray-600 rounded-lg hover:bg-gray-800 focus:ring-4"
