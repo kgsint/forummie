@@ -12,12 +12,13 @@ import useSearchRecord from '@/Composables/useSearchRecord'
 import useUser from '@/Composables/useUser';
 import UserPlusIcon from '@/Components/Icons/UserPlusIcon.vue';
 import BanIcon from '@/Components/Icons/BanIcon.vue'
+import BanUserForm from '@/Pages/Admin/Partials/BanUserForm.vue'
 
 defineProps({
     users: Object,
 })
 
-const { handleDelete} = useUser()
+const { showBanUserModal, userRef, displayBanUserModal, hideBanUserModal, handleDelete} = useUser()
 const { showCreateUserModal } = useCreateUser()
 const { searchRef, handleSearch } = useSearchRecord()
 
@@ -143,6 +144,7 @@ watch(searchRef, (search) => {
                                     >
                                         <div class="flex items-center space-x-2">
                                             <button
+                                                @click="displayBanUserModal(user)"
                                                 type="button"
                                                 class="inline-flex items-center px-3 py-2 text-xs font-medium text-center text-white bg-red-600 rounded-lg hover:bg-red-800 focus:ring-4"
                                             >
@@ -185,6 +187,26 @@ watch(searchRef, (search) => {
                 </span>
             </div>
             <CreateUserForm />
+        </div>
+    </Modal>
+
+    <!-- ban user modal -->
+    <Modal
+        :show="showBanUserModal"
+        @close="hideBanUserModal"
+    >
+        <div class="px-3 py-6">
+            <div class="flex justify-between items-start">
+                <h3 class="border-b-2 mb-3 pb-3 border-gray-300 flex-1 text-center text-xl">Ban User @{{ userRef?.username }}</h3>
+                <span
+                    @click="hideBanUserModal"
+                    class="px-3 py-1 text-xl bg-gray-300 hover:bg-gray-500 hover:text-white
+                    transition-all rounded-md duration-150 cursor-pointer"
+                >
+                    &times;
+                </span>
+            </div>
+            <BanUserForm />
         </div>
     </Modal>
 </template>

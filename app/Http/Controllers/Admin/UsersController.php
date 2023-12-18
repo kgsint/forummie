@@ -12,6 +12,7 @@ use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Middleware\Authenticate;
 use App\Http\Requests\UserStoreRequest;
+use Carbon\Carbon;
 
 class UsersController extends Controller
 {
@@ -48,6 +49,17 @@ class UsersController extends Controller
             'username' => $request->username,
             'type' => (int) $request->type,
             'password' => Hash::make($request->password),
+        ]);
+
+        return redirect()->route('admin.users.index');
+    }
+
+    public function ban(User $user, Request $request)
+    {
+        $bannedAt = is_null($user->banned_at) ? Carbon::now() : null;
+        $user->update([
+            'banned_at' => $bannedAt,
+            'banned_reason' => $request->banned_reason,
         ]);
 
         return redirect()->route('admin.users.index');

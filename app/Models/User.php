@@ -33,6 +33,7 @@ class User extends Authenticatable
         'username',
         'type',
         'banned_at',
+        'banned_reason',
     ];
 
     /**
