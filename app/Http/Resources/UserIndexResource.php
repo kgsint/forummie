@@ -5,15 +5,9 @@ namespace App\Http\Resources;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Support\Facades\Storage;
 
-class UserResource extends JsonResource
+class UserIndexResource extends JsonResource
 {
-    /**
-     * Transform the resource into an array.
-     *
-     * @return array<string, mixed>
-     */
     public function toArray(Request $request): array
     {
         $accountType = match($this->type) {
@@ -29,6 +23,9 @@ class UserResource extends JsonResource
             'username' => $this->username,
             'type' => $accountType,
             'avatar' => $this->getAvatar(),
+            'is_banned' => $this->isBanned(),
+            'banned_reason' => $this->banned_reason,
+            'joined_at' => DateTimeResource::make($this->created_at),
         ];
     }
 }

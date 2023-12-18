@@ -12,6 +12,8 @@ use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Middleware\Authenticate;
 use App\Http\Requests\UserStoreRequest;
+use App\Http\Resources\UserCollection;
+use App\Http\Resources\UserIndexResource;
 use Carbon\Carbon;
 
 class UsersController extends Controller
@@ -33,9 +35,7 @@ class UsersController extends Controller
                         ->paginate(User::PAGINATION_COUNT);
 
         return Inertia::render('Admin/Users', [
-            'users' => UserResource::collection(
-                $users
-            ),
+            'users' => UserIndexResource::collection($users),
         ]);
     }
 
