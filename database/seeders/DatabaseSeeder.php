@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
+use App\Models\Post;
 use App\Models\Thread;
 use App\Models\Topic;
 use App\Models\User;
@@ -37,11 +38,14 @@ class DatabaseSeeder extends Seeder
             'type' => User::ADMIN,
         ]);
 
-        User::factory(10)->create();
-
         $this->call([
             TopicSeeder::class,
-            ThreadSeeder::class,
         ]);
+
+        $users = User::factory(30)->create();
+        $threads = Thread::factory(50)->recycle($users)->recycle(Topic::all())->create();
+        $posts = Post::factory(100)->recycle($users)->recycle($threads)->create();
+
+
     }
 }
