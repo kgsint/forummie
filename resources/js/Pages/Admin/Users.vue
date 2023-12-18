@@ -11,6 +11,7 @@ import useCreateUser from '@/Composables/useCreateUser'
 import useSearchRecord from '@/Composables/useSearchRecord'
 import useUser from '@/Composables/useUser';
 import UserPlusIcon from '@/Components/Icons/UserPlusIcon.vue';
+import BanIcon from '@/Components/Icons/BanIcon.vue'
 
 defineProps({
     users: Object,
@@ -140,14 +141,23 @@ watch(searchRef, (search) => {
                                     <td
                                         class="p-4 space-x-2 whitespace-nowrap"
                                     >
-                                        <button
-                                            @click="handleDelete(user)"
-                                            type="button"
-                                            class="inline-flex items-center px-3 py-2 text-xs font-medium text-center text-white bg-red-600 rounded-lg hover:bg-red-800 focus:ring-4 focus:ring-red-300 dark:focus:ring-red-900"
-                                        >
-                                            <DeleteIcon class="w-4 h-4 mr-1" />
-                                            Delete user
-                                        </button>
+                                        <div class="flex items-center space-x-2">
+                                            <button
+                                                type="button"
+                                                class="inline-flex items-center px-3 py-2 text-xs font-medium text-center text-white bg-red-600 rounded-lg hover:bg-red-800 focus:ring-4"
+                                            >
+                                                <BanIcon />
+                                                <span>Ban</span>
+                                            </button>
+                                            <button
+                                                @click="handleDelete(user)"
+                                                type="button"
+                                                class="inline-flex items-center px-3 py-2 text-xs font-medium text-center text-white bg-red-600 rounded-lg hover:bg-red-800 focus:ring-4 focus:ring-red-300 dark:focus:ring-red-900"
+                                            >
+                                                <DeleteIcon class="w-4 h-4 mr-1" />
+                                                Delete user
+                                            </button>
+                                        </div>
                                     </td>
                                 </tr>
                             </tbody>
