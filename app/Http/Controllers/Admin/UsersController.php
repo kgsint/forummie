@@ -56,9 +56,14 @@ class UsersController extends Controller
 
     public function ban(User $user, Request $request)
     {
-        $bannedAt = is_null($user->banned_at) ? Carbon::now() : null;
+        $request->validate([
+            'banned_reason' => 'required|string|max:255',
+        ], [
+            'banned_reason.required' => 'Please provide a valid reason',
+        ]);
+
         $user->update([
-            'banned_at' => $bannedAt,
+            'banned_at' => Carbon::now(),
             'banned_reason' => $request->banned_reason,
         ]);
 
