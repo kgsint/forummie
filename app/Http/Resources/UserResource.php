@@ -29,6 +29,7 @@ class UserResource extends JsonResource
             'username' => $this->username,
             'type' => $accountType,
             'avatar' => $this->getAvatar(),
+            'is_banned' => $this->isBanned(),
             'joined_at' => DateTimeResource::make($this->created_at),
         ];
     }

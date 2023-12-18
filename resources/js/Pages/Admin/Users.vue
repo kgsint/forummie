@@ -86,7 +86,13 @@ watch(searchRef, (search) => {
                                         scope="col"
                                         class="p-4 text-xs font-medium text-left text-gray-500 uppercase"
                                     >
-                                        Type
+                                        Account Type
+                                    </th>
+                                    <th
+                                        scope="col"
+                                        class="p-4 text-xs font-medium text-left text-gray-500 uppercase"
+                                    >
+                                        Status
                                     </th>
                                     <th
                                         scope="col"
@@ -137,19 +143,35 @@ watch(searchRef, (search) => {
                                     <td
                                         class="p-4 text-base font-medium text-gray-900 whitespace-nowrap"
                                     >
+                                        <span :class="{ 'text-red-500' : user.is_banned }">
+                                            {{ user.is_banned ? 'banned' : 'n/a' }}
+                                        </span>
+                                    </td>
+                                    <td
+                                        class="p-4 text-base font-medium text-gray-900 whitespace-nowrap"
+                                    >
                                         {{ user.joined_at.format }}
                                     </td>
+
                                     <td
                                         class="p-4 space-x-2 whitespace-nowrap"
                                     >
                                         <div class="flex items-center space-x-2">
                                             <button
+                                                v-if="! user.is_banned"
                                                 @click="displayBanUserModal(user)"
                                                 type="button"
                                                 class="inline-flex items-center px-3 py-2 text-xs font-medium text-center text-white bg-red-600 rounded-lg hover:bg-red-800 focus:ring-4"
                                             >
                                                 <BanIcon />
                                                 <span>Ban</span>
+                                            </button>
+                                            <button
+                                                v-else
+                                                type="button"
+                                                class="inline-flex items-center px-3 py-2 text-xs font-medium text-center text-white bg-gray-600 rounded-lg hover:bg-gray-800 focus:ring-4"
+                                            >
+                                                <span>Unban</span>
                                             </button>
                                             <button
                                                 @click="handleDelete(user)"
