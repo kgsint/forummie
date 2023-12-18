@@ -133,6 +133,12 @@ watch(searchRef, (search) => {
                                             >
                                                 {{ user.email }}
                                             </div>
+                                            <div
+                                                v-if="user.is_banned && user.banned_reason"
+                                                class="text-sm font-normal text-red-500"
+                                            >
+                                                Reason for being banned: {{ user.banned_reason }}
+                                            </div>
                                         </div>
                                     </td>
                                     <td

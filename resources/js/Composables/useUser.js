@@ -25,6 +25,7 @@ export default () => {
         banUserForm.patch(route('admin.users.ban', userRef.value.id), {
             onSuccess: () => {
                 displayToastMessage(`@${userRef.value.id} has been banned`)
+                hideBanUserModal()
             }
         })
     }
