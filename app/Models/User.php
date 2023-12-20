@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Carbon\Carbon;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Notifications\Notifiable;
@@ -61,6 +62,22 @@ class User extends Authenticatable
         return ! is_null($this->banned_at);
     }
 
+    public function ban(string $bannedReason): bool
+    {
+        return $this->update([
+            'banned_at' => Carbon::now(),
+            'banned_reason' => $bannedReason,
+        ]);
+    }
+
+    public function unban(): bool
+    {
+        return $this->update([
+            'banned_at' => null,
+            'banned_reason' => null,
+        ]);
+    }
+
     public function getAvatar(): string
     {
         $gravatar_url =  "https://gravatar.com/avatar/"
@@ -87,4 +104,8 @@ class User extends Authenticatable
         return $this->type === self::MODERATOR;
     }
 
+    public function posts(): HasMany
+    {
+        return $this->hasMany(Post::class);
+    }
 }

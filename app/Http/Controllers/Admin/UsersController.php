@@ -64,10 +64,7 @@ class UsersController extends Controller
             'banned_reason.required' => 'Please provide a valid reason',
         ]);
 
-        $user->update([
-            'banned_at' => Carbon::now(),
-            'banned_reason' => $request->banned_reason,
-        ]);
+        $user->ban($request->banned_reason);
 
         return redirect()->route('admin.users.index');
     }
@@ -76,10 +73,11 @@ class UsersController extends Controller
     {
         $this->authorize('ban', $user);
 
-        $user->update([
-            'banned_at' => null,
-            'banned_reason' => null,
-        ]);
+        // $user->update([
+        //     'banned_at' => null,
+        //     'banned_reason' => null,
+        // ]);
+        $user->unban();
 
         return redirect()->route('admin.users.index');
     }
