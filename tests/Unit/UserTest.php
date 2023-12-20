@@ -46,6 +46,7 @@ class UserTest extends TestCase
         ]);
 
         $this->assertInstanceOf(Collection::class, $user->threads);
+        $this->assertCount(3, $user->threads);
     }
 
     public function test_user_has_posts_or_replies()
@@ -56,6 +57,7 @@ class UserTest extends TestCase
         ]);
 
         $this->assertInstanceOf(Collection::class, $user->posts);
+        $this->assertCount(2, $user->posts);
     }
 
     public function test_user_can_be_banned()
