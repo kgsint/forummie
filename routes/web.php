@@ -61,9 +61,12 @@ Route::middleware('auth')->group(function () {
     Route::post('/mentions/search', SearchMentionableUser::class)
                                                                 ->name('mention.search');
     // profile related routes
+
     Route::get('/account-info', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::put('/account-info', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/account-info', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+Route::get('/user/{user:username}', [ProfileController::class, 'show'])->name('profile.show');
 
 require __DIR__.'/auth.php';

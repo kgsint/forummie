@@ -4,8 +4,9 @@ namespace App\Http\Resources;
 
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Resources\DateTimeResource;
+use Illuminate\Http\Resources\Json\JsonResource;
 
 class UserResource extends JsonResource
 {
@@ -26,9 +27,12 @@ class UserResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'email' => $this->email,
+            'threads' => $this->whenLoaded('threads', fn() => ThreadResource::collection($this->threads)),
+            'posts' => $this->whenLoaded('posts', fn() => PostResource::collection($this->posts)),
             'username' => $this->username,
             'type' => $accountType,
             'avatar' => $this->getAvatar(),
+            'joined_at' => DateTimeResource::make($this->created_at),
         ];
     }
 }

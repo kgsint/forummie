@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Http\Resources\UserResource;
+use App\Models\User;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -15,6 +17,16 @@ use Inertia\Response;
 
 class ProfileController extends Controller
 {
+    // user's profile page
+    public function show(User $user)
+    {
+        $user->load(['threads', 'posts']);
+
+        return Inertia::render('Profile/Show', [
+            'user' => UserResource::make($user),
+        ]);
+    }
+
     /**
      * Display the user's profile form.
      */
