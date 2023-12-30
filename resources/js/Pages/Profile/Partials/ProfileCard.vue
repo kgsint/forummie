@@ -1,4 +1,5 @@
 <script setup>
+import { Link } from '@inertiajs/vue3'
 defineProps({
     user: Object,
 })
@@ -18,6 +19,7 @@ defineProps({
         <p class="text-gray-400 mb-6">Joined at {{ user.joined_at.format }}</p>
         <!-- edit profile button -->
         <Link
+            v-if="user.can.update"
             :href="route('profile.edit')"
             class="px-3 py-1 border-2 border-gray-300 rounded-lg  hover:opacity-75 bg-gray-200"
         >

@@ -22,6 +22,11 @@ class UserPolicy
                 ($user->isModerator() && ! $subject->isAdmin() && ! $subject->isModerator());
     }
 
+    public function update(User $user, User $subject): bool
+    {
+        return $user->is($subject);
+    }
+
     public function delete(User $user, User $subject): bool
     {
         return ($user->isAdmin() || $user->is($subject))
