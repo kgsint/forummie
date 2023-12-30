@@ -14,6 +14,7 @@ import { Mentionable } from 'vue-mention';
 import useMentionable from '@/Composables/useMentionable'
 import useSweetalert from '@/Composables/useSweetalert';
 import useCheckAccountType from '@/Composables/useCheckAccountType'
+import OptionIcon from '@/Components/Icons/OptionIcon.vue'
 
 defineOptions({
     inheritAttrs: false
@@ -43,6 +44,7 @@ const isEdit = ref(false)
 const markdownPreviewEnabled = ref(false)
 const markdownHtml = ref('')
 const loading = ref(false) // loading indicator for markdown preview
+const showOptionDialog = ref(false)
 
 watch(markdownPreviewEnabled, (isEnabled) => {
     // markdown preview is off, do nothing
@@ -75,7 +77,7 @@ const handleEditPost = () => {
 
 // submit delete form request
 const handleDeletePost = () => {
-    displayConfirmMessage('Do you want to delete the post?')
+    displayConfirmMessage('Do you want to delete the reply?')
                 .then((result) => {
                 /* if confirmed */
                 if (result.isConfirmed) {
@@ -108,6 +110,13 @@ const handleBestAnswer = () => {
         preserveScroll: true
     })
 }
+
+// click away or click outside
+document.addEventListener('click', (e) => {
+    if(! document.querySelector('#option-btn').contains(e.target) && showOptionDialog.value) {
+        showOptionDialog.value = false
+    }
+})
 </script>
 
 
@@ -225,20 +234,54 @@ const handleBestAnswer = () => {
                 <!-- action btns -->
                 <div class="space-x-3 flex items-center">
                     <button
-                        @click="handleBestAnswer"
-                        v-if="post.thread.can.manage"
-                        class="text-sm text-blue-500 hover:underline">{{ isBestAnswer ? 'Remove' : 'Mark' }} as best answer</button>
+                        v-if="$page.props.auth.user"
+                        id="option-btn"
+                        @click="showOptionDialog = !showOptionDialog"
+                        class="relative hover:bg-gray-300 hover:text-white rounded-full"
+                    >
+                        <OptionIcon />
+                        <!-- option dialog -->
+                        <ul
+                            v-show="showOptionDialog"
+                            class="z-10 duration-500 transition-all absolute top-8 right-3 bg-gray-200 border border-gray-100 rounded-lg
+                                        shadow text-sm flex flex-col min-w-[140px]"
+                        >
+                            <li
+                                v-if="post.can.update"
+                                @click="isEdit = true"
+                                class="list-none bg-gray-50 px-4 py-2 cursor-pointer hover:bg-gray-200 border-b
+                                    border-gray-200 last:border-b-0 text-black hover:text-black">
+                                    <button
+                                        class="flex items-center"
+                                    >
+                                        <EditIcon class="w-4 h-4" /> Edit
+                                    </button>
+                            </li>
+                            <li
+                                @click="handleBestAnswer"
+                                v-if="post.thread.can.manage"
+                                 class="text-xs list-none bg-gray-50 px-4 py-2 cursor-pointer hover:bg-gray-200 border-b
+                                        border-gray-200 last:border-b-0 text-black hover:text-black">
+                                    <button
+                                        class="flex items-center"
+                                    >
+                                        {{ isBestAnswer ? 'Remove' : 'Mark' }} best answer
+                                    </button>
+                            </li>
+                            <li
+                                v-if="post.can.delete"
+                                @click="handleDeletePost"
+                                 class="list-none bg-gray-50 px-4 py-2 cursor-pointer hover:bg-gray-200 border-b text-red-500
+                                        border-gray-200 last:border-b-0">
+                                    <button
+                                        class="flex items-center"
+                                    >
+                                        <DeleteIcon /> Delete
+                                    </button>
+                            </li>
+                        </ul>
+                    </button>
 
-                    <button
-                        v-if="post.can.update"
-                        @click="isEdit = true">
-                        <EditIcon />
-                    </button>
-                    <button
-                        v-if="post.can.delete"
-                        @click="handleDeletePost">
-                        <DeleteIcon class="text-red-500" />
-                    </button>
                 </div>
             </div>
         </div>

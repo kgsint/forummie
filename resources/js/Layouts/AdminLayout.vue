@@ -2,7 +2,6 @@
 import HamburgerIcon from "@/Components/Icons/HamburgerIcon.vue"
 import CloseIcon from "@/Components/Icons/CloseIcon.vue"
 import SideNavigation from "@/Components/Admin/SideNavigation.vue"
-import SearchIcon from "@/Components/Icons/SearchIcon.vue"
 import { ref } from 'vue'
 import { Link, router } from "@inertiajs/vue3"
 
