@@ -4,10 +4,9 @@ import ForumPostCard from '@/Components/Forum/PostCard.vue'
 import useCreateReply from '@/Composables/useCreateReply'
 import EditIcon from '../Icons/EditIcon.vue';
 import DeleteIcon from '../Icons/DeleteIcon.vue';
-import { ref, watch, computed } from 'vue';
+import { ref, watch, computed, nextTick } from 'vue';
 import Textarea from '../Textarea.vue';
 import InputError from '../InputError.vue';
-import Swal from 'sweetalert2'
 import axios from 'axios';
 import CheckedIcon from '@/Components/Icons/CheckedIcon.vue'
 import { Mentionable } from 'vue-mention';
@@ -15,6 +14,7 @@ import useMentionable from '@/Composables/useMentionable'
 import useSweetalert from '@/Composables/useSweetalert';
 import useCheckAccountType from '@/Composables/useCheckAccountType'
 import OptionIcon from '@/Components/Icons/OptionIcon.vue'
+import ReportIcon from '@/Components/Icons/ReportIcon.vue'
 
 defineOptions({
     inheritAttrs: false
@@ -111,9 +111,10 @@ const handleBestAnswer = () => {
     })
 }
 
-// click away or click outside
-document.addEventListener('click', (e) => {
-    if(! document.querySelector('#option-btn').contains(e.target) && showOptionDialog.value) {
+// click away | click outside option btn
+window.addEventListener('click', (e) => {
+    if(document.querySelector(`#option-btn-${props.post.id}`) && ! document.querySelector(`#option-btn-${props.post.id}`).contains(e.target) && showOptionDialog.value === true) {
+        console.log('hello')
         showOptionDialog.value = false
     }
 })
@@ -235,7 +236,7 @@ document.addEventListener('click', (e) => {
                 <div class="space-x-3 flex items-center">
                     <button
                         v-if="$page.props.auth.user"
-                        id="option-btn"
+                        :id="`option-btn-${post.id}`"
                         @click="showOptionDialog = !showOptionDialog"
                         class="relative hover:bg-gray-300 hover:text-white rounded-full"
                     >
@@ -243,18 +244,21 @@ document.addEventListener('click', (e) => {
                         <!-- option dialog -->
                         <ul
                             v-show="showOptionDialog"
-                            class="z-10 duration-500 transition-all absolute top-8 right-3 bg-gray-200 border border-gray-100 rounded-lg
+                            class="z-50 duration-500 transition-all absolute top-8 right-3 bg-gray-200 border border-gray-100 rounded-lg
                                         shadow text-sm flex flex-col min-w-[140px]"
                         >
+                        <li
+                            class="list-none bg-gray-50 px-4 py-2 cursor-pointer hover:bg-gray-200 border-b
+                                border-gray-200 flex items-center text-black hover:text-black last:border-b-0">
+                                <ReportIcon /> Report Spam
+                            </li>
                             <li
                                 v-if="post.can.update"
                                 @click="isEdit = true"
                                 class="list-none bg-gray-50 px-4 py-2 cursor-pointer hover:bg-gray-200 border-b
                                     border-gray-200 last:border-b-0 text-black hover:text-black">
-                                    <button
-                                        class="flex items-center"
-                                    >
-                                        <EditIcon class="w-4 h-4" /> Edit
+                                    <button>
+                                         Edit
                                     </button>
                             </li>
                             <li
@@ -262,9 +266,7 @@ document.addEventListener('click', (e) => {
                                 v-if="post.thread.can.manage"
                                  class="text-xs list-none bg-gray-50 px-4 py-2 cursor-pointer hover:bg-gray-200 border-b
                                         border-gray-200 last:border-b-0 text-black hover:text-black">
-                                    <button
-                                        class="flex items-center"
-                                    >
+                                    <button>
                                         {{ isBestAnswer ? 'Remove' : 'Mark' }} best answer
                                     </button>
                             </li>
@@ -273,10 +275,8 @@ document.addEventListener('click', (e) => {
                                 @click="handleDeletePost"
                                  class="list-none bg-gray-50 px-4 py-2 cursor-pointer hover:bg-gray-200 border-b text-red-500
                                         border-gray-200 last:border-b-0">
-                                    <button
-                                        class="flex items-center"
-                                    >
-                                        <DeleteIcon /> Delete
+                                    <button>
+                                         Delete
                                     </button>
                             </li>
                         </ul>
