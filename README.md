@@ -3,35 +3,25 @@ You can visit [demo here](https://forummie.up.railway.app)
 
 ## Installation and Setup
 
-clone this repo with `git clone https://github.com/kgsint/forum.git`
+- clone this repo with:
 
-install required dependencies
 ```bash
-composer install
+git clone "https://github.com/kgsint/forum.git"
 ```
-```bash
-npm install
+
+- Set up local database called `forummie`
+- To setup and install required depenedencies by running the command:
 ```
-copy `.env.example` file to `.env` :
+composer setup
 ```
-cp .env.example .env
-```
-Set up local database called `forummie` and migrate: 
-```
-php artisan migrate
-```
-Generate `APP_KEY`
-```bash
-php artisan key:generate
-```
-To compile and hot reload, run:
-```bash
-npm run dev
-```
-Start your development server
-```
-php artisan serve
-```
+## Commands
+
+Command | Description
+--- | ---
+`php artisan serve` | start local development server
+`npm run dev` | Build and watch for changes, hot reload and bundle CSS and JS files
+`php artisan test` | Run the entire test suite
+`php artisan migrate:fresh --seed` | Refresh the database and seed
 
 For Admin login,
 ```
