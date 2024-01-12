@@ -1,12 +1,14 @@
 <script setup>
-import { Link } from '@inertiajs/vue3'
+import { Link, router } from '@inertiajs/vue3'
 import MessageIcon from '@/Components/Icons/MessageIcon.vue'
-import { router } from '@inertiajs/vue3';
 import CheckedIcon from '../Icons/CheckedIcon.vue'
 
 const props = defineProps({
     thread: Object,
-    isSolved: Boolean,
+    isSolved: {
+        type: Boolean,
+        default: false,
+    },
 })
 
 const redirectToShow = (e) => {

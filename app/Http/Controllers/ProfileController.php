@@ -20,7 +20,7 @@ class ProfileController extends Controller
     // user's profile page
     public function show(User $user)
     {
-        $user->load(['threads', 'posts']);
+        $user->load(['threads.solution', 'posts.thread']);
 
         return Inertia::render('Profile/Show', [
             'user' => UserResource::make($user),
