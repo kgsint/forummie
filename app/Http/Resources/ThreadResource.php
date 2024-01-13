@@ -26,11 +26,11 @@ class ThreadResource extends JsonResource
             'slug' => $this->slug,
             'body_markdown' => $this->body, // raw markdown in database
             'body' =>  $body, // markdown to html
-            'latest_post' => LatestPostResource::make($this->whenLoaded('latestPost')),
+            'latest_post' => $this->whenLoaded('latestPost', fn() => LatestPostResource::make($this->latestPost)),
             'no_of_posts' => $this->posts?->count() ?? 0,
-            'solution' => PostResource::make($this->whenLoaded('solution')),
-            'topic' => TopicResource::make($this->whenLoaded('topic')),
-            'user' => UserResource::make($this->whenLoaded('user')),
+            'solution' => $this->whenLoaded('solution', fn() => PostResource::make($this->solution)),
+            'topic' => $this->whenLoaded('topic', fn() => TopicResource::make($this->topic)),
+            'user' => $this->whenLoaded('user', fn() => UserResource::make($this->user)),
             'created_at' => DateTimeResource::make($this->created_at),
             'can' => [
                 'manage' => auth()->user()?->can('manage', $this->resource) ?? false,
