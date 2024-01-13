@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Contracts\PostInterface;
 use App\Contracts\ThreadInterface;
 use App\Http\Requests\ThreadStoreRequest;
 use App\Http\Requests\ThreadUpdateRequest;
@@ -11,11 +12,13 @@ use Illuminate\Http\Request;
 use App\Http\Resources\PostResource;
 use App\Http\Resources\ThreadResource;
 use App\Models\Post;
+use Illuminate\Database\Eloquent\Builder;
 
 class ForumController extends Controller
 {
     public function __construct(
         private ThreadInterface $threadRepo,
+        private PostInterface $postRepo,
     )
     {
         $this->middleware('auth')->only(['store', 'update', 'destroy']);
@@ -45,16 +48,12 @@ class ForumController extends Controller
         }
 
         // eager load
-        $thread->load(['topic', 'user', 'solution']);
+        $thread->load(['topic', 'posts', 'user', 'solution']);
 
         return Inertia::render('Forum/Show', [
-            'thread' => new ThreadResource($thread),
+            'thread' => ThreadResource::make($thread),
             'posts' => PostResource::collection(
-                $thread->posts()
-                        ->where('parent_id', null)
-                        ->with(['user', 'thread.user', 'parent', 'replies.thread.user', 'replies.parent', 'replies.user'])
-                        ->oldest()
-                        ->paginate(Post::PAGINATION_COUNT),
+                $this->postRepo->getByThread($thread),
             ),
         ]);
     }

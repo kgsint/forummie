@@ -4,12 +4,26 @@ namespace App\Repositories;
 
 use App\Models\Post;
 use App\Contracts\PostInterface;
+use App\Models\Thread;
+use Illuminate\Database\Eloquent\Builder;
 
 class PostRepository implements PostInterface
 {
     public function getAll()
     {
         return Post::latest()->paginate(Post::PAGINATION_COUNT);
+    }
+
+    public function getByThread(Thread $thread)
+    {
+        return Post::query()
+                                ->whereBelongsTo($thread)
+                                ->where(function(Builder $query) {
+                                    return $query->whereNull('parent_id');
+                                })
+                                ->with(['user', 'thread.user', 'replies.thread.user', 'replies.parent', 'replies.user'])
+                                ->oldest()
+                                ->paginate(Post::PAGINATION_COUNT);
     }
 
     public function store(array $data)
