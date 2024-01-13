@@ -53,7 +53,7 @@ watch(markdownPreviewEnabled, (isEnabled) => {
     }
 
     loading.value = true
-    // if turn on, making request to the specific route
+    // if turn on, make request to the route
     axios.post(route('markdown.preview'), {
         body: editForm.body.trim(),
     }).then(res => {
@@ -244,6 +244,7 @@ window.addEventListener('click', (e) => {
                         <!-- option dialog -->
                         <ul
                             v-show="showOptionDialog"
+                            v-if="$page.props.auth.user"
                             class="z-50 duration-500 transition-all absolute top-8 right-3 bg-gray-200 border border-gray-100 rounded-lg
                                         shadow text-sm flex flex-col min-w-[140px]"
                         >

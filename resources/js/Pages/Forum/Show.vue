@@ -42,6 +42,7 @@ onMounted(() => {
     // populate threadData for request
     threadData.value = props.thread
 
+    // wait for DOM update
     // scroll to the newly created post
     nextTick(() => {
         let postId = page.props.queryStrings?.post_id
@@ -76,7 +77,6 @@ const handleDelete = () => {
                 displayToastMessage(`Thread has been deleted!`)
             }
         })
-
       }
     });
 }
