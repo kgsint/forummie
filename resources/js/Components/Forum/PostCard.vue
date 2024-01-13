@@ -247,24 +247,24 @@ window.addEventListener('click', (e) => {
                             class="z-50 duration-500 transition-all absolute top-8 right-3 bg-gray-200 border border-gray-100 rounded-lg
                                         shadow text-sm flex flex-col min-w-[140px]"
                         >
-                        <li
-                            class="list-none bg-gray-50 px-4 py-2 cursor-pointer hover:bg-gray-200 border-b
-                                border-gray-200 flex items-center text-black hover:text-black last:border-b-0">
-                                <ReportIcon /> Report Spam
+                            <li
+                                class="list-none bg-gray-50 px-4 py-2 cursor-pointer hover:bg-gray-200 border-b
+                                    border-gray-200 flex items-center text-black hover:text-black last:border-b-0">
+                                    Report as Spam
                             </li>
                             <li
-                                v-if="post.can.update"
-                                @click="isEdit = true"
-                                class="list-none bg-gray-50 px-4 py-2 cursor-pointer hover:bg-gray-200 border-b
-                                    border-gray-200 last:border-b-0 text-black hover:text-black">
-                                    <button>
-                                         Edit
-                                    </button>
+                                    v-if="post.can.update"
+                                    @click="isEdit = true"
+                                    class="list-none bg-gray-50 px-4 py-2 cursor-pointer hover:bg-gray-200 border-b
+                                        border-gray-200 last:border-b-0 text-black hover:text-black">
+                                        <button>
+                                            Edit
+                                        </button>
                             </li>
                             <li
                                 @click="handleBestAnswer"
                                 v-if="post.thread.can.manage"
-                                 class="text-xs list-none bg-gray-50 px-4 py-2 cursor-pointer hover:bg-gray-200 border-b
+                                    class="text-xs list-none bg-gray-50 px-4 py-2 cursor-pointer hover:bg-gray-200 border-b
                                         border-gray-200 last:border-b-0 text-black hover:text-black">
                                     <button>
                                         {{ isBestAnswer ? 'Remove' : 'Mark' }} best answer
@@ -273,10 +273,10 @@ window.addEventListener('click', (e) => {
                             <li
                                 v-if="post.can.delete"
                                 @click="handleDeletePost"
-                                 class="list-none bg-gray-50 px-4 py-2 cursor-pointer hover:bg-gray-200 border-b text-red-500
+                                    class="list-none bg-gray-50 px-4 py-2 cursor-pointer hover:bg-gray-200 border-b text-red-500
                                         border-gray-200 last:border-b-0">
                                     <button>
-                                         Delete
+                                            Delete
                                     </button>
                             </li>
                         </ul>
