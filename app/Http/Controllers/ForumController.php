@@ -34,7 +34,7 @@ class ForumController extends Controller
     // show
     public function show(Thread $thread)
     {
-        // jump to post location if created
+        // jump to post position
         if($postId = request('post')) {
             return redirect()->route(
                 'forum.show', [
@@ -50,7 +50,11 @@ class ForumController extends Controller
         return Inertia::render('Forum/Show', [
             'thread' => new ThreadResource($thread),
             'posts' => PostResource::collection(
-                $this->threadRepo->relatedPosts($thread)
+                $thread->posts()
+                        ->where('parent_id', null)
+                        ->with(['user', 'thread.user', 'parent', 'replies.thread.user', 'replies.parent', 'replies.user'])
+                        ->oldest()
+                        ->paginate(Post::PAGINATION_COUNT),
             ),
         ]);
     }

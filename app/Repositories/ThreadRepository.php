@@ -36,15 +36,6 @@ class ThreadRepository implements ThreadInterface
         return Thread::find($id);
     }
 
-    public function relatedPosts(Thread $thread)
-    {
-        return Post::whereBelongsTo($thread)
-                        ->with(['user', 'thread.user', 'parent', 'replies.thread.user', 'replies.parent', 'replies.user'])
-                        ->whereNull('parent_id')
-                        ->oldest()
-                        ->paginate(Post::PAGINATION_COUNT);
-    }
-
     // store into database
     public function store(array $data)
     {
