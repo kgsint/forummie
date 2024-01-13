@@ -28,7 +28,7 @@ class ThreadResource extends JsonResource
             'body' =>  $body, // markdown to html
             'latest_post' => $this->whenLoaded('latestPost', fn() => LatestPostResource::make($this->latestPost)),
             'no_of_posts' => $this->posts?->count() ?? 0,
-            'solution' => $this->whenLoaded('solution', fn() => PostResource::make($this->solution)),
+            'solution' => $this->whenLoaded('solution', fn() => SolutionPostResource::make($this->solution)),
             'topic' => $this->whenLoaded('topic', fn() => TopicResource::make($this->topic)),
             'user' => $this->whenLoaded('user', fn() => UserResource::make($this->user)),
             'created_at' => DateTimeResource::make($this->created_at),
