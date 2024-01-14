@@ -25,7 +25,7 @@ class PostController extends Controller
         );
 
         // notify
-        if($thread->user_id !== (int) $request->user_id) {
+        if($thread->user->id !== (int) $request->user()->id) {
             $thread->user
                             ->notify(
                                 new SomeoneReplyYourThread(
