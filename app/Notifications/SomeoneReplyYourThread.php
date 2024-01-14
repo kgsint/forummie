@@ -43,6 +43,7 @@ class SomeoneReplyYourThread extends Notification
     public function toArray(object $notifiable): array
     {
         return [
+            'type' => 'thrad_reply',
             'username' => $this->user->username,
             'thread' => [
                 'id' => $this->thread->id,
