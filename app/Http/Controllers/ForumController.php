@@ -95,8 +95,11 @@ class ForumController extends Controller
     // calculate page no for jumping to the location of currenlty created post/rely
     private function calculatePageForPost(Thread $thread, $postId)
     {
+        // exclude nested replies
+        $posts = $thread->posts()->where(fn($query) => $query->where('parent_id', null))->get();
+
         // search for index of the post belongs to the thread
-        $index = $thread->posts->search(fn($post) => $post->id === (int) $postId);
+        $index = $posts->search(fn($post) => $post->id === (int) $postId);
 
         // calculate page according to post per page and position of the post in the collection
         $page = (int) ceil(($index + 1) / Post::PAGINATION_COUNT);
