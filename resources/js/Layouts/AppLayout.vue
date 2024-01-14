@@ -41,6 +41,32 @@ const showingNavigationDropdown = ref(false);
                         </div>
 
                         <div class="hidden sm:flex sm:items-center sm:ml-6">
+                            <!-- notifications dropdown -->
+                            <Dropdown width="80" v-if="$page.props.auth.user">
+                                <template #trigger>
+                                    <button class="bg-blue-500 p-3 text-white text-sm rounded-xl">Notifications</button>
+                                </template>
+                                <template #content>
+                                    <div v-if="$page.props.auth.user.unread_notifications.length" class="z-50">
+                                        <Link :href="noti.data.url" v-for="(noti, index) in $page.props.auth.user.unread_notifications" :key="index" class="list-none">
+                                            <div class="flex p-2 rounded hover:bg-gray-100">
+                                              <div class="flex items-center h-5">
+                                                  <input id="helper-checkbox-1" aria-describedby="helper-checkbox-text-1" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500">
+                                              </div>
+                                              <div class="ms-2 text-sm">
+                                                  <label for="helper-checkbox-1" class="font-medium text-gray-900">
+                                                    <div>{{ noti.data.thread.title }}</div>
+                                                    <p id="helper-checkbox-text-1" class="text-xs font-normal text-gray-900">@{{ noti.data.username }} replied to your thread</p>
+                                                  </label>
+                                              </div>
+                                            </div>
+                                        </Link>
+                                    </div>
+                                    <div v-else class="text-sm text-gray-500 py-3 px-2 text-center">
+                                        There is no notification for you at the moment.
+                                    </div>
+                                </template>
+                            </Dropdown>
                             <!-- Settings Dropdown -->
                             <div class="ml-3 relative" v-if="$page.props.auth.user">
                                 <Dropdown align="right" width="48">

@@ -6,9 +6,10 @@ use App\Models\Post;
 use App\Models\Thread;
 use Illuminate\Http\Request;
 use App\Contracts\PostInterface;
-use App\Contracts\ThreadPostInterface;
 use App\Http\Requests\PostStoreRequest;
 use App\Http\Requests\PostUpdateRequest;
+use App\Models\User;
+use App\Notifications\SomeoneReplyYourThread;
 
 class PostController extends Controller
 {
@@ -22,6 +23,18 @@ class PostController extends Controller
         $post = $this->postRepo->store(
             $this->getPostStoreData($request, $thread)
         );
+
+        // notify
+        if($thread->user_id !== (int) $request->user_id) {
+            $thread->user
+                            ->notify(
+                                new SomeoneReplyYourThread(
+                                    user: User::find($request->user()->id),
+                                    thread: $thread,
+                                    url: route('forum.show', ['thread' => $thread, 'post' => $post->id])
+                                ),
+                            );
+        }
 
         return redirect()->route('forum.show', ['thread' => $thread, 'post' => $post->id]);
     }

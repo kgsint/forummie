@@ -33,6 +33,7 @@ class UserResource extends JsonResource
             'type' => $accountType,
             'avatar' => $this->getAvatar(),
             'joined_at' => DateTimeResource::make($this->created_at),
+            'unread_notifications' => $this->unreadNotifications,
             'can' => [
                 'update' => request()->user()?->can('update', $this->resource),
             ]
