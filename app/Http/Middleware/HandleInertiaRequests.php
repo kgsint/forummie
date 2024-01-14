@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use App\Http\Resources\TopicResource;
 use App\Http\Resources\UserResource;
 use App\Models\Topic;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 use Tightenco\Ziggy\Ziggy;
@@ -33,10 +34,19 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
+        $notifications = cache()->remember(
+            'notifications',
+            300,
+            fn() => User::with('unreadNotifications')->find($request->user()->id)->notifications
+        );
+
         return [
             ...parent::share($request),
             'auth' => [
-                'user' => $request->user() ? new UserResource($request->user()) : request()->user(),
+                'user' => $request->user() ?
+                                new UserResource($request->user())
+                                    : null,
+                'notifications' => $request->user() ? $notifications : null,
             ],
             'topics' => TopicResource::collection(Topic::orderBy('name')->get()),
             'queryStrings' => (object) $request->query(), // query string(s) for request

@@ -47,8 +47,8 @@ const showingNavigationDropdown = ref(false);
                                     <button class="bg-blue-500 p-3 text-white text-sm rounded-xl">Notifications</button>
                                 </template>
                                 <template #content>
-                                    <div v-if="$page.props.auth.user.unread_notifications.length" class="z-50">
-                                        <Link :href="noti.data.url" v-for="(noti, index) in $page.props.auth.user.unread_notifications" :key="index" class="list-none">
+                                    <div v-if="$page.props.auth.notifications.length" class="z-50">
+                                        <Link :href="noti.data.url" v-for="(noti, index) in $page.props.auth.notifications" :key="index" class="list-none">
                                             <div class="flex p-2 rounded hover:bg-gray-100">
                                               <div class="flex items-center h-5">
                                                   <input id="helper-checkbox-1" aria-describedby="helper-checkbox-text-1" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500">

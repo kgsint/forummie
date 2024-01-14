@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Resources\DateTimeResource;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Cache;
 
 class UserResource extends JsonResource
 {
@@ -33,7 +34,6 @@ class UserResource extends JsonResource
             'type' => $accountType,
             'avatar' => $this->getAvatar(),
             'joined_at' => DateTimeResource::make($this->created_at),
-            'unread_notifications' => $this->unreadNotifications,
             'can' => [
                 'update' => request()->user()?->can('update', $this->resource),
             ]
