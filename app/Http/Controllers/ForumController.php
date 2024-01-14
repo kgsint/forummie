@@ -92,7 +92,7 @@ class ForumController extends Controller
         return redirect()->route('forum.index');
     }
 
-    // calculate page no for jumping to the location of currenlty created post/rely
+    // calculate page no to jumping to the location of currently created post/rely
     private function calculatePageForPost(Thread $thread, $postId)
     {
         // exclude nested replies
