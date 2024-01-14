@@ -8,6 +8,7 @@ use App\Contracts\TopicInterface;
 use App\Repositories\PostRepository;
 use App\Repositories\ThreadRepository;
 use App\Repositories\TopicRepository;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
@@ -27,10 +28,14 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // prevent lazy loading
+        Model::preventLazyLoading(! app()->isProduction());
+
         // force https
         if($this->app->environment('APP_ENV') === 'production') {
             URL::forceScheme('https');
         }
+
         // remove data  wrapper in resources
         JsonResource::withoutWrapping();
     }
