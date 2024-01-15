@@ -1,5 +1,5 @@
 # Forum
-You can visit [demo here](https://forummie.up.railway.app)
+![screenshot](/public/screenshot.png)
 
 ## Installation and Setup
 
