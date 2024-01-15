@@ -8,6 +8,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\SearchMentionableUser;
 use App\Http\Controllers\Admin\TopicsController;
+use App\Http\Controllers\MarkNotificationAsRead;
 use App\Http\Controllers\Admin\RepliesController;
 use App\Http\Controllers\GenerateMarkdownPreview;
 
@@ -60,8 +61,9 @@ Route::middleware('auth')->group(function () {
     // mentionable list
     Route::post('/mentions/search', SearchMentionableUser::class)
                                                                 ->name('mention.search');
+    Route::patch('/notifications/{id}', MarkNotificationAsRead::class)
+                                                                ->name('notifications.update');
     // profile related routes
-
     Route::get('/account-info', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::put('/account-info', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/account-info', [ProfileController::class, 'destroy'])->name('profile.destroy');

@@ -7,6 +7,7 @@ use App\Http\Resources\UserResource;
 use App\Models\Topic;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Inertia\Middleware;
 use Tightenco\Ziggy\Ziggy;
 
@@ -34,10 +35,11 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
+        Cache::flush();
         $notifications = cache()->remember(
             'notifications',
             300,
-            fn() => User::with('unreadNotifications')->find($request->user()->id)->notifications
+            fn() => User::with('unreadNotifications')->find($request->user()?->id)?->unreadNotifications
         );
 
         return [
@@ -46,7 +48,7 @@ class HandleInertiaRequests extends Middleware
                 'user' => $request->user() ?
                                 new UserResource($request->user())
                                     : null,
-                'notifications' => $request->user() ? $notifications : null,
+                'notifications' => $notifications,
             ],
             'topics' => TopicResource::collection(Topic::orderBy('name')->get()),
             'queryStrings' => (object) $request->query(), // query string(s) for request

@@ -17,11 +17,11 @@ class PostRepository implements PostInterface
     public function getByThread(Thread $thread)
     {
         return Post::query()
+                                ->with(['user', 'thread.user', 'replies.thread.user', 'replies.parent', 'replies.user'])
                                 ->whereBelongsTo($thread)
                                 ->where(function(Builder $query) {
                                     return $query->whereNull('parent_id');
                                 })
-                                ->with(['user', 'thread.user', 'replies.thread.user', 'replies.parent', 'replies.user'])
                                 ->oldest()
                                 ->paginate(Post::PAGINATION_COUNT);
     }

@@ -10,6 +10,7 @@ use App\Http\Requests\PostStoreRequest;
 use App\Http\Requests\PostUpdateRequest;
 use App\Models\User;
 use App\Notifications\SomeoneReplyYourThread;
+use Illuminate\Support\Facades\Cache;
 
 class PostController extends Controller
 {
@@ -34,6 +35,8 @@ class PostController extends Controller
                                     url: route('forum.show', ['thread' => $thread, 'post' => $post->id])
                                 ),
                             );
+            // remove cache
+            Cache::forget('notifications');
         }
 
         return redirect()->route('forum.show', ['thread' => $thread, 'post' => $post->id]);
