@@ -1,5 +1,6 @@
 # Forum
 ![screenshot](/public/screenshot.png)
+![screenshot](/public/screenshot-2.png)
 
 ## Installation and Setup
 
