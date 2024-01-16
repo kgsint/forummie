@@ -25,21 +25,18 @@ class PostController extends Controller
             $this->getPostStoreData($request, $thread)
         );
 
-        // notify
+        $redirectUrl = route('forum.show', ['thread' => $thread, 'post' => $post->id]);
+
+        // notify when other user reply to your thread
         if($thread->user->id !== (int) $request->user()->id) {
-            $thread->user
-                            ->notify(
-                                new SomeoneReplyYourThread(
-                                    user: User::find($request->user()->id),
-                                    thread: $thread,
-                                    url: route('forum.show', ['thread' => $thread, 'post' => $post->id])
-                                ),
-                            );
-            // remove cache
-            Cache::forget('notifications');
+            $this->notifyToThreadOwner(
+                user: $request->user(),
+                thread: $thread,
+                redirectUrl: $redirectUrl
+            );
         }
 
-        return redirect()->route('forum.show', ['thread' => $thread, 'post' => $post->id]);
+        return redirect($redirectUrl);
     }
 
     // update
@@ -81,5 +78,19 @@ class PostController extends Controller
         return [
             'body' => $request->body,
         ];
+    }
+
+    private function notifyToThreadOwner(User $user, Thread $thread, string $redirectUrl)
+    {
+        $thread->user
+                        ->notify(
+                            new SomeoneReplyYourThread(
+                                user: $user,
+                                thread: $thread,
+                                url: $redirectUrl
+                            ),
+                        );
+        // remove cache
+        Cache::forget('notifications');
     }
 }
