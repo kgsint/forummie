@@ -53,11 +53,11 @@
             "@php artisan key:generate --ansi"
         ],
         "setup": [
-            "composer install",
             "php -r \"file_exists('.env') || copy('.env.example', '.env');\"",
             "php artisan key:generate",
             "php artisan migrate --seed",
-            "npm install"
+            "npm install",
+            "npm run build"
         ]
     },
     "extra": {

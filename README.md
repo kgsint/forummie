@@ -9,8 +9,14 @@
 git clone "https://github.com/kgsint/forum.git"
 ```
 
+- install PHP dependencies:
+
+```bash
+composer install
+```
+
 - Set up local database called `forummie`
-- To setup and install required depenedencies by running the command:
+- To setup the application (setup `env` file and install frontend dependencies) by running:
 ```
 composer setup
 ```
