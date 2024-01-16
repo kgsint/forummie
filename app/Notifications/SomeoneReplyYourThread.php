@@ -43,12 +43,9 @@ class SomeoneReplyYourThread extends Notification
     public function toArray(object $notifiable): array
     {
         return [
-            'type' => 'thrad_reply',
-            'username' => $this->user->username,
-            'thread' => [
-                'id' => $this->thread->id,
-                'title' => $this->thread->title,
-            ],
+            'type' => 'thread_reply',
+            'message' => "@{$this->user->username} answered your thread",
+            'thread_title' => $this->thread->title,
             'url' => $this->url,
         ];
     }

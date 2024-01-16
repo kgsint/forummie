@@ -66,9 +66,11 @@ const markAsRead = (noti) => {
                                 >
                                     <div class="flex p-2 rounded hover:bg-gray-100 cursor-pointer">
                                       <div class="ms-2 text-sm cursor-pointer">
-                                          <label for="helper-checkbox-1" class="font-medium text-gray-900 cursor-pointer">
-                                            <div>{{ noti.data.thread.title }}</div>
-                                            <p id="helper-checkbox-text-1" class="text-xs font-normal text-gray-900">@{{ noti.data.username }} answered your thread</p>
+                                          <label v-if="noti.data.type === 'thread_reply'" class="font-medium text-gray-900 cursor-pointer">
+                                            <div>{{ noti.data.thread_title }}</div>
+                                            <p class="text-xs font-normal text-gray-900">
+                                                {{ noti.data.message }}
+                                            </p>
                                           </label>
                                       </div>
                                     </div>
