@@ -15,7 +15,7 @@ class PostResource extends JsonResource
     {
         $body = app(MarkdownRenderer::class)->highlightTheme('material-theme-palenight')->toHtml($this->body);
          // search for mentioned user and highlight
-         $body = preg_replace('/@(\w+)/', '<span class="mentioned-user">@$1</span>', $body);
+         $body = preg_replace('/@(\w+)/', '<a href="/user/$1" class="mentioned-user">@$1</a>', $body);
 
         return [
             'id' => $this->id,

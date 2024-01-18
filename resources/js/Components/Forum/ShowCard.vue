@@ -14,7 +14,7 @@ const props = defineProps({
     <article class="flex bg-white space-x-2 px-2 py-4 rounded-lg shadow mb-6">
         <!-- profile image -->
         <div class="flex-none flex lg:items-center gap-2 lg:block mb-3">
-            <a href="#">
+            <Link :href="route('profile.show', thread.user)">
                 <img
                     v-if="thread.user"
                     :src="thread.user?.avatar"
@@ -22,7 +22,7 @@ const props = defineProps({
                     :alt="thread.user?.username"
                 >
                 <img src="https://static.thenounproject.com/png/5034901-200.png" class="w-[28px] h-[28px] lg:w-14 lg:h-14 rounded-xl" v-else >
-            </a>
+            </Link>
         </div>
         <div class="flex flex-col flex-1">
             <div class="flex justify-between items-center">

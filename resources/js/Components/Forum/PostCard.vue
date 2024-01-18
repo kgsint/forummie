@@ -138,7 +138,7 @@ window.addEventListener('click', (e) => {
         <div class="flex flex-col flex-1 space-y-3">
             <div class="flex justify-between items-start">
                 <div class="flex flex-col">
-                    <Link href="#" class="flex items-center space-x-2 mb-1" style="color: #111; text-decoration: none;">
+                    <Link :href="route('profile.show', post.user)" class="flex items-center space-x-2 mb-1" style="color: #111; text-decoration: none;">
                         <!-- username -->
                         <h4 class="text-md font-semibold">{{ post.user?.username || '[Deleted User]' }}</h4>
                         <!-- thread owner badge -->

@@ -12,8 +12,9 @@ const props = defineProps({
 })
 
 const redirectToShow = (e) => {
-    // check the target element is thread's topic or  not
-    if(! e.target.classList.contains('topic')) {
+    // excluding some elements (redirect to post or filter topic)
+    const targetEl = e.target.tagName.toLowerCase()
+    if(targetEl !== 'a') {
         router.visit(route('forum.show', props.thread.slug))
     }
 }
@@ -30,10 +31,10 @@ const redirectToShow = (e) => {
     >
         <!-- profile image -->
         <div class="flex-none flex items-center gap-2 lg:block mb-3">
-            <a href="#">
+            <Link :href="route('profile.show', thread.user)">
                 <img :src="thread.user?.avatar" class="w-8 h-8 md:w-14 md:h-14 rounded-xl object-cover" alt="profile image" v-if="thread.user">
                 <img src="https://static.thenounproject.com/png/5034901-200.png" class="w-14 h-14 rounded-xl" alt="default profile image" v-else >
-            </a>
+            </Link>
             <!-- username -->
             <strong class="lg:hidden">
                 {{ thread.user?.username || '[Deleted User]' }}
@@ -68,15 +69,16 @@ const redirectToShow = (e) => {
             <div class="markdown preview" v-html="thread.body"></div>
             <!-- <p class="text-sm text-gray-600 leading-normal line-clamp-2 mb-3">{{ thread.body }}</p> -->
 
-            <div class="flex justify-between items-center">
+            <div class="redirect-post flex justify-between items-center">
                 <!-- conditionally display reply or posted by owner -->
                 <Link
-                    :href="route('forum.show', thread.slug)"
+                    :href="route('forum.show', { thread: thread.slug, post: thread.latest_post.id })"
                     v-if="thread.latest_post"
-                    class="text-xs text-gray-600 leading-normal line-clamp-2 hover:underline">
-                    <Link href="#" class="text-blue-400 hover:underline">
+                    class="redirect-post text-xs text-gray-600 leading-normal line-clamp-2 hover:underline"
+                >
+                    <span class="text-blue-400 hover:underline">
                         {{ thread.latest_post.user?.username || '[deleted user]' }}
-                    </Link> replied
+                    </span> replied
                     <time
                         :datetime="thread.latest_post.created_at.datetime"
                         :title="thread.latest_post.created_at.datetime"
