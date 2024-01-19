@@ -4,14 +4,10 @@ namespace Tests\Feature\Admin;
 
 use App\Models\Topic;
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class TopicTest extends TestCase
 {
-    use RefreshDatabase;
-
     // view
     public function test_a_list_of_topics_can_be_viewed_by_only_admin_or_moderator()
     {

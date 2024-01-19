@@ -1,19 +1,15 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\Forum;
 
 use App\Models\Post;
 use App\Models\Thread;
 use App\Models\Topic;
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class MentionTest extends TestCase
 {
-    use RefreshDatabase;
-
     // test saved mentioned users records in post_metion pivot table
     public function test_it_recorded_the_mentioned_user_when_creating_reply_post()
     {

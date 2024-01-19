@@ -1,17 +1,14 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\Forum;
 
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
 class ProfileTest extends TestCase
 {
-    use RefreshDatabase;
-
     public function test_profile_page_is_displayed(): void
     {
         $user = User::factory()->create();
