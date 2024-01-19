@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Contracts\PostInterface;
 use App\Http\Requests\PostStoreRequest;
 use App\Http\Requests\PostUpdateRequest;
+use App\Jobs\NotifyThreadOwner;
 use App\Models\User;
 use App\Notifications\SomeoneReplyYourThread;
 use Illuminate\Support\Facades\Cache;
@@ -29,11 +30,8 @@ class PostController extends Controller
 
         // notify when other user reply to your thread
         if($thread->user->id !== (int) $request->user()->id) {
-            $this->notifyToThreadOwner(
-                user: $request->user(),
-                thread: $thread,
-                redirectUrl: $redirectUrl
-            );
+            (new NotifyThreadOwner($request->user(), $thread, $redirectUrl))
+                                                                            ->handle();
         }
 
         return redirect($redirectUrl);
@@ -78,19 +76,5 @@ class PostController extends Controller
         return [
             'body' => $request->body,
         ];
-    }
-
-    private function notifyToThreadOwner(User $user, Thread $thread, string $redirectUrl)
-    {
-        $thread->user
-                        ->notify(
-                            new SomeoneReplyYourThread(
-                                user: $user,
-                                thread: $thread,
-                                url: $redirectUrl
-                            ),
-                        );
-        // remove cache
-        Cache::forget('notifications');
     }
 }
