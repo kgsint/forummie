@@ -1,19 +1,15 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\Forum;
 
 use App\Models\Thread;
 use App\Models\Topic;
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Inertia\Testing\AssertableInertia as Assert;
 use Tests\TestCase;
 
 class ThreadTest extends TestCase
 {
-    use RefreshDatabase;
-
     // test for index page
     public function test_index_page_of_forum_is_displayed()
     {

@@ -1,19 +1,15 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\Forum;
 
 use App\Models\Post;
 use App\Models\Thread;
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Inertia\Testing\AssertableInertia as Assert;
 use Tests\TestCase;
 
 class ThreadPostTest extends TestCase
 {
-    use RefreshDatabase;
-
     // posts and replies test
     public function test_posts_and_replies_of_the_thread_are_displayed()
     {

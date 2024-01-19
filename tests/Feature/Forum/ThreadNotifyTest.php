@@ -1,19 +1,14 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\Forum;
 
 use App\Models\Post;
 use App\Models\Thread;
 use App\Models\User;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Auth;
 use Tests\TestCase;
 
 class ThreadNotifyTest extends TestCase
 {
-    use RefreshDatabase;
-
     public function test_it_notifies_to_thread_owner_when_someone_reply_to_the_thread()
     {
         $this->actingAs($user = User::factory()->create());

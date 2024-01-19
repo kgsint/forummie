@@ -3,15 +3,10 @@
 namespace Tests\Feature\Admin;
 
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Support\Facades\Hash;
 use Tests\TestCase;
 
 class AdminTest extends TestCase
 {
-    use RefreshDatabase;
-
     // test Authenticate middleware
     public function test_guest_cannot_visit_admin_routes()
     {

@@ -6,12 +6,10 @@ use App\Models\Post;
 use App\Models\Thread;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class ThreadPostTest extends TestCase
 {
-    use RefreshDatabase;
 
     public function test_it_belongs_to_user()
     {

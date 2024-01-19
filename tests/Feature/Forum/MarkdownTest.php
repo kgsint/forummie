@@ -1,19 +1,15 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\Forum;
 
 use Tests\TestCase;
 use App\Models\User;
 use App\Models\Topic;
 use App\Models\Thread;
-use Illuminate\Foundation\Testing\WithFaker;
 use Inertia\Testing\AssertableInertia as Assert;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class MarkdownTest extends TestCase
 {
-    use RefreshDatabase;
-
     // route('markdown.preview') test
     public function test_making_request_to_markdown_preview_route_should_return_html()
     {
