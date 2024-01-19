@@ -28,8 +28,8 @@ class PostController extends Controller
 
         $redirectUrl = route('forum.show', ['thread' => $thread, 'post' => $post->id]);
 
-        // notify when other user reply to your thread
-        if($thread->user->id !== (int) $request->user()->id) {
+        // notify when other user reply to your thread excluding nested reply
+        if($request->user()->isNot($thread->user) && is_null($request->parent_id)) {
             (new NotifyThreadOwner($request->user(), $thread, $redirectUrl))
                                                                             ->handle();
         }

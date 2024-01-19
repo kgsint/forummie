@@ -40,4 +40,24 @@ class ThreadNotifyTest extends TestCase
 
         $this->assertEquals(0, $user->notifications->count());
     }
+
+    public function test_it_wont_notify_when_the_reply_is_the_nested_reply()
+    {
+        $user = User::factory()->create();
+
+        $thread = Thread::factory()->create(['user_id' => $user->id]);
+        // parent reply
+        $parentPost = Post::factory()->create();
+
+        // another reply
+        $this->actingAs(User::factory()->create())
+                                            ->post(
+                                                route('posts.store', ['thread' => $thread]),
+                                                [
+                                                    'body' => 'Some Reply',
+                                                    'parent_id' => $parentPost->id,
+                                                ]);
+
+        $this->assertEquals(0, $user->notifications->count());
+    }
 }
