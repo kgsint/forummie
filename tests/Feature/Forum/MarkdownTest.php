@@ -90,11 +90,10 @@ class MarkdownTest extends TestCase
     // markdown test for store route of thread or forum
     public function test_it_store_markdown_as_plain_text_in_database_and_generate_to_client_as_html()
     {
-        $user = User::factory()->create();
+        $this->signIn();
         $topic = Topic::factory()->create();
 
-        $response = $this->actingAs($user)
-                        ->post(route('forum.store', [
+        $response = $this->post(route('forum.store', [
                                                         'title' => 'Title of the thread',
                                                         'body' => '# Body of the thread',
                                                         'topic_id' => $topic->id,
@@ -134,12 +133,12 @@ class MarkdownTest extends TestCase
     // markdown test for creating post
     public function test_it_store_markdown_in_database_and_display_html_to_client()
     {
-        $user = User::factory()->create();
+        $this->signIn();
 
         $thread = Thread::factory()->create();
 
         // create post
-        $this->actingAs($user)->post(
+        $this->post(
             route('posts.store', ['thread' => $thread]
         ), [
             'body' => '**body** of the post',

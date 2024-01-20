@@ -88,12 +88,11 @@ class ThreadTest extends TestCase
     // test for creating thread
     public function test_authenticated_user_can_create_a_thread()
     {
-        $user = User::factory()->create();
+        $user = $this->signIn();
         $topic = Topic::factory()->create();
 
         // store request
-        $response = $this->actingAs($user)
-                        ->post(route('forum.store', [
+        $response = $this->post(route('forum.store', [
                                                         'title' => 'Title of the thread',
                                                         'body' => 'Body of the thread',
                                                         'topic_id' => $topic->id,
@@ -113,17 +112,16 @@ class ThreadTest extends TestCase
     // test validation for creating thread
     public function test_validation_for_creating_thread()
     {
-        $user = User::factory()->create();
+        $user = $this->signIn();
 
         // store request
-        $response = $this->actingAs($user)
-                                        ->post(route('forum.store'), [
-                                            'title' => '',
-                                            'body' => '',
-                                            'topic_id' => '',
+        $response = $this->post(route('forum.store'), [
+                                            'title' => null,
+                                            'body' => null,
+                                            'topic_id' => null,
                                         ]);
         // assert errors
-        $response->assertSessionHasErrors(['title', 'body', 'topic_id']);
+        $response->assertInvalid(['title', 'body', 'topic_id']);
     }
 
     // guest update test
@@ -147,7 +145,7 @@ class ThreadTest extends TestCase
     // update test for auth user
     public function test_authenticated_user_can_update_thread()
     {
-        $user = User::factory()->create();
+        $user = $this->signIn();
         $topic = Topic::factory()->create();
 
         $thread = Thread::factory()->create([
@@ -155,7 +153,7 @@ class ThreadTest extends TestCase
             'topic_id' => $topic->id,
         ]);
 
-        $response = $this->actingAs($user)->patch(route('forum.update', $thread), [
+        $response = $this->patch(route('forum.update', $thread), [
             'title' => 'Updated Title',
             'body' => 'Updated Body',
             'topic_id' => $topic->id,
@@ -212,13 +210,13 @@ class ThreadTest extends TestCase
     // delete test
     public function test_authenticated_user_can_delete_their_thread()
     {
-        $user = User::factory()->create();
+        $user = $this->signIn();
 
         $thread = Thread::factory()->create([
             'user_id' => $user->id,
         ]);
 
-        $response = $this->actingAs($user)->delete(route('forum.destroy', $thread));
+        $response = $this->delete(route('forum.destroy', $thread));
 
         $response->assertRedirectToRoute('forum.index');
 

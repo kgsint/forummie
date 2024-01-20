@@ -11,7 +11,7 @@ class ThreadNotificationTest extends TestCase
 {
     public function test_it_notifies_to_thread_owner_when_other_user_reply_to_the_thread()
     {
-        $user = User::factory()->create();
+        $user = $this->signIn();
         $thread = Thread::factory()->create(['user_id' => $user->id]);
 
         $this->actingAs($anotherUser = User::factory()->create())
@@ -33,11 +33,10 @@ class ThreadNotificationTest extends TestCase
 
     public function test_it_wont_notify_when_the_thread_owner_reply_to_their_own_thread()
     {
-        $user = User::factory()->create();
+        $user = $this->signIn();
         $thread = Thread::factory()->create(['user_id' => $user->id]);
 
-        $this->actingAs($user)
-                                ->post(route('posts.store', $thread), ['body' => 'A reply']);
+        $this->post(route('posts.store', $thread), ['body' => 'A reply']);
 
         $this->assertEquals(0, $user->notifications->count());
     }

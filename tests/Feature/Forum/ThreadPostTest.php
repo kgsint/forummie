@@ -105,4 +105,90 @@ class ThreadPostTest extends TestCase
             route('forum.show', ['thread' => $thread, 'page' => 2, 'post_id' => $post->id])
         );
     }
+
+    public function test_guest_cannot_update_a_post_reply()
+    {
+        $post = Post::factory()->create();
+
+        $response = $this->patch(
+            route('posts.update',
+                    ['thread' => $post->thread, 'post' => $post]
+                ), ['body' => 'A updated reply']);
+
+        $response->assertRedirect(route('login'));
+    }
+
+    public function test_authenticated_user_can_update_their_post_reply()
+    {
+        $user = $this->signIn();
+
+        $post = Post::factory()->create(['user_id' => $user->id]);
+        $this->patch(
+            route(
+                'posts.update',
+                ['thread' => $post->thread, 'post' => $post]
+            ),
+            $attributes = ['body' => 'A updated body']
+        )
+            ->assertRedirect(route('forum.show', ['thread' => $post->thread->slug, 'post' => $post->id]));
+
+        $this->assertDatabaseHas('posts', $attributes);
+    }
+
+    public function test_authenticated_user_cannot_update_other_post_reply()
+    {
+        $user = $this->signIn();
+
+        $post = Post::factory()->create(['user_id' => $user->id]);
+        $this->actingAs(User::factory()->create())->patch(
+            route(
+                'posts.update',
+                ['thread' => $post->thread, 'post' => $post]
+            ),
+            ['body' => 'A updated body']
+        )
+            ->assertForbidden();
+    }
+
+    public function test_guest_user_cannot_delete_a_post_reply()
+    {
+        $post = Post::factory()->create();
+
+        $this->delete(
+            route('posts.destroy', ['thread' => $post->thread, 'post' => $post])
+        )
+            ->assertRedirect(route('login'));
+    }
+
+    public function test_authenticated_user_can_delete_their_reply_post()
+    {
+        $user = $this->signIn();
+
+        $post = Post::factory()->create(['user_id' => $user->id]);
+
+        $this->delete(
+                route('posts.destroy', ['thread' => $post->thread, 'post' => $post])
+            )
+                ->assertRedirect(route('forum.show', ['thread' => $post->thread]));
+
+        $this->assertDatabaseMissing('posts', [
+            'body' => $post->body,
+        ]);
+    }
+
+    public function test_authenticated_user_cannot_delete_others_post_reply()
+    {
+        $user = $this->signIn();
+
+        $post = Post::factory()->create(['user_id' => $user->id]);
+
+        $this->actingAs(User::factory()->create())->delete(
+                route('posts.destroy', ['thread' => $post->thread, 'post' => $post])
+            )
+                ->assertForbidden();
+
+        $this->assertDatabaseMissing('posts', [
+            'post' => $post->body,
+        ]);
+    }
 }
