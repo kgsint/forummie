@@ -45,6 +45,8 @@ class ProfileTest extends TestCase
 
     public function test_profile_photo_can_be_uploaded()
     {
+        Storage::fake();
+
         $user = User::factory()->create();
 
         $attributes = [
