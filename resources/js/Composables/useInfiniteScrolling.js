@@ -30,7 +30,7 @@ export default (propName) => {
                     data.value = [...data.value, ...propData().data]
                     // reset loading
                     loading.value = false
-                }, 300)
+                }, 100)
             }
         })
     }

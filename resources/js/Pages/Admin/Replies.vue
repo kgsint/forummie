@@ -136,7 +136,7 @@ watch(searchRef, (search) => {
                 </div>
             </div>
             <!-- pagination -->
-            <Pagination :links="replies.meta.links" class="mt-3 mb-20 mx-auto" />
+            <Pagination :links="replies.meta.links" :only="['replies']" class="mt-3 mb-20 mx-auto" />
     </AdminLayout>
 </template>
 

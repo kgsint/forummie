@@ -137,7 +137,7 @@ watch(searchRef, (search) => {
                 </div>
             </div>
             <!-- pagination -->
-            <Pagination :links="topics.meta.links" class="mt-3 mb-20 mx-auto" />
+            <Pagination :links="topics.meta.links" :only="['topics']" class="mt-3 mb-20 mx-auto" />
     </AdminLayout>
 
     <!-- create topic modal -->

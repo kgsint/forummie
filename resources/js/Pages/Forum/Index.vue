@@ -23,7 +23,6 @@ const props = defineProps({
     threads: Object,
 })
 
-
 // composables
 const page = usePage()
 const { showCreateThreadForm } = useCreateThread()
@@ -51,6 +50,7 @@ const handleSearch = _debounce((search) => {
         data: {
             s: search
         },
+        only: ['threads'],
         onSuccess: () => {
             data.value = props.threads.data
         }

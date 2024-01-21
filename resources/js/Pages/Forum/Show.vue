@@ -124,7 +124,7 @@ const handleDelete = () => {
         </div>
         <!-- pagination -->
         <div class="flex justify-center">
-            <Pagination :links="posts.meta.links" class="mt-3 mx-auto" />
+            <Pagination :links="posts.meta.links" :only="['posts']" class="mt-3 mx-auto" />
         </div>
 
         <!-- sidebar -->

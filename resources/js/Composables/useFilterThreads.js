@@ -11,6 +11,7 @@ export default () => {
             data: _omitBy({
                 'filter[topic]': e.target.value
             }, _isempty), // e.target.value is '' or null, data object won't be included in request params
+            only: ['threads', 'queryStrings'],
             preserveScroll: true,
         })
     }
@@ -20,7 +21,9 @@ export default () => {
         router.visit('/', {
             data: _omitBy({
                 [e.target.value]: e.target.value ? '1' : null
-            }, _isempty)
+            }, _isempty),
+            only: ['threads', 'queryStrings'],
+            preserveScroll: true,
         })
     }
 
