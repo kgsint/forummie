@@ -5,16 +5,13 @@ import Dropdown from '@/Components/Dropdown.vue';
 import DropdownLink from '@/Components/DropdownLink.vue';
 import NavLink from '@/Components/NavLink.vue';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
-import { Link, router } from '@inertiajs/vue3';
+import { Link } from '@inertiajs/vue3';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import SecondaryButton from '@/Components/SecondaryButton.vue';
+import NotificationDropdown from '@/Layouts/Partials/NotificationDropdown.vue'
 
 const showingNavigationDropdown = ref(false);
 
-// mark notification as read
-const markAsRead = (noti) => {
-    router.patch(route('notifications.update', { id: noti.id, redirectUrl: noti.data.url }))
-}
 </script>
 
 
@@ -43,44 +40,7 @@ const markAsRead = (noti) => {
 
                 <div class="hidden sm:flex sm:items-center sm:ml-6">
                     <!-- notifications dropdown -->
-                    <Dropdown width="80" v-if="$page.props.auth.user">
-                        <template #trigger>
-                            <button class="d-flex items-center space-x-1 bg-blue-500 p-3 text-white text-sm rounded-xl">
-                                <span>Notifications</span>
-                                 <!-- notification count  -->
-                                <span
-                                    v-if="$page.props.auth.notifications.length"
-                                    class="bg-red-500 text-xs px-2 py-1 rounded-xl"
-                                >
-                                    {{ $page.props.auth.notifications.length }}
-                                </span>
-                            </button>
-                        </template>
-                        <template #content>
-                            <div v-if="$page.props.auth.notifications.length" class="max-h-[300px] overflow-y-auto cursor-pointer">
-                                <li
-                                    v-for="noti in $page.props.auth.notifications"
-                                    :key="noti.id"
-                                    class="list-none cursor-pointer"
-                                    @click="markAsRead(noti)"
-                                >
-                                    <div class="flex p-2 rounded hover:bg-gray-100 cursor-pointer">
-                                      <div class="ms-2 text-sm cursor-pointer">
-                                          <label v-if="noti.data.type === 'thread_reply'" class="font-medium text-gray-900 cursor-pointer">
-                                            <div>{{ noti.data.thread_title }}</div>
-                                            <p class="text-xs font-normal text-gray-900">
-                                                {{ noti.data.message }}
-                                            </p>
-                                          </label>
-                                      </div>
-                                    </div>
-                                </li>
-                            </div>
-                            <div v-else class="text-sm text-gray-500 py-3 px-2 text-center">
-                                There is no notification for you at the moment.
-                            </div>
-                        </template>
-                    </Dropdown>
+                    <NotificationDropdown />
                     <!-- Settings Dropdown -->
                     <div class="ml-3 relative" v-if="$page.props.auth.user">
                         <Dropdown align="right" width="48">
@@ -138,6 +98,8 @@ const markAsRead = (noti) => {
 
                 <!-- Hamburger -->
                 <div class="-mr-2 flex items-center sm:hidden">
+                    <!-- notification dropdown (mobile) -->
+                    <NotificationDropdown />
                     <button
                         @click="showingNavigationDropdown = !showingNavigationDropdown"
                         class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out"
