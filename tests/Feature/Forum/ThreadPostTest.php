@@ -16,6 +16,7 @@ class ThreadPostTest extends TestCase
         $thread = Thread::factory()->create();
 
         $post = Post::factory()->create(['thread_id' => $thread->id]);
+        Post::factory(2)->create(['thread_id' => $thread->id]);
         // replies of the $post
         $replyOne = Post::factory()->create(['thread_id' => $thread->id, 'parent_id' => $post->id]);
         $replyTwo = Post::factory()->create(['thread_id' => $thread->id, 'parent_id' => $post->id]);
@@ -24,7 +25,9 @@ class ThreadPostTest extends TestCase
         $response = $this->get(route('forum.show', $thread->slug));
 
         $response->assertInertia(
-            fn(Assert $page) => $page->where('posts.data.0.replies', fn($replies) => $replies->count() === 2)
+            fn(Assert $page) => $page
+                                    ->has('posts.data', 3)
+                                    ->where('posts.data.0.replies', fn($replies) => $replies->count() === 2)
         );
     }
 
