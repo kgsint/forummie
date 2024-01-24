@@ -57,4 +57,52 @@ class ThreadPostTest extends TestCase
         $this->assertInstanceOf(Collection::class, $post->mentions);
         $this->assertCount(2, $post->mentions);
     }
+
+    public function test_it_can_be_liked()
+    {
+        $user = User::factory()->create();
+        $post = Post::factory()->create();
+
+        $post->likedBy($user);
+
+        $this->assertDatabaseHas('likes', [
+            'likable_id' => $post->id,
+            'likable_type' => Post::class,
+            'user_id' => $user->id,
+        ]);
+    }
+
+    public function test_it_can_be_unliked()
+    {
+        $user = User::factory()->create();
+        $post = Post::factory()->create();
+
+        $post->likedBy($user);
+
+        $this->assertDatabaseHas('likes', [
+            'likable_id' => $post->id,
+            'likable_type' => Post::class,
+            'user_id' => $user->id,
+        ]);
+
+        $post->unlikeBy($user);
+
+        $this->assertDatabaseMissing('likes', [
+            'likable_id' => $post->id,
+            'likable_type' => Post::class,
+            'user_id' => $user->id,
+        ]);
+    }
+
+    public function test_it_can_check_it_is_already_liked_or_not()
+    {
+        $user = User::factory()->create();
+        $anotherUser = User::factory()->create();
+        $post = Post::factory()->create();
+
+        $post->likedBy($user);
+
+        $this->assertTrue($post->isAlreadyLikedBy($user));
+        $this->assertFalse($post->isAlreadyLikedBy($anotherUser));
+    }
 }
