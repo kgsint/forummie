@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\TopicsController;
 use App\Http\Controllers\MarkNotificationAsRead;
 use App\Http\Controllers\Admin\RepliesController;
 use App\Http\Controllers\GenerateMarkdownPreview;
+use App\Http\Controllers\LikeUnLikeController;
 
 // forum routes
 Route::controller(ForumController::class)->group(function() {
@@ -63,6 +64,9 @@ Route::middleware('auth')->group(function () {
                                                                 ->name('mention.search');
     Route::patch('/notifications/{id}', MarkNotificationAsRead::class)
                                                                 ->name('notifications.update');
+
+    Route::post('/post/{post}/like', LikeUnLikeController::class)
+                                                                ->name('posts.likes.store');
     // profile related routes
     Route::get('/account-info', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::put('/account-info', [ProfileController::class, 'update'])->name('profile.update');

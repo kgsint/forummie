@@ -26,6 +26,8 @@ class PostResource extends JsonResource
             'created_at' => DateTimeResource::make($this->created_at),
             'parent' => $this->whenLoaded('parent', fn() => PostResource::make($this->parent)),
             'replies' => $this->whenLoaded('replies', fn() => PostResource::collection($this->replies)),
+            'is_liked' => $this->whenLoaded('likes', fn() => $this->resource->isAlreadyLikedBy(auth()->user())),
+            'like_count' => $this->whenLoaded('likes', fn() => $this->resource->likes->count()),
             'can' => [
                 'update' => auth()->user()?->can('update', $this->resource) ?? false,
                 'delete' => auth()->user()?->can('delete', $this->resource) ?? false,

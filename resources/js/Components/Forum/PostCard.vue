@@ -111,6 +111,13 @@ const handleBestAnswer = () => {
     })
 }
 
+const handleLikeOrUnlike = (postId) => {
+    router.post(route('posts.likes.store', { post: postId }), {}, {
+        preserveScroll: true,
+    })
+
+}
+
 // click away | click outside option btn
 window.addEventListener('click', (e) => {
     if(document.querySelector(`#option-btn-${props.post.id}`) && ! document.querySelector(`#option-btn-${props.post.id}`).contains(e.target) && showOptionDialog.value === true) {
@@ -225,12 +232,23 @@ window.addEventListener('click', (e) => {
 
             <!-- reply, edit and delete button -->
             <div class="flex items-center justify-between" v-if="!isEdit">
-                <button
-                    v-if="$page.props.auth.user"
-                    @click="showReplyForm(post, false)"
-                    class="bg-gray-200 px-4 py-2 text-sm rounded-xl font-bold hover:bg-gray-300 transition-all duration-150">
-                    Reply
-                </button>
+                <div class="space-x-3">
+                    <button
+                        @click="handleLikeOrUnlike(post.id)"
+                        v-if="$page.props.auth.user"
+                        class="bg-blue-200 px-4 py-2 text-sm rounded-xl font-bold hover:bg-blue-300 transition-all duration-150"
+                        :class="{ 'bg-blue-400 text-gray-200': post.is_liked }"
+                    >
+                        <span v-if="post.is_liked">Liked ({{ post.like_count ?? 0 }})</span>
+                        <span v-else>Like ({{ post.like_count ?? 0 }})</span>
+                    </button>
+                    <button
+                        v-if="$page.props.auth.user"
+                        @click="showReplyForm(post, false)"
+                        class="bg-gray-200 px-4 py-2 text-sm rounded-xl font-bold hover:bg-gray-300 transition-all duration-150">
+                        Reply
+                    </button>
+                </div>
 
                 <!-- action btns -->
                 <div class="space-x-3 flex items-center">

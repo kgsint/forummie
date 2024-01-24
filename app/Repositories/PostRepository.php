@@ -17,7 +17,7 @@ class PostRepository implements PostInterface
     public function getByThread(Thread $thread)
     {
         return Post::query()
-                                ->with(['user', 'thread.user', 'replies.thread.user', 'replies.parent', 'replies.user'])
+                                ->with(['user', 'thread.user', 'replies.thread.user', 'replies.parent', 'replies.user', 'likes', 'replies.likes'])
                                 ->whereBelongsTo($thread)
                                 ->where(function(Builder $query) {
                                     return $query->whereNull('parent_id');
