@@ -33,13 +33,13 @@ class Handler extends ExceptionHandler
     {
         $response = parent::render($request, $e);
 
-        // if(in_array($response->status(), [403, 404, 500])) {
-        //     return Inertia::render('Error', [
-        //         'statusCode' => $response->status()
-        //     ])
-        //         ->toResponse($request)
-        //         ->setStatusCode($response->status());
-        // }
+        if(in_array($response->status(), [403, 404, 500])) {
+            return Inertia::render('Error', [
+                'statusCode' => $response->status()
+            ])
+                ->toResponse($request)
+                ->setStatusCode($response->status());
+        }
 
         return $response;
     }

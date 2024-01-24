@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\LikeReplyPost;
+use App\Jobs\UnlikeReplyPost;
 use App\Models\Post;
 use Illuminate\Http\Request;
 
@@ -9,12 +11,14 @@ class LikeUnLikeController extends Controller
 {
     public function __invoke(Request $request, Post $post)
     {
-        if($post->isAlreadyLikedBy($request->user())) {
-            $post->unlikeBy($request->user());
+        $user = $request->user();
+
+        if($post->isAlreadyLikedBy($user)) {
+            (new UnlikeReplyPost($post, $user))->handle();
         }else {
-            $post->likedBy($request->user());
+            (new LikeReplyPost($post, $user))->handle();
         }
 
-        // return back();
+        return redirect(route('forum.show', ['thread' => $post->thread->slug, 'post' => $post->id]));
     }
 }
