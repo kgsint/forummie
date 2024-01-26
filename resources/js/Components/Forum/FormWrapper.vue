@@ -47,7 +47,7 @@ watch(markdownPreviewEnabled, (isEnabled) => {
                 <div
                     v-html="markdownHtml"
                     v-if="markdownPreviewEnabled && !loading"
-                    class="h-64 w-full bg-gray-200 rounded-md markdown p-3 overflow-auto"
+                    class="prose max-w-none h-64 w-full bg-gray-100 border border-gray-300 rounded-md markdown p-2 overflow-auto"
                 >
                 </div>
                 <!-- loading indicator -->

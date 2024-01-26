@@ -15,12 +15,6 @@
 .markdown h2{
     @apply text-lg font-semibold text-gray-600 mb-2;
 }
-.markdown h3{
-    @apply mb-2;
-}
-.markdown p{
-    @apply text-sm text-gray-600 leading-normal mb-3 last:mb-0;
-}
 .markdown a{
     @apply text-sm text-blue-500 mb-3 underline;
 }

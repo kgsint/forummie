@@ -1,5 +1,6 @@
 import defaultTheme from 'tailwindcss/defaultTheme';
 import forms from '@tailwindcss/forms';
+import typography from '@tailwindcss/typography';
 
 /** @type {import('tailwindcss').Config} */
 export default {
@@ -15,8 +16,19 @@ export default {
             fontFamily: {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
             },
+            typography: ({ theme }) => ({
+                DEFAULT: {
+                  css: {
+                    '--tw-prose-bullets': theme('colors.gray.600'),
+                    li: {
+                        margin: 0,
+                        padding: 0,
+                    }
+                  },
+                },
+              }),
         },
     },
 
-    plugins: [forms],
+    plugins: [forms, typography],
 };

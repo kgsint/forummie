@@ -179,7 +179,7 @@ window.addEventListener('click', (e) => {
             <p
                 v-if="!isEdit"
                 v-html="post.body"
-                class="text-sm text-gray-600 leading-7">
+                class="prose max-w-none text-sm text-gray-600 leading-7">
             </p>
 
             <!-- edit form -->
