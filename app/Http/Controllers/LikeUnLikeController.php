@@ -19,6 +19,9 @@ class LikeUnLikeController extends Controller
             (new LikeReplyPost($post, $user))->handle();
         }
 
-        return redirect(route('forum.show', ['thread' => $post->thread->slug, 'post' => $post->id]));
+        return response()->json([
+            'message' => 'success',
+            'like_count' => $post->likes()->with('likes')->count(),
+        ], 200);
     }
 }

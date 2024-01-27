@@ -2,8 +2,6 @@
 import { Link, router, useForm } from '@inertiajs/vue3';
 import ForumPostCard from '@/Components/Forum/PostCard.vue'
 import useCreateReply from '@/Composables/useCreateReply'
-import EditIcon from '../Icons/EditIcon.vue';
-import DeleteIcon from '../Icons/DeleteIcon.vue';
 import { ref, watch, computed, nextTick } from 'vue';
 import Textarea from '../Textarea.vue';
 import InputError from '../InputError.vue';
@@ -14,7 +12,6 @@ import useMentionable from '@/Composables/useMentionable'
 import useSweetalert from '@/Composables/useSweetalert';
 import useCheckAccountType from '@/Composables/useCheckAccountType'
 import OptionIcon from '@/Components/Icons/OptionIcon.vue'
-import ReportIcon from '@/Components/Icons/ReportIcon.vue'
 
 defineOptions({
     inheritAttrs: false
@@ -45,6 +42,9 @@ const markdownPreviewEnabled = ref(false)
 const markdownHtml = ref('')
 const loading = ref(false) // loading indicator for markdown preview
 const showOptionDialog = ref(false)
+const isLiked = ref(props.post.is_liked)
+const likeCount = ref(props.post.like_count)
+const disableLikeButton = ref(false)
 
 watch(markdownPreviewEnabled, (isEnabled) => {
     // markdown preview is off, do nothing
@@ -89,7 +89,6 @@ const handleDeletePost = () => {
                     })
                 }
                 });
-
 }
 
 // hide edit form
@@ -112,16 +111,28 @@ const handleBestAnswer = () => {
 }
 
 const handleLikeOrUnlike = (postId) => {
-    router.post(route('posts.likes.store', { post: postId }), {}, {
-        preserveScroll: true,
-    })
-
+    // making reactive in client side
+    isLiked.value = !isLiked.value
+    if(isLiked.value) {
+        likeCount.value = props.post.like_count + 1
+    }else {
+        likeCount.value = props.post.like_count
+    }
+    // making request to server
+    disableLikeButton.value = true
+    axios.post(route('posts.likes.store', { post: postId }))
+        .then((res) => {
+            if(res.status === 200) {
+                disableLikeButton.value = false
+                // update with actual like count
+                likeCount.value = res.data.like_count
+            }
+        })
 }
 
 // click away | click outside option btn
 window.addEventListener('click', (e) => {
     if(document.querySelector(`#option-btn-${props.post.id}`) && ! document.querySelector(`#option-btn-${props.post.id}`).contains(e.target) && showOptionDialog.value === true) {
-        console.log('hello')
         showOptionDialog.value = false
     }
 })
@@ -237,10 +248,11 @@ window.addEventListener('click', (e) => {
                         @click="handleLikeOrUnlike(post.id)"
                         v-if="$page.props.auth.user"
                         class="bg-blue-200 px-4 py-2 text-sm rounded-xl font-bold hover:bg-blue-300 transition-all duration-150"
-                        :class="{ 'bg-blue-400 text-gray-200': post.is_liked }"
+                        :class="{ 'bg-blue-400 text-gray-200': isLiked }"
+                        :disabled="disableLikeButton"
                     >
-                        <span v-if="post.is_liked">Liked ({{ post.like_count ?? 0 }})</span>
-                        <span v-else>Like ({{ post.like_count ?? 0 }})</span>
+                        <span v-if="isLiked">Liked ({{ likeCount ?? 0 }})</span>
+                        <span v-else>Like ({{ likeCount ?? 0 }})</span>
                     </button>
                     <button
                         v-if="$page.props.auth.user"
