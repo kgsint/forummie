@@ -194,4 +194,31 @@ class ThreadPostTest extends TestCase
             'post' => $post->body,
         ]);
     }
+
+    public function test_admin_or_moderator_can_delete_can_delete_reply_post()
+    {
+        // admin
+        $this->signIn(User::factory()->create(['type' => User::ADMIN]));
+        $post = Post::factory()->create();
+
+        $response = $this->delete(route('posts.destroy', ['thread' => $post->thread, 'post' => $post]));
+        $response->assertRedirect(route('forum.show', ['thread' => $post->thread]));
+        $this->assertDatabaseMissing('posts', [
+            'id' => $post->id,
+            'body' => $post->body,
+            'user_id' => $post->user_id,
+        ]);
+
+        // moderator
+        $this->signIn(User::factory()->create(['type' => User::MODERATOR]));
+        $post = Post::factory()->create();
+
+        $response = $this->delete(route('posts.destroy', ['thread' => $post->thread, 'post' => $post]));
+        $response->assertRedirect(route('forum.show', ['thread' => $post->thread]));
+        $this->assertDatabaseMissing('posts', [
+            'id' => $post->id,
+            'body' => $post->body,
+            'user_id' => $post->user_id,
+        ]);
+    }
 }

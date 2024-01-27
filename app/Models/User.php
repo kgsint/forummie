@@ -104,6 +104,11 @@ class User extends Authenticatable
         return $this->type === self::MODERATOR;
     }
 
+    public function isUser()
+    {
+        return $this->type === self::DEFAULT;
+    }
+
     public function posts(): HasMany
     {
         return $this->hasMany(Post::class);

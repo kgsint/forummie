@@ -32,7 +32,7 @@ class UserTest extends TestCase
     {
         $user = User::factory()->create();
 
-        $this->assertSame(User::DEFAULT, $user->type);
+        $this->assertTrue($user->isUser());
     }
 
     public function test_user_has_threads()
