@@ -10,6 +10,14 @@ Forummie is a user-friendly platform to provide meaningful community interaction
 
 ![single thread](/public/screenshot-2.png)
 
+## Features 
+- markdown support
+- syntax highlighting
+- database notifications
+- 1 level of nested reply, like/unlike functionality
+- admin panel
+- and more
+
 
 ## Installation and Setup
 
