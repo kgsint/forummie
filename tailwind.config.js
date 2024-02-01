@@ -20,6 +20,7 @@ export default {
                 DEFAULT: {
                   css: {
                     '--tw-prose-bullets': theme('colors.gray.600'),
+                    '--tw-prose-quote-borders': theme('colors.gray.500'),
                     li: {
                         margin: 0,
                         padding: 0,

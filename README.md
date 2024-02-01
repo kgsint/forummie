@@ -1,5 +1,23 @@
-# Forum
-![screenshot](/public/screenshot.png)
+# Forummie 
+Forummie is a user-friendly platform to provide meaningful community interactions and discussions.
+
+## Tech stack 
+- Backend service with `Laravel` (version 10)
+- Client side with `Vue 3` (composition api with script setup)
+- `Inertia js` as adapter
+  
+![index page of forum](/public/screenshot-1.png)
+
+![single thread](/public/screenshot-2.png)
+
+## Features 
+- markdown support
+- syntax highlighting
+- database notifications
+- 1 level of nested reply, like/unlike functionality
+- admin panel
+- and more
+
 
 ## Installation and Setup
 
