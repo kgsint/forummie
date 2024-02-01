@@ -62,7 +62,6 @@ watch(markdownPreviewEnabled, (isEnabled) => {
     })
 })
 
-
 // submit edit form request
 const handleEditPost = () => {
     editForm.patch(route('posts.update', {
@@ -128,6 +127,23 @@ const handleLikeOrUnlike = (postId) => {
                 likeCount.value = res.data.like_count
             }
         })
+}
+
+const handleSpamReport = async () => {
+    let result = await displayConfirmMessage('Are you sure you want to report this reply as spam?', 'Report')
+
+    if(result.isConfirmed) {
+        try {
+            let res = await axios.post(route('posts.spams.store', { post: props.post.id }))
+
+            if(res.status === 200) {
+                displayToastMessage(res.data.message)
+            }
+        }catch(e) {
+            displayToastMessage(e.response.data.message, 'error')
+        }
+
+    }
 }
 
 // click away | click outside option btn
@@ -279,6 +295,7 @@ window.addEventListener('click', (e) => {
                                         shadow text-sm flex flex-col min-w-[140px]"
                         >
                             <li
+                                @click="handleSpamReport"
                                 class="list-none bg-gray-50 px-4 py-2 cursor-pointer hover:bg-gray-200 border-b
                                     border-gray-200 flex items-center text-black hover:text-black last:border-b-0">
                                     Report as Spam
