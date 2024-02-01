@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Spatie\LaravelMarkdown\MarkdownRenderer;
 
 class Thread extends Model
@@ -87,6 +88,21 @@ class Thread extends Model
     {
         return $this->belongsToMany(User::class, 'thread_mention', 'thread_id')
                                                                             ->withTimestamps();
+    }
+
+    public function spamReports(): MorphMany
+    {
+        return $this->morphMany(SpamReport::class, 'reportable');
+    }
+
+    public function reportAsSpamBy(User $user): void
+    {
+        $this->spamReports()->create(['user_id' => $user->id]);
+    }
+
+    public function isAlreadyReportedAsSpamBy(User $user): bool
+    {
+        return $this->spamReports()->where('user_id', $user->id)->exists();
     }
     // --
 }

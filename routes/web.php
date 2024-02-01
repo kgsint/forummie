@@ -1,17 +1,19 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\PostController;
 use App\Http\Controllers\ForumController;
+use App\Http\Controllers\PostController;
 use App\Http\Controllers\MarkAsBestAnswer;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\UsersController;
-use App\Http\Controllers\SearchMentionableUser;
-use App\Http\Controllers\Admin\TopicsController;
-use App\Http\Controllers\MarkNotificationAsRead;
 use App\Http\Controllers\Admin\RepliesController;
+use App\Http\Controllers\Admin\TopicsController;
+use App\Http\Controllers\SearchMentionableUser;
+use App\Http\Controllers\MarkNotificationAsRead;
 use App\Http\Controllers\GenerateMarkdownPreview;
 use App\Http\Controllers\LikeUnLikeController;
+use App\Http\Controllers\StorePostSpamReportController;
+use App\Http\Controllers\StoreThreadSpamReportController;
 
 // forum routes
 Route::controller(ForumController::class)->group(function() {
@@ -62,11 +64,19 @@ Route::middleware('auth')->group(function () {
     // mentionable list
     Route::post('/mentions/search', SearchMentionableUser::class)
                                                                 ->name('mention.search');
+    // database notifications
     Route::patch('/notifications/{id}', MarkNotificationAsRead::class)
                                                                 ->name('notifications.update');
 
+    // like / unlike
     Route::post('/post/{post}/like', LikeUnLikeController::class)
                                                                 ->name('posts.likes.store');
+
+    // report spams
+    Route::post('/posts/{post}/spams', StorePostSpamReportController::class)
+                                                                ->name('posts.spams.store');
+    Route::post('/threads/{thread}/spams', StoreThreadSpamReportController::class)
+                                                                            ->name('threads.spams.store');
     // profile related routes
     Route::get('/account-info', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::put('/account-info', [ProfileController::class, 'update'])->name('profile.update');

@@ -10,13 +10,13 @@ export default () => {
           })
     }
 
-    const displayToastMessage = (text) => {
+    const displayToastMessage = (text, icon = "success", timer = 3000) => {
         // sweetalert toast
         const Toast = Swal.mixin({
             toast: true,
             position: "top-end",
             showConfirmButton: false,
-            timer: 3000,
+            timer,
             didOpen: (toast) => {
               toast.onmouseenter = Swal.stopTimer;
               toast.onmouseleave = Swal.resumeTimer;
@@ -25,7 +25,7 @@ export default () => {
           // success toast message after delete
           Toast.fire({
               text,
-              icon: "success",
+              icon,
           });
     }
     return {
