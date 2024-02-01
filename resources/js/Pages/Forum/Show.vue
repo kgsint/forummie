@@ -14,6 +14,7 @@ import useUpdateThread from '@/Composables/useUpdateThread'
 import { onMounted, onUpdated, nextTick } from 'vue';
 import VueScrollTo from 'vue-scrollto'
 import useSweetalert from '@/Composables/useSweetalert'
+import axios from 'axios';
 
 // composables
 const page = usePage()
@@ -80,6 +81,23 @@ const handleDelete = () => {
       }
     });
 }
+
+const handleReportAsSpam = async () => {
+    const result = await displayConfirmMessage(`Do you want report this thread "${props.thread.title}" as spam?`, 'Report')
+
+    // making request to server
+    if(result.isConfirmed) {
+        try {
+            const res = await axios.post(route('threads.spams.store', { thread: props.thread.id }))
+
+            if(res.status === 200) {
+                displayToastMessage(res.data.message)
+            }
+        }catch(e) {
+            displayToastMessage(e.response.data.message, 'error')
+        }
+    }
+}
 </script>
 
 
@@ -97,16 +115,23 @@ const handleDelete = () => {
                 <BackIcon class="inline-block text-sm" /> <span class="text-sm font-semibold">Back</span>
             </Link>
             <!-- update and delete button -->
-            <div class="space-x-2" v-if="thread.can.update">
+            <div class="flex items-center gap-3">
+                <div class="space-x-2"  v-if="thread.can.update">
+                    <button
+                        @click="showUpdateForm(thread)"
+                        class="border border-gray-500 p-3 rounded-md hover:bg-gray-900 hover:text-white duration-150 transition-all">
+                        <EditIcon />
+                    </button>
+                    <button
+                        @click="handleDelete"
+                        class="text-red-500 border border-red-500 p-3 rounded-md hover:bg-red-500 hover:text-white duration-150 transition-all">
+                        <DeleteIcon />
+                    </button>
+                </div>
                 <button
-                    @click="showUpdateForm(thread)"
-                    class="border border-gray-500 p-3 rounded-md hover:bg-gray-900 hover:text-white duration-150 transition-all">
-                    <EditIcon />
-                </button>
-                <button
-                    @click="handleDelete"
+                    @click="handleReportAsSpam"
                     class="text-red-500 border border-red-500 p-3 rounded-md hover:bg-red-500 hover:text-white duration-150 transition-all">
-                    <DeleteIcon />
+                    Report as spam
                 </button>
             </div>
         </div>

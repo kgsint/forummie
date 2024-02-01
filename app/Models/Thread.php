@@ -94,5 +94,15 @@ class Thread extends Model
     {
         return $this->morphMany(SpamReport::class, 'reportable');
     }
+
+    public function reportAsSpamBy(User $user): void
+    {
+        $this->spamReports()->create(['user_id' => $user->id]);
+    }
+
+    public function isAlreadyReportedAsSpamBy(User $user): bool
+    {
+        return $this->spamReports()->where('user_id', $user->id)->exists();
+    }
     // --
 }

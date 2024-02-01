@@ -109,6 +109,7 @@ const handleBestAnswer = () => {
     })
 }
 
+// like or unlike
 const handleLikeOrUnlike = (postId) => {
     // making reactive in client side
     isLiked.value = !isLiked.value
@@ -129,9 +130,11 @@ const handleLikeOrUnlike = (postId) => {
         })
 }
 
+// spam report
 const handleSpamReport = async () => {
     let result = await displayConfirmMessage('Are you sure you want to report this reply as spam?', 'Report')
 
+    // making request to server
     if(result.isConfirmed) {
         try {
             let res = await axios.post(route('posts.spams.store', { post: props.post.id }))
