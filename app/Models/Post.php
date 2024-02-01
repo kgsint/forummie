@@ -55,4 +55,9 @@ class Post extends Model
     {
         return $this->hasMany(Post::class, 'parent_id');
     }
+
+    public function spamReports(): MorphMany
+    {
+        return $this->morphMany(SpamReport::class, 'reportable');
+    }
 }
