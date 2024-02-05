@@ -52,3 +52,6 @@ For Admin login,
 email - admin@gmail.com
 password - password
 ```
+
+## License 
+Forummie is under [MIT license](/LICENSE.md)
