@@ -13,14 +13,7 @@ import DeleteIcon from '@/Components/Icons/DeleteIcon.vue'
 import useUpdateThread from '@/Composables/useUpdateThread'
 import { onMounted, onUpdated, nextTick } from 'vue';
 import VueScrollTo from 'vue-scrollto'
-import useSweetalert from '@/Composables/useSweetalert'
-import axios from 'axios';
-
-// composables
-const page = usePage()
-const { showReplyForm } = useCreateReply()
-const { showUpdateForm, form, threadData } = useUpdateThread()
-const { displayConfirmMessage, displayToastMessage } = useSweetalert()
+import useThread from '@/Composables/useThread';
 
 // props
 const props = defineProps({
@@ -32,6 +25,12 @@ const props = defineProps({
         type: Object
     }
 })
+
+// composables
+const page = usePage()
+const { showReplyForm } = useCreateReply()
+const { showUpdateForm, form, threadData } = useUpdateThread()
+const { handleReportSpam, handleDelete } = useThread(props.thread)
 
 // mounted hook
 onMounted(() => {
@@ -65,37 +64,6 @@ const scrollToPost = (postId) => {
         VueScrollTo.scrollTo(`#post-${postId}`, 500)
     }
 }
-
-// delete thread
-const handleDelete = async () => {
-    // confirm with sweet alert
-    const result = await displayConfirmMessage(`Do you want delete this thread "${props.thread.title}"?`)
-      /* if confirmed */
-      if (result.isConfirmed) {
-        router.delete(route('forum.destroy', props.thread), {
-            onSuccess: () => {
-                displayToastMessage(`Thread has been deleted!`)
-            }
-        })
-      }
-}
-
-const handleReportAsSpam = async () => {
-    const result = await displayConfirmMessage(`Do you want report this thread "${props.thread.title}" as spam?`, 'Report')
-
-    // making request to server
-    if(result.isConfirmed) {
-        try {
-            const res = await axios.post(route('threads.spams.store', { thread: props.thread.id }))
-
-            if(res.status === 200) {
-                displayToastMessage(res.data.message)
-            }
-        }catch(e) {
-            displayToastMessage(e.response.data.message, 'error')
-        }
-    }
-}
 </script>
 
 
@@ -127,7 +95,7 @@ const handleReportAsSpam = async () => {
                     </button>
                 </div>
                 <button
-                    @click="handleReportAsSpam"
+                    @click="handleReportSpam"
                     class="text-red-500 border border-red-500 p-3 rounded-md hover:bg-red-500 hover:text-white duration-150 transition-all">
                     Report as spam
                 </button>
@@ -157,3 +125,4 @@ const handleReportAsSpam = async () => {
         </template>
     </AppLayout>
 </template>
+@/Composables/useThread
