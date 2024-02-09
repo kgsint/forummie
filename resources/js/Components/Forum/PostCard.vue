@@ -1,17 +1,17 @@
 <script setup>
-import { Link, router, useForm } from '@inertiajs/vue3';
+import { Link, useForm } from '@inertiajs/vue3';
 import ForumPostCard from '@/Components/Forum/PostCard.vue'
 import useCreateReply from '@/Composables/useCreateReply'
-import { ref, watch, computed, nextTick } from 'vue';
+import { ref, watch, computed } from 'vue';
 import Textarea from '../Textarea.vue';
 import InputError from '../InputError.vue';
 import axios from 'axios';
 import CheckedIcon from '@/Components/Icons/CheckedIcon.vue'
 import { Mentionable } from 'vue-mention';
 import useMentionable from '@/Composables/useMentionable'
-import useSweetalert from '@/Composables/useSweetalert';
 import useCheckAccountType from '@/Composables/useCheckAccountType'
 import OptionIcon from '@/Components/Icons/OptionIcon.vue'
+import useThreadPost from '@/Composables/useThreadPost';
 
 defineOptions({
     inheritAttrs: false
@@ -29,9 +29,9 @@ const isBestAnswer = computed(() => {
 
 // composables
 const { showReplyForm } = useCreateReply()
+const { handleBestAnswer, handleSpamReport, handleDeletePost } = useThreadPost(props.post)
 const { mentionableList, handleMentionSearch } = useMentionable()
-const { displayConfirmMessage, displayToastMessage } = useSweetalert()
-const { isUser, isAdmin, isModerator } = useCheckAccountType(props.post.user)
+const { isAdmin, isModerator } = useCheckAccountType(props.post.user)
 // edit form object
 const editForm = useForm({
     body: props.post.body_markdown
@@ -74,39 +74,10 @@ const handleEditPost = () => {
     })
 }
 
-// submit delete form request
-const handleDeletePost = () => {
-    displayConfirmMessage('Do you want to delete the reply?')
-                .then((result) => {
-                /* if confirmed */
-                if (result.isConfirmed) {
-                    router.delete(route('posts.destroy', {
-                        thread: props.post.thread,
-                        post: props.post
-                    }), {
-                        onSuccess: () => displayToastMessage('Reply has been deleted')
-                    })
-                }
-                });
-}
-
 // hide edit form
 const hideEditForm = () => {
     isEdit.value = false
     editForm.errors.body = '' // when toggling off the form, reset validation error if any
-}
-
-// mark/unmark as best answer
-const handleBestAnswer = () => {
-    router.patch(route('threads.best-answer', {
-        thread: props.post.thread,
-        post: props.post
-    }
-        ), {
-        post_id: props.solutionId === props.post.id ? null : props.post.id, // if is already marked, unmark, if not mark as best answer
-    }, {
-        preserveScroll: true
-    })
 }
 
 // like or unlike
@@ -128,25 +99,6 @@ const handleLikeOrUnlike = (postId) => {
                 likeCount.value = res.data.like_count
             }
         })
-}
-
-// spam report
-const handleSpamReport = async () => {
-    let result = await displayConfirmMessage('Are you sure you want to report this reply as spam?', 'Report')
-
-    // making request to server
-    if(result.isConfirmed) {
-        try {
-            let res = await axios.post(route('posts.spams.store', { post: props.post.id }))
-
-            if(res.status === 200) {
-                displayToastMessage(res.data.message)
-            }
-        }catch(e) {
-            displayToastMessage(e.response.data.message, 'error')
-        }
-
-    }
 }
 
 // click away | click outside option btn
@@ -313,7 +265,7 @@ window.addEventListener('click', (e) => {
                                         </button>
                             </li>
                             <li
-                                @click="handleBestAnswer"
+                                @click="handleBestAnswer(solutionId)"
                                 v-if="post.thread.can.manage"
                                     class="text-xs list-none bg-gray-50 px-4 py-2 cursor-pointer hover:bg-gray-200 border-b
                                         border-gray-200 last:border-b-0 text-black hover:text-black">
