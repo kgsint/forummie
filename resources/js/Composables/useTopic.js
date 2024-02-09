@@ -52,20 +52,18 @@ export default () => {
             )
     }
 
-    const handleDelete = (topic) => {
-        displayConfirmMessage(
-            `Do you want to delete "${topic.name}"`
-            ).then((result) => {
-                /* if confirmed */
-                if (result.isConfirmed) {
-                    let topicName = topic.name
-                    router.delete(route('admin.topics.destroy', topic.id), {
-                    onSuccess: () => {
-                        displayToastMessage(`${topicName} has been deleted`)
-                    }
-                    })
-                }
+    const handleDelete = async (topic) => {
+        const result = await displayConfirmMessage(`Do you want to delete "${topic.name}"`)
+
+        /* if confirmed */
+        if (result.isConfirmed) {
+            let topicName = topic.name
+            router.delete(route('admin.topics.destroy', topic.id), {
+            onSuccess: () => {
+                displayToastMessage(`${topicName} has been deleted`)
+            }
             })
+        }
     }
 
     return {

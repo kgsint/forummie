@@ -53,7 +53,7 @@ onMounted(() => {
 
 // when component is updated (condition when post was edited or so...)
 onUpdated(() => {
-    // scroll to the newly created post
+    // scroll to the newly updated post
     nextTick(() => {
         let postId = page.props.queryStrings?.post_id
         scrollToPost(postId)
@@ -67,10 +67,9 @@ const scrollToPost = (postId) => {
 }
 
 // delete thread
-const handleDelete = () => {
+const handleDelete = async () => {
     // confirm with sweet alert
-    displayConfirmMessage(`Do you want delete this thread "${props.thread.title}"?`)
-    .then((result) => {
+    const result = await displayConfirmMessage(`Do you want delete this thread "${props.thread.title}"?`)
       /* if confirmed */
       if (result.isConfirmed) {
         router.delete(route('forum.destroy', props.thread), {
@@ -79,7 +78,6 @@ const handleDelete = () => {
             }
         })
       }
-    });
 }
 
 const handleReportAsSpam = async () => {
