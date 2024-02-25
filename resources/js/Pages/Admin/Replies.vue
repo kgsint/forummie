@@ -99,9 +99,15 @@ watch(searchRef, (search) => {
                                         {{ reply.user.name }}
                                     </td>
                                     <td
-                                        class="p-4 text-base font-medium text-gray-900 whitespace-nowrap"
+                                        class="p-4 whitespace-nowrap"
                                     >
-                                        {{ reply.thread.title }}
+                                        <div class="text-base font-medium text-gray-900">{{ reply.thread.title }}</div>
+                                        <div
+                                            v-if="reply.spam_report_count"
+                                            class="text-red-500"
+                                        >
+                                            Spam reports: {{ reply.spam_report_count }}
+                                        </div>
                                     </td>
                                     <td
                                         class="p-4 text-base text-gray-500 whitespace-nowrap"

@@ -15,6 +15,7 @@ class ReplyResource extends JsonResource
             'user' => $this->whenLoaded('user'),
             'excerpt' => Str::limit($this->body, 120),
             'thread' => $this->whenLoaded('thread'),
+            'spam_report_count' => $this->whenLoaded('spamReports', fn() => $this->spamReports->count()),
         ];
     }
 }
