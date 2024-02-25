@@ -2,7 +2,6 @@
 
 namespace App\Repositories;
 
-use App\Models\Post;
 use App\Models\Thread;
 use App\Contracts\ThreadInterface;
 use App\Http\QueryFilters\MentionedQueryFilter;
